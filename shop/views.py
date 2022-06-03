@@ -11,14 +11,11 @@ from shop.gopay_api import (
     get_gopay_payment_details,
 )
 from shop.models import (
-    Service,
     Product,
-    ServiceOrder,
     BillingAddress,
     Cart,
-    OrderService,
     BillingType,
-    GopayPayment, Invoice,
+    GopayPayment, Invoice, Order, OrderItem,
 )
 from shop.utils import clear_service_order_session
 
@@ -57,13 +54,13 @@ class ServicesView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ServicesView, self).get_context_data()
-        context["services"] = Service.objects.filter(is_active=True)
+        context["services"] = Product.objects.filter(is_active=True)
         return context
 
 
-class ServiceOrderStep1(CreateView):
+class OrderStep1(CreateView):
     template_name = "shop/service_order_step_1.html"
-    model = ServiceOrder
+    model = Order
     fields = ["age", "gender", "goal", "newsletter_subscribe"]
 
     def get_success_url(self):
@@ -76,9 +73,9 @@ class ServiceOrderStep1(CreateView):
         existing_order = self.request.session.get("service_order")
         if existing_order:
             try:
-                existing_order = ServiceOrder.objects.get(pk=existing_order)
+                existing_order = Order.objects.get(pk=existing_order)
                 initial.update(existing_order.__dict__)
-            except ServiceOrder.DoesNotExist:
+            except Order.DoesNotExist:
                 del self.request.session["service_order"]
 
         return initial
@@ -86,7 +83,7 @@ class ServiceOrderStep1(CreateView):
     def form_valid(self, form):
         existing_order = self.request.session.get("service_order")
         if existing_order:
-            existing_order = ServiceOrder.objects.get(pk=existing_order)
+            existing_order = Order.objects.get(pk=existing_order)
             form.instance = existing_order
             self.object = form.save()
             self.request.session["service_order"] = self.object
@@ -94,7 +91,7 @@ class ServiceOrderStep1(CreateView):
         return super().form_valid(form)
 
 
-class ServiceOrderStep2(CreateView):
+class OrderStep2(CreateView):
     template_name = "shop/service_order_step_2.html"
     model = BillingAddress
     fields = "__all__"
@@ -116,7 +113,7 @@ class ServiceOrderStep2(CreateView):
 
     def get_success_url(self):
         self.request.session["billing_address"] = self.object.pk
-        service_order = ServiceOrder.objects.get(
+        service_order = Order.objects.get(
             pk=self.request.session["service_order"]
         )
         service_order.billing_address = self.object
@@ -132,10 +129,10 @@ class ServiceOrderStep2(CreateView):
         return reverse_lazy("shop:thank_you")
 
     def form_valid(self, form):
-        service_order = ServiceOrder.objects.get(
+        service_order = Order.objects.get(
             pk=self.request.session["service_order"]
         )
-        service = Service.objects.get(pk=self.kwargs["pk"])
+        service = Product.objects.get(pk=self.kwargs["pk"])
 
         existing_billing_address = self.request.session.get("billing_address")
         if existing_billing_address:
@@ -153,7 +150,7 @@ class ServiceOrderStep2(CreateView):
         if (
                 not service_order.items.exists()
         ):  # Prevent adding more order items on multiple validations
-            OrderService.objects.create(
+            OrderItem.objects.create(
                 order=service_order, product=service, quantity=1
             )
 
@@ -170,7 +167,7 @@ class ServiceOrderStep2(CreateView):
 class PaymentCallbackView(View):
     def get(self, request, *args, **kwargs):
         order_number = self.kwargs["order_number"]
-        order = ServiceOrder.objects.get(order_number=order_number)
+        order = Order.objects.get(order_number=order_number)
         payment_id = request.GET.get("id")
         if order and payment_id:
             payment_details = get_gopay_payment_details(payment_id)

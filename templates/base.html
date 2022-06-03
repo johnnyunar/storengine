@@ -1,4 +1,4 @@
-{% load static i18n %}
+{% load static i18n wagtailuserbar %}
 {% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
 <html>
@@ -45,6 +45,7 @@
     {% endblock %}
 </head>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+{% wagtailuserbar %}
 <div class="holder" id="holder">
     {% if content_settings.notification_bar_show %}
         <div class="notification" id="notification">
@@ -58,16 +59,13 @@
         <span class="navbar-toggle" id="js-navbar-toggle">
             <i class="fas fa-bars"></i>
         </span>
-        <a href="{% url 'home' %}">
+        <a href="/">
             <img class="logo" src="{% static 'snapshop/images/rocket-earth.png' %}" alt="Logo">
         </a>
         <ul class="main-nav" id="js-menu">
-            <li><a href="{% url 'home' %}" class="nav-links home">{% trans "HOME" %}</a></li>
-            <li><a href="{% url 'home' %}#about" class="nav-links">{% trans "ABOUT" %}</a></li>
-            <li><a href="{% url 'shop:services' %}" class="nav-links">{% trans "SERVICES" %}</a></li>
-            <li><a href="{% url 'shop:products' %}" class="nav-links">{% trans "PRODUCTS" %}</a></li>
-            <li><a href="{% url 'contact' %}" class="nav-links">{% trans "CONTACT" %}</a></li>
-            <li><a href="{% url 'faq' %}" class="nav-links">{% trans "FAQ" %}</a></li>
+            {% for page in menu_pages %}
+                <li><a href="{% if page.url_path.lower != '/home/' %}{{ page.url_path }}{% else %}/{% endif %}" class="nav-links">{{ page.title.upper }}</a></li>
+            {% endfor %}
             <form action="{% url 'set_language' %}" method="post" id="language-form">
                 {% csrf_token %}
                 <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
@@ -77,12 +75,14 @@
                            {% if LANGUAGE_CODE == "en" %}value="🇨🇿"
                            {% else %}value="🇬🇧"{% endif %}/></li>
             </form>
-            <li><a href="{% url 'profile' %}" class="nav-links" title="{% trans 'Account' %}"><i
-                    class="fas fa-user"></i></a></li>
-            {% if user.is_authenticated %}
-                <li><a href="{% url 'logout' %}" class="nav-links" title="{% trans 'Log Out' %}"><i
-                        class="fas fa-sign-out-alt"></i></a></li>
-            {% endif %}
+            {% comment %}
+                <li><a href="{% url 'profile' %}" class="nav-links" title="{% trans 'Account' %}"><i
+                        class="fas fa-user"></i></a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}" class="nav-links" title="{% trans 'Log Out' %}"><i
+                            class="fas fa-sign-out-alt"></i></a></li>
+                {% endif %}
+            {% endcomment %}
 
         </ul>
     </nav>

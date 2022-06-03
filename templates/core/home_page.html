@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static i18n thumbnail %}
+{% block extrahead %}
+    <style>
+        .hero {
+        {% if page.hero_image %}
+            background: url('{{ page.hero_image.url }}');
+            background-size: cover;
+            background-position-x: center;
+            box-shadow: inset 0 0 0 2000px rgba(33, 33, 33, 0.4);
+            padding: 0;
+        {% elif page.hero_video %}
+            background: #243630;
+        {% endif %}
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <section class="hero" role="region">
+        {% if page.hero_video %}
+            <video class="hero-video fade-in" playsinline autoplay loop muted disablePictureInPicture
+                   controlsList="nodownload">
+                <source src="{{ page.hero_video.url }}" type="video/mp4">
+            </video>
+        {% endif %}
+        <div id="particles-js">
+            <div class="heading">
+                <h1 class="hero-title no-select">
+                    {{ page.hero_title }}
+                </h1>
+                <h3 class="subheading">{{ page.subheading_text }}</h3>
+                <a href="#quiz" class="hero-arrow bounce-slow">
+                    <img src="{% static 'snapshop/images/arrow-down-simple.png' %}" width="50px">
+                </a>
+            </div>
+        </div>
+    </section>
+    {% for section in page.page_sections.all %}
+        <section class="odd">
+            {{ section.section.text|safe }}
+            {% if section.section.button %}
+                <a href="{{ section.section.button.link }}" class="cta center">{{ section.section.button.text }}</a>
+            {% endif %}
+        </section>
+    {% endfor %}
+    <section class="even" id="about">
+        <div class="flex-section">
+            <div class="flex-column text-left">
+                <h2>{% trans 'What is the snapshop?' %}</h2>
+                <p>{{ page.about_me_text | safe }}</p>
+            </div>
+            <div class="flex-column w-300 mw-300">
+                {% if page.about_me_image %}
+                    {% thumbnail page.about_me_image "500x500" crop="center" as im %}
+                        <img class="img-center" src="{{ im.url }}" width="100%">
+                    {% endthumbnail %}
+                {% else %}
+                    <img class="img-center" src="{% static 'snapshop/images/rocket-earth.png' %}" width="100%">
+                {% endif %}
+            </div>
+        </div>
+
+    </section>
+    <section class="odd" id="services-section">
+        <div class="flex-section" id="services-cards-sm">
+            <a href="{% url 'shop:services' %}" class="service-card-sm no-select">
+                <h2 class="service-name">{% trans "Services" %}</h2>
+            </a>
+            {% for service in services %}
+
+                <a href="{% url 'shop:services' %}#service-{{ service.pk }}" class="service-card-sm no-select"
+                   {% thumbnail service.image "250x250" crop="center" as im %}style="background-image: url('{{ im.url }}'); box-shadow: inset 0 0 0 200px rgba(33, 33, 33, 0.7), 0px 7px 9px -1px rgba(0, 0, 0, 0.55);"{% endthumbnail %}>
+                    <h2 class="service-name">{{ service.name }}</h2>
+                </a>
+            {% endfor %}
+        </div>
+        <a href="{% url 'quiz' %}" class="cta center">{% trans 'NOT SURE? TRY A FREE QUIZ!' %}</a>
+    </section>
+    <section class="odd flex-section counters-section">
+        {% for counter in counters %}
+            <div class="number-counter">
+                <span class="count">{{ counter.number }}</span>
+                <br/>
+                <span class="count-text">{{ counter.text }}</span>
+            </div>
+        {% endfor %}
+    </section>
+    {% if testimonials %}
+        <section>
+            <h2>{% trans "Testimonials" %}</h2>
+            <div class="splide">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        {% for testimonial in testimonials %}
+                            <li class="splide__slide">
+                                <div class="testimonial">
+                                    <div class="testimonial-text-wrapper">
+                                        <p class="testimonial-text">{{ testimonial.text }}<br/><br/>
+                                            <span class="testimonial-author">{{ testimonial.author }}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    {% if not page.hero_video %}
+        <script src="{% static 'particles/particles.js-master/particles.js' %}"></script>
+        <script src="{% static 'particles/demo/js/app.js' %}"></script>
+    {% endif %}
+{% endblock %}

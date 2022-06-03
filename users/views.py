@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, UpdateView, DeleteView, TemplateView
 
-from shop.models import ServiceOrder, ProductOrder
+from shop.models import Order
 from users.forms import CustomUserCreationForm
 from users.models import ShopUser
 
@@ -65,8 +65,7 @@ class AccountOrdersView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AccountOrdersView, self).get_context_data()
-        context["service_orders"] = ServiceOrder.objects.filter(user=self.request.user)
-        context["product_orders"] = ProductOrder.objects.filter(user=self.request.user)
+        context["service_orders"] = Order.objects.filter(user=self.request.user)
         return context
 
 

@@ -1,29 +1,23 @@
 import json
 
-from adminsortable2.admin import SortableAdminMixin
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from modeltranslation.admin import TranslationAdmin, TabbedTranslationAdmin
-from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
+from modeltranslation.admin import TabbedTranslationAdmin
+from polymorphic.admin import PolymorphicChildModelFilter
 from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
 from pygments.lexers.data import JsonLexer
 
 from core.utils import is_admin_logged_in
 from shop.models import (
-    Service,
     Product,
     ShippingAddress,
     BillingAddress,
     BillingType,
-    ProductOrder,
-    ServiceOrder,
-    OrderProduct,
-    OrderService,
     GopayPayment,
-    Category, Order, Invoice,
+    Category, Order, Invoice, OrderItem,
 )
 
 
@@ -64,23 +58,8 @@ class CategoryAdmin(TabbedTranslationAdmin):
     list_editable = ("is_active",)
 
 
-@admin.register(Service)
-class ServiceAdmin(SortableAdminMixin, TabbedTranslationAdmin):
-    list_display = ("ordering", "name", "description_tag", "category", "price", "is_active")
-    list_editable = ("is_active",)
-    list_filter = ("is_active", "category")
-    search_fields = ("name", "description", "price", "category")
-    list_display_links = ("name", "description_tag")
-    exclude = ("created_by",)
-
-    def description_tag(self, obj):
-        return format_html(f"{obj.description[:30]}...")
-
-    description_tag.short_description = _("Description")
-
-
 @admin.register(Product)
-class ProductAdmin(SortableAdminMixin, TabbedTranslationAdmin):
+class ProductAdmin(TabbedTranslationAdmin):
     list_display = (
         "ordering",
         "name",
@@ -127,7 +106,7 @@ class BillingAddressAdmin(admin.ModelAdmin):
 
 
 @admin.register(BillingType)
-class BillingTypeAdmin(SortableAdminMixin, TabbedTranslationAdmin):
+class BillingTypeAdmin(TabbedTranslationAdmin):
     list_display = ("image_tag", "display_name", "is_active")
     list_display_links = ("image_tag", "display_name")
     list_filter = ("is_active",)
@@ -156,40 +135,24 @@ class OrderItemInline(admin.TabularInline):
     readonly_fields = ("image_tag",)
     extra = 0
 
+    model = OrderItem
+    fields = (
+        "total_price",
+        "product",
+        "quantity",
+    )
+
+    def image_tag(self, obj):
+        return format_html('<img src="{}"width="70"/>'.format(obj.product.image.url))
+
+    image_tag.short_description = ""
+
     def has_change_permission(self, request, obj=None):
         return False
 
 
-class OrderProductInline(OrderItemInline):
-    model = OrderProduct
-    fields = (
-        "total_price",
-        "product",
-        "quantity",
-    )
-
-    def image_tag(self, obj):
-        return format_html('<img src="{}"width="70"/>'.format(obj.product.image.url))
-
-    image_tag.short_description = ""
-
-
-class OrderServiceInline(OrderItemInline):
-    model = OrderService
-    fields = (
-        "total_price",
-        "product",
-        "quantity",
-    )
-
-    def image_tag(self, obj):
-        return format_html('<img src="{}"width="70"/>'.format(obj.product.image.url))
-
-    image_tag.short_description = ""
-
-
 @admin.register(Order)
-class OrderAdmin(PolymorphicParentModelAdmin):
+class OrderAdmin(admin.ModelAdmin):
     list_display = (
         "is_paid",
         "order_number",
@@ -199,7 +162,7 @@ class OrderAdmin(PolymorphicParentModelAdmin):
         "total_price",
     )
     list_display_links = ("order_number", "created_at")
-    list_filter = ("is_paid", "billing_type", "created_at", PolymorphicChildModelFilter)
+    list_filter = ("is_paid", "billing_type", "created_at")
     readonly_fields = (
         "order_number",
         "gopay_payment_id",
@@ -215,25 +178,6 @@ class OrderAdmin(PolymorphicParentModelAdmin):
         "billing_address__first_name",
         "billing_address__last_name",
     )
-    child_models = (ProductOrder, ServiceOrder)
-
-
-@admin.register(ProductOrder)
-class ProductOrderAdmin(PolymorphicChildModelAdmin):
-    inlines = [OrderProductInline]
-
-    search_fields = (
-        "order_number",
-        "billing_address__first_name",
-        "billing_address__last_name",
-        "shipping_address__first_name",
-        "shipping_address__last_name",
-    )
-
-
-@admin.register(ServiceOrder)
-class ServiceOrderAdmin(PolymorphicChildModelAdmin):
-    inlines = [OrderServiceInline]
 
 
 @admin.register(Invoice)

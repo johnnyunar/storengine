@@ -9,7 +9,6 @@ class SiteConfigurationTranslationOptions(TranslationOptions):
         "notification_bar_text",
         "subheading_text",
         "about_me_text",
-        "second_section_text",
         "quiz_heading",
         "quiz_subheading",
         "ebook_text",

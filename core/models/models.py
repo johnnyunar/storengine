@@ -1,7 +1,5 @@
 from functools import partial
 
-from colorfield.fields import ColorField
-from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -77,39 +75,6 @@ class Ebook(models.Model):
         ordering = ("created_at",)
         verbose_name = _("Ebook")
         verbose_name_plural = _("Ebooks")
-
-
-class Button(models.Model):
-    name = models.CharField(
-        max_length=64,
-        blank=True,
-        default="",
-        help_text="This name shows up in admin only.",
-    )
-    text = models.CharField(max_length=64, blank=True, default="")
-    link = models.CharField(max_length=512, blank=True, default="")
-    custom_html = models.TextField(
-        blank=True, default="", help_text="This option overwrites the link setting."
-    )
-    open_in_new_tab = models.BooleanField(default=True)
-
-    color = ColorField(default="#0e0e0e")
-
-    def __str__(self):
-        return self.name or f"{_('Button')} {self.pk}"
-
-    class Meta:
-        verbose_name = _("Button")
-        verbose_name_plural = _("Buttons")
-
-    def clean(self):
-        super(Button, self).clean()
-        if not (self.custom_html or self.link):
-            raise ValidationError(
-                _("At least custom_html or a link must be specified.")
-            )
-        elif not (self.link and self.text):
-            raise ValidationError(_("Link must be specified with text."))
 
 
 class Counter(models.Model):
@@ -206,7 +171,7 @@ class SiteConfiguration(SingletonModel):
         _("Hero Title"),
         max_length=64,
         blank=True,
-        default="Snapshop",
+        default="SNAPSHOP",
         help_text=_("This is the big title that shows up in the hero section."),
     )
 
@@ -240,16 +205,6 @@ class SiteConfiguration(SingletonModel):
         null=True,
         upload_to=partial(user_directory_path, subdir="about_me_images"),
         max_length=300,
-    )
-
-    second_section_text = RichTextField(blank=True, default="")
-
-    cta_button = models.ForeignKey(
-        Button,
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        verbose_name="CTA Button",
     )
 
     hero_image = models.ImageField(

@@ -17,23 +17,34 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from wagtail.admin import urls as wagtailadmin_urls
+from wagtail import urls as wagtail_urls
+from wagtail.documents import urls as wagtaildocs_urls
+
 from core.views import (
     HomePageView,
     ContactView,
     FAQView,
     QuizView,
     GDPRView,
-    TermsAndConditionsView, SetCookiesPreferencesView,
+    TermsAndConditionsView,
+    SetCookiesPreferencesView,
 )
-from shop.views import ServicesView, ProductsView, ServiceOrderStep1, ServiceOrderStep2
+from shop.views import ServicesView, ProductsView, OrderStep1, OrderStep2
 
 urlpatterns = [
-    # Django JET dashboard URLS
-    path("jet/", include("jet.urls", "jet")),
-    path("jet/dashboard/", include("jet.dashboard.urls", "jet-dashboard")),
-    # RichTextField URLs
-    path("djrichtextfield/", include("djrichtextfield.urls")),
+    path("cms/", include(wagtailadmin_urls)),
+    path("documents/", include(wagtaildocs_urls)),
+    path("i18n/", include("django.conf.urls.i18n")),
     path("admin/", admin.site.urls),
+    path(
+        "set-cookies-preferences/",
+        SetCookiesPreferencesView.as_view(),
+        name="set_cookies_preferences",
+    ),
+    path("", include(wagtail_urls)),
+
+    # Left here for compatibility reasons before references are removed
     path("", HomePageView.as_view(), name="home"),
     path("", include("users.urls")),
     path("contact/", ContactView.as_view(), name="contact"),
@@ -45,9 +56,8 @@ urlpatterns = [
         TermsAndConditionsView.as_view(),
         name="terms_and_conditions",
     ),
-    path("i18n/", include("django.conf.urls.i18n")),
     path("", include("shop.urls")),
-    path("set-cookies-preferences/", SetCookiesPreferencesView.as_view(), name="set_cookies_preferences"),
+
 ]
 
 try:

@@ -1,7 +1,7 @@
 from modeltranslation.decorators import register
 from modeltranslation.translator import TranslationOptions
 
-from shop.models import BillingType, Product, Service, Category
+from shop.models import BillingType, Product, Category
 
 
 @register(Category)
@@ -15,15 +15,6 @@ class ProductTranslationOptions(TranslationOptions):
         "name",
         "amount",
         "short_description",
-        "description",
-        "image"
-    )
-
-
-@register(Service)
-class ServiceTranslationOptions(TranslationOptions):
-    fields = (
-        "name",
         "description",
         "image"
     )

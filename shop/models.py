@@ -14,7 +14,6 @@ from djmoney.models.fields import MoneyField
 from djmoney.money import Money
 from djrichtextfield.models import RichTextField
 from phonenumber_field.modelfields import PhoneNumberField
-from polymorphic.models import PolymorphicModel
 
 from core.models import SiteConfiguration
 from core.utils import user_directory_path
@@ -69,11 +68,6 @@ class CartItem(models.Model):
         blank=True,
     )
 
-    class Meta:
-        abstract = True
-
-
-class CartProduct(CartItem):
     product = models.ForeignKey("Product", on_delete=models.CASCADE)
 
     def save(self, **kwargs):
@@ -84,23 +78,11 @@ class CartProduct(CartItem):
         return f"{self.amount}x {self.product.name}"
 
 
-class CartService(CartItem):
-    service = models.ForeignKey("Service", on_delete=models.CASCADE)
-
-    def save(self, **kwargs):
-        self.price.amount = self.service.price.amount * self.amount
-        super(CartItem, self).save()
-
-    def __str__(self):
-        return f"{self.amount}x {self.service.name}"
-
-
 class Cart(models.Model):
     created_by = models.ForeignKey(
         get_user_model(), null=True, blank=True, on_delete=models.CASCADE
     )
-    cart_products = models.ManyToManyField("Product", through=CartProduct)
-    cart_services = models.ManyToManyField("Service", through=CartService)
+    cart_items = models.ManyToManyField("Product", through=CartItem)
 
     total_price = MoneyField(
         _("Price"),
@@ -115,10 +97,7 @@ class Cart(models.Model):
     updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
 
     def add(self, item, amount=1):
-        if type(item) is Product:
-            CartProduct.objects.create(cart=self, product=item, amount=amount)
-        elif type(item) is Service:
-            CartService.objects.create(cart=self, service=item, amount=amount)
+        CartItem.objects.create(cart=self, product=item, amount=amount)
 
     def save(self, **kwargs):
         self.total_price.amount = sum(
@@ -127,7 +106,7 @@ class Cart(models.Model):
         super(Cart, self).save()
 
     def __str__(self):
-        return f"{self.user.username} from {self.created_at}"
+        return f"{self.created_by.username} from {self.created_at}"
 
 
 class Category(models.Model):
@@ -143,7 +122,7 @@ class Category(models.Model):
         verbose_name_plural = _("Categories")
 
 
-class BaseProduct(models.Model):
+class Product(models.Model):
     created_by = CurrentUserField()
     name = models.CharField(_("Name"), max_length=128)
 
@@ -183,21 +162,6 @@ class BaseProduct(models.Model):
         return self.name
 
     class Meta:
-        ordering = ("ordering",)
-        abstract = True
-
-
-class Product(BaseProduct):
-    class Meta:
-        verbose_name = _("Product")
-        verbose_name_plural = _("Products")
-        ordering = ("ordering",)
-
-
-class Service(BaseProduct):
-    class Meta:
-        verbose_name = _("Service")
-        verbose_name_plural = _("Services")
         ordering = ("ordering",)
 
 
@@ -312,7 +276,7 @@ class BillingType(models.Model):
         verbose_name_plural = _("Billing Types")
 
 
-class Order(PolymorphicModel):
+class Order(models.Model):
     created_by = models.ForeignKey(
         ShopUser,
         blank=True,
@@ -366,6 +330,19 @@ class Order(PolymorphicModel):
         verbose_name=_("GoPay Payment"),
     )
 
+    shipping_address = models.ForeignKey(
+        ShippingAddress,
+        on_delete=models.CASCADE,
+        verbose_name=_("Shipping Address"),
+        blank=True,
+        null=True,
+    )
+    shipping_type = models.CharField(
+        _("Shipping Type"), max_length=300, blank=True, null=True
+    )
+
+    items = models.ManyToManyField(Product, through="OrderItem")
+
     def save(self, *args, **kwargs):
         if self.gopay_payment:
             self.is_paid = self.gopay_payment.is_paid
@@ -407,57 +384,6 @@ class Order(PolymorphicModel):
         verbose_name_plural = _("Orders")
 
 
-class ProductOrder(Order):
-    shipping_address = models.ForeignKey(
-        ShippingAddress,
-        on_delete=models.CASCADE,
-        verbose_name=_("Shipping Address"),
-        blank=True,
-        null=True,
-    )
-    shipping_type = models.CharField(
-        _("Shipping Type"), max_length=300, blank=True, null=True
-    )
-
-    items = models.ManyToManyField(Product, through="OrderProduct")
-
-    def save(self, *args, **kwargs):
-        super(ProductOrder, self).save()
-
-    class Meta:
-        ordering = ("-created_at",)
-        verbose_name = _("Product Order")
-        verbose_name_plural = _("Product Orders")
-
-
-class ServiceOrder(Order):
-    GENDER_CHOICES = (
-        ("male", _("Male")),
-        ("female", _("Female")),
-        ("other", _("Other / Don't wish to respond")),
-    )
-
-    GOAL_CHOICES = (
-        ("reduce", _("Reduce")),
-        ("gain", _("Gain")),
-        ("sustain", _("Sustain")),
-    )
-
-    gender = models.CharField(_("Gender"), choices=GENDER_CHOICES, max_length=125)
-    age = models.IntegerField(_("Age"))
-    goal = models.CharField(_("Goal"), choices=GOAL_CHOICES, max_length=125)
-
-    items = models.ManyToManyField(Service, through="OrderService")
-
-    def save(self, *args, **kwargs):
-        super(ServiceOrder, self).save()
-
-    class Meta:
-        ordering = ("-created_at",)
-        verbose_name = _("Service Order")
-        verbose_name_plural = _("Service Orders")
-
-
 class OrderItem(models.Model):
     quantity = models.IntegerField(_("Quantity"))
     total_price = MoneyField(
@@ -467,20 +393,11 @@ class OrderItem(models.Model):
         default_currency="CZK",
         null=True,
     )
-    order = models.Field()
-
-    class Meta:
-        verbose_name = _("Order Item")
-        verbose_name_plural = _("Order Items")
-        abstract = True
-
-
-class OrderService(OrderItem):
     order = models.ForeignKey(
-        ServiceOrder, on_delete=models.CASCADE, verbose_name=_("Order")
+        Order, on_delete=models.CASCADE, verbose_name=_("Order")
     )
     product = models.ForeignKey(
-        Service, on_delete=models.CASCADE, verbose_name=_("Service")
+        Product, on_delete=models.CASCADE, verbose_name=_("Product")
     )
 
     def save(self, *args, **kwargs):
@@ -496,27 +413,12 @@ class OrderService(OrderItem):
         self.order.save()
         super(OrderItem, self).save(*args, **kwargs)
 
-    @property
-    def service(self):
-        return self.product
-
     def __str__(self):
         return self.product.name
 
-
-class OrderProduct(OrderItem):
-    order = models.ForeignKey(ProductOrder, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
-    def save(self, *args, **kwargs):
-        self.total_price.currency = self.product.price.currency
-        self.total_price.amount = self.product.price.amount * self.quantity
-        self.order.total_price.amount += self.total_price.amount
-        self.order.save()
-        super(OrderItem, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.product.name
+    class Meta:
+        verbose_name = _("Order Item")
+        verbose_name_plural = _("Order Items")
 
 
 class Invoice(models.Model):
@@ -544,8 +446,7 @@ class Invoice(models.Model):
         verbose_name_plural = _("Invoices")
 
 
-@receiver(post_save, sender=ServiceOrder)
-@receiver(post_save, sender=ProductOrder)
+@receiver(post_save, sender=Order)
 def new_order_post_save(sender, instance, created, **kwargs):
     """Automatically generate a new Invoice record."""
     if created:

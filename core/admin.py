@@ -1,6 +1,5 @@
 from html import unescape
 
-from adminsortable2.admin import SortableAdminMixin
 from django.contrib import admin
 from django.utils.html import format_html, strip_tags
 from django.utils.translation import gettext_lazy as _
@@ -102,7 +101,7 @@ class SiteConfigurationAdmin(SingletonModelAdmin, TabbedTranslationAdmin):
 
 
 @admin.register(Testimonial)
-class TestimonialAdmin(SortableAdminMixin, admin.ModelAdmin):
+class TestimonialAdmin(admin.ModelAdmin):
     save_on_top = True
     list_display = ("order", "author", "text_column")
     list_display_links = ("author", "text_column")
@@ -114,7 +113,7 @@ class TestimonialAdmin(SortableAdminMixin, admin.ModelAdmin):
 
 
 @admin.register(Counter)
-class CounterAdmin(SortableAdminMixin, TranslationAdmin):
+class CounterAdmin(TranslationAdmin):
     save_on_top = True
     list_display = ("ordering", "number", "text", "is_active")
     list_display_links = ("number", "text")
@@ -149,7 +148,7 @@ class EbookAdmin(admin.ModelAdmin):
 
 
 @admin.register(FrequentlyAskedQuestion)
-class FAQAdmin(SortableAdminMixin, TabbedTranslationAdmin):
+class FAQAdmin(TabbedTranslationAdmin):
     list_display = ("question_tag", "answer_tag", "is_active")
     list_editable = ("is_active",)
     search_fields = ("question", "answer")

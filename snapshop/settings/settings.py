@@ -48,6 +48,9 @@ ALLOWED_HOSTS = [
 INTERNAL_IPS = ["127.0.0.1"]
 
 SITE_ID = 1
+
+WAGTAIL_SITE_NAME = "Snapshop"
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,10 +58,7 @@ INSTALLED_APPS = [
     # Development static files serving
     "whitenoise.runserver_nostatic",
     # Overriding 3rd party
-    "django_checkbox_normalize",
     "modeltranslation",
-    "jet.dashboard",
-    "jet",
     "polymorphic",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -68,11 +68,30 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # 3rd party
+    # --- wagtail ---
+    "wagtail.contrib.forms",
+    "wagtail.contrib.redirects",
+    "wagtail.contrib.modeladmin",
+    "wagtail.contrib.styleguide",
+    "wagtail.locales",
+    "wagtail.embeds",
+    "wagtail.sites",
+    "wagtail.users",
+    "wagtail.snippets",
+    "wagtail.documents",
+    "wagtail.images",
+    "wagtail.search",
+    "wagtail.admin",
+    "wagtailfontawesome",
+    "wagtail_color_panel",
+    "wagtail",
+    "modelcluster",
+    "taggit",
+    # --- wagtail ---
     "sorl.thumbnail",
     "formtools",
     "djrichtextfield",
     "solo",
-    "adminsortable2",
     "django_cleanup.apps.CleanupConfig",
     "djmoney",
     # local
@@ -94,6 +113,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_currentuser.middleware.ThreadLocalUserMiddleware",
     "django_referrer_policy.middleware.ReferrerPolicyMiddleware",
+    "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
@@ -165,7 +185,7 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 DATE_FORMAT = "d/m/Y"
-LANGUAGES = [
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
     ("cs", _("Czech")),
     ("en", _("English")),
 ]
@@ -202,9 +222,9 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": (
-                    "%(asctime)s [%(process)d] [%(levelname)s] "
-                    + "pathname=%(pathname)s lineno=%(lineno)s "
-                    + "funcname=%(funcName)s %(message)s"
+                "%(asctime)s [%(process)d] [%(levelname)s] "
+                + "pathname=%(pathname)s lineno=%(lineno)s "
+                + "funcname=%(funcName)s %(message)s"
             ),
             "datefmt": "%Y-%m-%d %H:%M:%S",
         },
@@ -229,44 +249,33 @@ LOGGING = {
     },
 }
 
-DJRICHTEXTFIELD_CONFIG = {
-    "js": [
-        "//cdn.tiny.cloud/1/9wpw1tnoa3rxh8vjhnq3a2nk1mzgx35pklzripp4nzzoqhpj/tinymce/5/tinymce.min.js"
-    ],
-    "init_template": "djrichtextfield/init/tinymce.js",
-    "settings": {  # TinyMCE
-        "menubar": False,
-        "plugins": [
-            "advlist autolink lists link image charmap print preview anchor",
-            "searchreplace visualblocks code codesample fullscreen template",
-            "insertdatetime media table paste code help wordcount paste autosave",
-        ],
-        "toolbar": "undo redo | formatselect | "
-                   + "bold italic backcolor | alignleft aligncenter "
-                   + "alignright alignjustify | bullist numlist outdent indent | codesample | link image anchor | "
-                   + "removeformat | template |code help",
-        "width": "100%",
-        "height": 350,
-        "image_caption": True,
+WAGTAILADMIN_RICH_TEXT_EDITORS = {
+    "default": {
+        "WIDGET": "wagtail.admin.rich_text.DraftailRichTextArea",
+        "OPTIONS": {
+            "features": [
+                "bold",
+                "italic",
+                "center",
+                "h1",
+                "h2",
+                "h3",
+                "h4",
+                "ol",
+                "ul",
+                "link",
+                "document-link",
+                "image",
+                "embed",
+                "code",
+            ]
+        },
     },
 }
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
-
-JET_THEMES = [
-    {
-        "theme": "default",  # theme folder name
-        "color": "#47bac1",  # color of the theme's button in user menu
-        "title": "Default",  # theme title
-    },
-    {"theme": "green", "color": "#44b78b", "title": "Green"},
-    {"theme": "light-green", "color": "#2faa60", "title": "Light Green"},
-    {"theme": "light-violet", "color": "#a464c4", "title": "Light Violet"},
-    {"theme": "light-blue", "color": "#5EADDE", "title": "Light Blue"},
-    {"theme": "light-gray", "color": "#222", "title": "Light Gray"},
-]
 
 # Sentry
 if ENV != "LOCAL":

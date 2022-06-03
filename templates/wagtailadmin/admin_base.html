@@ -1,0 +1,8 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load static %}
+
+ <title>{% block branding_title %}CMS{% endblock %} - {% block titletag %}{% endblock %}</title>
+
+{% block branding_favicon %}
+    <link rel="shortcut icon" href="{% static 'snapshop/images/rocket-earth.png' %}" />
+{% endblock %}

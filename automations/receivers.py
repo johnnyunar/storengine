@@ -4,7 +4,7 @@ from django.dispatch import receiver
 from automations.const import TriggerType
 from automations.models import Automation
 from core.models import QuizRecord
-from shop.models import Order, ServiceOrder, ProductOrder
+from shop.models import Order
 from users.models import ShopUser
 
 
@@ -19,8 +19,7 @@ def new_user_created(sender, instance, created, **kwargs):
                 action.run(trigger_data={"user": instance, "recipients": [instance.email]})
 
 
-@receiver(pre_save, sender=ServiceOrder)
-@receiver(pre_save, sender=ProductOrder)
+@receiver(pre_save, sender=Order)
 def new_order_created(sender, instance, **kwargs):
     if instance.billing_address:
         current_instance = sender.objects.filter(id=instance.id).first()
