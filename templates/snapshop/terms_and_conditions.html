@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static i18n l10n%}
+{% block title %}{% trans 'Terms And Conditions' %}{% endblock %}
+{% block content %}
+    <section>
+        <h1>{% trans 'Terms And Conditions' %}</h1>
+        {{ content_settings.terms_and_conditions_text | safe }}
+        {% if content_settings.terms_and_conditions_file %}
+            <a class="cta center" href="{{ content_settings.terms_and_conditions_file.url }}" download>{% trans 'Download' %}</a>
+        {% endif %}
+    </section>
+{% endblock %}
+

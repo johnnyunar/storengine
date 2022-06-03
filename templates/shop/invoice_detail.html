@@ -1,0 +1,132 @@
+{% load static i18n djmoney %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% trans 'Invoice' %} {{ invoice.order.order_number }} {% endblock %}</title>
+    <link href="{% static 'snapshop/images/trzn_logo_small.png' %}" rel="shortcut icon" type="image/x-icon">
+    <link href="{% static 'snapshop/images/trzn_logo_small.png' %}" rel="apple-touch-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&family=Space+Grotesk:wght@400;500;600&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'snapshop/css/style.css' %}" type="text/css">
+
+    <script src="https://unpkg.com/htmx.org@1.7.0"
+            integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo"
+            crossorigin="anonymous"></script>
+    {% block extrahead %}
+    {% endblock %}
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+{% if invoice.order.is_paid %}
+    <div id="webinvoice-paid-notification">
+        <p>
+            <i class="fa fa-check-circle" aria-hidden="true"></i>
+            {% trans "This Invoice has already been paid. Do not pay anything." %}
+        </p>
+    </div>
+{% endif %}
+<main role="main" id="webinvoice-main">
+    {% block content %}
+        <div id="webinvoice">
+            <h1 class="webinvoice-title">{% trans "Invoice" %} {{ invoice.order.order_number }}</h1>
+            <img class="webinvoice-logo" src="{% static 'snapshop/images/trzn_logo_small.png' %}">
+            <div class="webinvoice-contact-wrapper">
+                <div class="webinvoice-contact">
+                    <h2>{% trans "Supplier" %}</h2>
+                    <div class="webinvoice-contact-info">
+                        <h3>{{ content_settings.full_name }}</h3>
+                        <address>
+                            {{ content_settings.billing_address }}<br>
+                            {{ content_settings.billing_address_zip }}&nbsp;{{ content_settings.billing_address_city }}
+                        </address>
+
+                        <p>
+                            <span>{% trans "VAT ID" %}</span>
+                            <span>{{ content_settings.vat_id }}</span>
+                        </p>
+                        <p class="">{{ content.settings.vat_payer|yesno:_("VAT Payer, Not a VAT Payer") }}</p>
+                    </div>
+
+                    <div class="webinvoice-contact-payment-info">
+                        <p>
+                            <span>{% trans "Bank Account" %}</span>
+                            <span>{{ content_settings.bank_account }}</span>
+                        </p>
+
+
+                        <p>
+                            <span>{% trans "Variable Symbol" %}</span>
+                            <span>{{ invoice.order.order_number }}</span>
+                        </p>
+
+                        <p>
+                            <span>{% trans "Payment Method" %}</span>
+                            <span>{{ invoice.order.billing_type }}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="webinvoice-contact">
+                    {# Translators: Customer on Invoice #}
+                    <h2>{% trans "Customer" %}</h2>
+                    <div class="webinvoice-contact-info">
+                        <h3>{{ invoice.order.billing_address.full_name }}</h3>
+                        <address>
+                            {{ invoice.order.billing_address.address1 }}<br>
+                            {{ invoice.order.billing_address.zip_code }}&nbsp;{{ invoice.order.billing_address.city }}
+                        </address>
+
+                        {% if invoice.order.billing_address.company %}
+                            <p>
+                                <span>{% trans "VAT ID" %}</span>
+                                <span>{{ invoice.order.billing_address.company }}</span>
+                            </p>
+                        {% endif %}
+                    </div>
+
+                    <div class="webinvoice-contact-payment-info">
+                        <p>
+                            <span>{% trans "Issue Date" %}</span>
+                            <span>{{ invoice.order.created_at | date:"d. m. Y" }}</span>
+                        </p>
+                        <p>
+                            <span>{% trans "Due Date" %}</span>
+                            <span>{{ invoice.due_date | date:"d. m. Y" }}</span>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="webinvoice-items">
+                {% for item in invoice.order.items.all %}
+                    <div class="webinvoice-item">
+                        <span class="webinvoice-item-title">{{ item.name }}</span>
+                        <span class="webinvoice-item-price">{% money_localize item.price %}</span>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="webinvoice-payment-details">
+                <div class="webinvoice-qr"></div>
+                <div class="webinvoice-total">{% money_localize invoice.order.total_price %}</div>
+            </div>
+            <div class="webinvoice-footer">
+                Fyzická osoba zapsaná v živnostenském rejstříku.
+            </div>
+        </div>
+        <div id="webinvoice-controls">
+            <div class="cta center">{% trans "Download" %} PDF</div>
+            <div class="cta center">{% trans "Share" %}</div>
+            <small>{% trans "Only you can view this invoice. If you would like to share this page, click here." %}</small>
+        </div>
+    {% endblock %}
+</main>
+</body>
+</html>

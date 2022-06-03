@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static i18n l10n djmoney %}
+{% block title %}{% trans 'Quiz' %}{% endblock %}
+{% block content %}
+    <section id="quiz">
+        <h1>{% trans 'Physique Quiz' %}</h1>
+        <h3>{% trans 'Fill the Quiz and find the perfect workout plan just for you.' %}</h3>
+        <form action="" method="post" id="quiz-form">
+            {% csrf_token %}
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            {% for field in form %}
+                <p>{{ field.label }}</p>
+                <p>{{ field }}</p>
+            {% endfor %}
+            <input class="cta center" type="submit" value="{% trans "Submit" %}">
+            <p>
+                <small>{% trans "You will find your perfect plan in your inbox!" %}</small>
+                <small>{% trans "By submitting this form you agree to our Terms And Conditions and processing your personal data." %}</small>
+            </p>
+        </form>
+    </section>
+{% endblock %}
+

@@ -1,0 +1,214 @@
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Snapshop{% endblock %}</title>
+    <link href="{% static 'snapshop/images/rocket-earth.png' %}" rel="shortcut icon" type="image/x-icon">
+    <link href="{% static 'snapshop/images/rocket-earth.png' %}" rel="apple-touch-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&family=Space+Grotesk:wght@400;500;600&display=swap"
+          rel="stylesheet">
+
+
+    <link rel="stylesheet" href="{% static 'snapshop/css/style.css' %}" type="text/css">
+
+    <script src="https://unpkg.com/htmx.org@1.7.0"
+            integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <script src="{% static 'snapshop/js/main.js' %}"></script>
+    <script src="{% static 'snapshop/js/in-view.min.js' %}"></script>
+    <script src="{% static 'snapshop/js/splide.min.js' %}"></script>
+
+    <style>
+        {% if content_settings.footer_image %}
+            footer {
+                background: url("{{ content_settings.footer_image.url }}") center;
+                background-size: cover;
+            }
+        {% endif %}
+    </style>
+    {% block extrahead %}
+    {% endblock %}
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<div class="holder" id="holder">
+    {% if content_settings.notification_bar_show %}
+        <div class="notification" id="notification">
+            <span class="notification-text">{{ content_settings.notification_bar_text }}</span>
+            <span class="icon" id="closeNotification">
+            <i class="fa fa-times"></i>
+        </span>
+        </div>
+    {% endif %}
+    <nav class="navbar" role="navigation">
+        <span class="navbar-toggle" id="js-navbar-toggle">
+            <i class="fas fa-bars"></i>
+        </span>
+        <a href="{% url 'home' %}">
+            <img class="logo" src="{% static 'snapshop/images/rocket-earth.png' %}" alt="Logo">
+        </a>
+        <ul class="main-nav" id="js-menu">
+            <li><a href="{% url 'home' %}" class="nav-links home">{% trans "HOME" %}</a></li>
+            <li><a href="{% url 'home' %}#about" class="nav-links">{% trans "ABOUT" %}</a></li>
+            <li><a href="{% url 'shop:services' %}" class="nav-links">{% trans "SERVICES" %}</a></li>
+            <li><a href="{% url 'shop:products' %}" class="nav-links">{% trans "PRODUCTS" %}</a></li>
+            <li><a href="{% url 'contact' %}" class="nav-links">{% trans "CONTACT" %}</a></li>
+            <li><a href="{% url 'faq' %}" class="nav-links">{% trans "FAQ" %}</a></li>
+            <form action="{% url 'set_language' %}" method="post" id="language-form">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
+                <input name="language" type="hidden" {% if LANGUAGE_CODE == "en" %}value="cs"
+                       {% else %}value="en"{% endif %}>
+                <li><input class="nav-links" type="submit" title="{% trans 'Change Language' %}"
+                           {% if LANGUAGE_CODE == "en" %}value="🇨🇿"
+                           {% else %}value="🇬🇧"{% endif %}/></li>
+            </form>
+            <li><a href="{% url 'profile' %}" class="nav-links" title="{% trans 'Account' %}"><i
+                    class="fas fa-user"></i></a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}" class="nav-links" title="{% trans 'Log Out' %}"><i
+                        class="fas fa-sign-out-alt"></i></a></li>
+            {% endif %}
+
+        </ul>
+    </nav>
+</div>
+<main role="main">
+    {% block content %}
+    {% endblock %}
+</main>
+<footer>
+    <div class="footer-section">
+        Snapshop<br/>
+        Eshop solution
+    </div>
+    <div class="footer-section">
+        <a href="mailto:{{ content_settings.email }}">{{ content_settings.email }}</a>
+        <div class="social-footer">
+            {% if content_settings.instagram_link %}
+                <a href="{{ content_settings.instagram_link }}" target="_blank"><img
+                        src="{% static 'snapshop/images/iglogo.png' %}"></a>
+            {% endif %}
+            {% if content_settings.facebook_link %}
+                <a href="{{ content_settings.facebook_link }}" target="_blank"><img
+                        src="{% static 'snapshop/images/fblogo.png' %}"></a>
+            {% endif %}
+            {% if content_settings.linkedin_link %}
+                <a href="{{ content_settings.linkedin_link }}" target="_blank"><img
+                        src="{% static 'snapshop/images/lilogo.png' %}"></a>
+            {% endif %}
+        </div>
+        <br/>
+        © {{ content_settings.full_name }} {% now "Y" %}
+    </div>
+    <div class="footer-section">
+        <a href="{% url 'home' %}">{% trans 'HOME' %}</a>
+        <a href="{% url 'home' %}#about">{% trans 'ABOUT' %}</a>
+        <a href="{% url 'contact' %}">{% trans 'CONTACT' %}</a>
+        <a href="{% url 'faq' %}">{% trans 'FAQ' %}</a>
+        <a href="{% url 'gdpr' %}">GDPR</a>
+        <a href="{% url 'terms_and_conditions' %}">{% trans 'T & C' %}</a>
+    </div>
+    <a href="https://unar.dev/" target="_blank" title="Website by Johnny Unar" class="footer-lottie">
+        <lottie-player src="{% static 'snapshop/images/rocket-ship.json' %}" background="transparent" speed="1"
+                       style="width: 60px;" loop autoplay></lottie-player>
+    </a>
+</footer>
+{% if not request.session.cookies_preferences_set %}
+    <div id="cookie-bar" hx-swap="none">
+        <div id="cookie-bar-content">
+            <div>
+                <h2>COOKIES</h2>
+                <p>Pokud přijmete cookies, pomůžete mi s vylepšováním fungování webu a zároveň i se zlepšováním služeb.
+                    Více informací najdete v zásadách používání cookies. Své rozhodnutí můžete později změnit.
+                </p>
+                <button id="cookie-settings-button" class="cookie-button">Nastavit</button>
+                <button class="cookie-button" id="accept-important-cookies"
+                        hx-post="{% url 'set_cookies_preferences' %}"
+                        hx-vals='{"important": "on"}'>
+                    Přijmout nezbytné
+                </button>
+                <button class="cookie-button accept-all" id="accept-all-cookies"
+                        hx-post="{% url 'set_cookies_preferences' %}"
+                        hx-vals='{"important": "on", "analytic": "on", "marketing": "on"}'>
+                    Přijmout vše
+                </button>
+            </div>
+            <img width="100px" src="{% static 'snapshop/images/cookie.svg' %}">
+        </div>
+    </div>
+    <div id="cookie-modal">
+        <div id="cookie-modal-content">
+            <i class="fa fa-times modal-close" aria-hidden="true"></i>
+            <h2>Pokročilá nastavení</h2>
+
+            <p>
+                Je pouze na vás, ke kterým cookies udělíte souhlas. A pokud svůj názor změníte, můžete se kdykoliv
+                vrátit a nastavení změnit.
+            </p>
+            <hr>
+            <br/>
+            <form id="cookies-form">
+                <label for="important" class="toggle-switchy" data-color="orange">
+                    <input checked type="checkbox" id="important" name="important" disabled>
+                    <span class="toggle">
+		            <span class="switch"></span>
+	            </span>
+                    &nbsp;Nezbytné Cookies
+                </label>
+                <br/>
+                <small>Tyto soubory cookie potřebujeme pro správné fungování základních funkcí webu a aplikace. Bez nich
+                    by to bohužel opravdu nešlo, nelze je proto vypnout. Nemusíte se ale bát, neukládají žádné vaše
+                    osobní
+                    informace.</small>
+                <hr/>
+                <label for="analytic" class="toggle-switchy" data-color="green">
+                    <input type="checkbox" id="analytic" name="analytic">
+                    <span class="toggle">
+		            <span class="switch"></span>
+	            </span>
+                    &nbsp;Statistické Cookies
+                </label>
+                <br/>
+                <small>Statistické cookies pomáhají majitelům webových stránek, aby porozuměli, jak návštěvníci
+                    používají
+                    webové stránky. Anonymně sbírají a sdělují informace.</small>
+                <hr/>
+                <label for="marketing" class="toggle-switchy" data-color="green">
+                    <input type="checkbox" id="marketing" name="marketing">
+                    <span class="toggle">
+		            <span class="switch"></span>
+	            </span>
+                    &nbsp;Marketingové Cookies
+                </label>
+                <br/>
+                <small>Pomocí marketingových cookies můžeme měřit a analyzovat návštěvnost webu. Dokážeme díky tomu
+                    například zjistit, které stránky jsou oblíbené. To mi pomáhá tvořit takový obsah, který je pro
+                    návštěvníky skutečně zajímavý.</small>
+                <br/><br/>
+                <button type="submit" hx-post="{% url 'set_cookies_preferences' %}"
+                        class="cookie-modal-button accept-all">{% trans 'Save' %}
+                </button>
+            </form>
+        </div>
+    </div>
+{% endif %}
+<div class="svgs">
+    {% include 'snapshop/_svgs.html' %}
+</div>
+</body>
+</html>

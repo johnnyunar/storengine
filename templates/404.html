@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static i18n l10n %}
+{% block title %}{% trans 'Page Not Found' %}{% endblock %}
+{% block content %}
+    <section class="headline">
+        <h1>404</h1>
+    </section>
+    <section class="flex-section" id="thank-you-text">
+        <h2>{% trans "Page Not Found" %} :(</h2>
+    </section>
+{% endblock %}
+

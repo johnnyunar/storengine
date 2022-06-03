@@ -1,0 +1,51 @@
+{% extends 'users/account_base.html' %}
+{% load static i18n l10n %}
+{% block title %}{% trans "My Account" %}{% endblock %}
+{% block account_content %}
+    <section class="account-nav">
+        <ul>
+            <li><h3><a href="{% url 'profile' %}" class="active">{% trans "GENERAL" %}</a></h3></li>
+            <li><h3><a href="{% url 'account_orders' %}">{% trans "MY ORDERS" %}</a></h3></li>
+        </ul>
+    </section>
+    <section class="flex-section" id="account">
+        <div class="user-details">
+            <h3 class="color-danger">{% trans 'User Settings' %}</h3>
+            <form method="POST" action="." enctype="multipart/form-data" class="account-form">
+                {% csrf_token %}
+                <div class="avatar-wrapper">
+                    <img class="profile-pic" src="{{ user.avatar.url }}"/>
+                    <div class="upload-button">
+                        <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                    </div>
+                    <input name="avatar" id="id_avatar" class="file-upload" type="file" accept="image/*"/>
+                </div>
+                <div>
+                    <p>{{ form.non_field_errors }}</p>
+                    <p>{{ form.errors }}</p>
+                    <p>{{ form.first_name.label }}</p>
+                    <p>{{ form.first_name }}</p>
+                    <p>{{ form.last_name.label }}</p>
+                    <p>{{ form.last_name }}</p>
+                    <p>{{ form.email.label }}</p>
+                    <p>{{ form.email }}</p>
+                    <input class="cta center" type="submit" value="{% trans "Save" %}">
+                </div>
+            </form>
+            <br/>
+            <h3 class="color-danger">{% trans 'DANGER ZONE' %}</h3>
+            <p>
+                <a href="{% url 'password_reset' %}" class="cta center bg-warning">{% trans 'Reset Password' %}
+                </a>
+            </p>
+            <p>
+                <a href="{% url 'deactivate_account' %}" class="cta center bg-danger">{% trans 'Deactivate Account' %}
+                </a>
+            </p>
+            <p>
+                <a href="{% url 'delete_account' %}" class="cta center bg-danger">{% trans 'Delete Account' %}
+                </a>
+            </p>
+        </div>
+    </section>
+{% endblock %}

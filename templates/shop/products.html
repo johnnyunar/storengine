@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static i18n l10n djmoney %}
+{% block title %}{% trans 'Products' %}{% endblock %}
+{% block extrahead %}
+    <script src="{% static 'shop/js/shop.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <section class="headline">
+        <h1>{% trans "Products" %}</h1>
+    </section>
+    <section class="flex-section" id="products">
+        {% for product in products %}
+            <div class="product-card" data-id="{{ product.id }}"
+                 {% if product.image %}style="background-image: url('{{ product.image.url }}'); box-shadow: inset 0 0 0 200px rgba(33, 33, 33, 0.7), 0px 7px 9px -1px rgba(0, 0, 0, 0.55);"{% endif %}>
+                <div class="card-text no-select">
+                    <div class="product-name">
+                        <h3>{{ product.name }}</h3>
+                        <h4>{{ product.amount }}</h4>
+                    </div>
+                    {{ product.short_description | safe }}
+                </div>
+                <span class="price">{% money_localize product.price %}</span>
+                <br/><br/>
+                <a href="{{ product.external_url }}" target="_blank" rel="noopener"
+                   class="card-cta">{% trans "Buy Now" %}</a>
+            </div>
+        {% empty %}
+            <h2 class="text-center">{% trans "Come back later!" %}</h2>
+        {% endfor %}
+    </section>
+    <div class="overlay">
+        {% for product in products %}
+            <div class="product-modal" data-id="{{ product.id }}">
+                <i class="fas fa-times close"></i>
+                <h2>{{ product.name }}</h2>
+                <h4>{{ product.amount }}</h4>
+                <div class="image-description">
+                    {% if product.image %}
+                        <img class="product-image" src="{{ product.image.url }}">
+                    {% endif %}
+                    <div class="product-description">
+                        {{ product.description | safe }}
+                    </div>
+                </div>
+                <span class="price">{% money_localize product.price %}</span>
+                <a href="{{ product.external_url }}" target="_blank" rel="noopener"
+                   class="card-cta">{% trans "Buy Now" %}</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+

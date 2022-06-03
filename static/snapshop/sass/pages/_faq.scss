@@ -1,0 +1,29 @@
+h1 {
+    text-align: center;
+}
+
+.faq {
+    margin: 0 auto;
+    width: 80%;
+}
+
+.question {
+    background: #0e0e0e;
+    padding: 1px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .3s;
+    margin-top: 20px;
+}
+
+.question:hover {
+    background: #1f1f1f;
+}
+
+.answer {
+    display: none;
+    background: #C26F5E;
+    margin-top: 5px;
+    padding: 1px 15px;
+    border-radius: 10px;
+}

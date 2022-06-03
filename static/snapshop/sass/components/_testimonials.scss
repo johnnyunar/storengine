@@ -1,0 +1,49 @@
+.splide {
+  height: 300px;
+}
+
+.testimonial {
+  color: black;
+  width: 100%;
+}
+
+.testimonial-text-wrapper {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  background: #f1f1f1;
+  border-radius: 20px;
+  width: 50%;
+  height: 300px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.testimonial-text {
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+
+.testimonial-author {
+  color: #C26F5E;
+}
+
+@media screen and (max-width: 1200px) {
+  .splide {
+    height: 400px;
+  }
+
+  .testimonial-text-wrapper {
+    width: 90%;
+    margin: 0 auto;
+    height: 400px;
+  }
+
+  .testimonial-text {
+    font-size: .9em;
+  }
+}

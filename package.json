@@ -1,0 +1,27 @@
+{
+  "name": "snapshop",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "watch:sass": "sass --watch static/snapshop/sass/main.scss:static/snapshop/css/style.css",
+    "start": "npm-run-all --parallel devserver watch:sass",
+    "compile:sass": "sass static/snapshop/sass/main.scss:static/snapshop/css/style.comp.css",
+    "concat:css": "concat -o static/snapshop/css/style.concat.css static/snapshop/css/style.comp.css",
+    "prefix:css": "postcss --use autoprefixer -b 'last 10 versions' static/snapshop/css/style.concat.css -o static/snapshop/css/style.prefix.css",
+    "compress:css": "node-sass static/snapshop/css/style.prefix.css static/snapshop/css/style.css --output-style compressed",
+    "clean": "rimraf static/snapshop/css/style.comp.css static/snapshop/css/style.comp.css.map static/snapshop/css/style.concat.css static/snapshop/css/style.prefix.css",
+    "build": "npm-run-all compile:sass concat:css prefix:css compress:css clean"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.4",
+    "concat": "^1.0.3",
+    "node-sass": "^7.0.1",
+    "npm-run-all": "^4.1.5",
+    "postcss-cli": "^9.1.0",
+    "rimraf": "^3.0.2",
+    "sass": "^1.50.0"
+  }
+}

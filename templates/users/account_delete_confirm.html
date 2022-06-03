@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static i18n l10n %}
+
+{% block title %}{% trans "Confirm Deleting Your Account" %}{% endblock %}
+{% block extrahead %}
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section class="headline">
+        <img class="warning-image-center" src="{% static 'users/images/delete-cloud.svg' %}">
+    </section>
+    <section class="flex-section" id="login">
+        <div class="login-form warning-form">
+            {% if user.is_authenticated %}
+                <form method="post">
+                    {% csrf_token %}
+                    <p>{{ user.first_name }}! Are you sure you want to delete all your data? There is no way back.</p>
+                    <input type="submit" class="cta center bg-warning"
+                           value="{% trans 'Yes! Delete my account!' %}">
+                    <p>
+                        <span><i class="fas fa-angle-double-left"></i>&nbsp;<a href="{% url 'profile' %}">{% trans "Nope! Take me back." %}</a></span>
+                    </p>
+                </form>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

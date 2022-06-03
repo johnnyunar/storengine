@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static i18n l10n %}
+{% block title %}{% trans 'Account' %}{% endblock %}
+{% block content %}
+    <section class="headline">
+        <h1>{% trans "Account" %}</h1>
+    </section>
+    {% block account_content %}
+    {% endblock %}
+    <script src="{% static 'users/js/account.js' %}"></script>
+{% endblock %}

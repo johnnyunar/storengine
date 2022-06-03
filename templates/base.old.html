@@ -1,0 +1,92 @@
+{% load static %}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}Adam Be Fit</title>
+    <link href="https://img.icons8.com/cotton/64/000000/barbell.png" rel="shortcut icon" type="image/x-icon">
+    <link href="https://img.icons8.com/cotton/64/000000/barbell.png}" rel="apple-touch-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'czechtarzan/css/home.css' %}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@15/dist/smooth-scroll.polyfills.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+    <script src="{% static 'czechtarzan/js/velocity.js' %}"></script>
+    <script src="{% static 'czechtarzan/js/main.js' %}"></script>
+    {% block extrahead %}
+    {% endblock %}
+</head>
+<body>
+<div class="holder" id="holder">
+    {% if content_settings.notification_bar_show %}
+        <div class="notification" id="notification">
+            <span class="notification-text">{{ content_settings.notification_bar_text }}</span>
+            <span class="icon" id="closeNotification">
+            <i class="fa fa-times"></i>
+        </span>
+        </div>
+    {% endif %}
+    <div class="topnav" id="topnav">
+        <a href="/"> <img src="https://img.icons8.com/cotton/128/000000/barbell.png" class="topnav-logo"></a>
+        <a href="/#o-mne">O mně</a>
+        <a href="{% url 'contact' %}">Kontakt</a>
+        <a href="javascript:void(0);" class="icon" id="hamburger">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+</div>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+<footer>
+    <div class="footer-section">
+        Adam Bůžek<br/>
+        Osobní trenér
+    </div>
+    <div class="footer-section">
+        adam@adambefit.com
+        <div class="social-footer">
+            <a href="https://www.instagram.com/pod_lipou/" target="_blank"><img
+                    src="{% static 'czechtarzan/images/iglogo.png' %}"></a>
+            <a href="https://www.facebook.com/podlipou.tobolka" target="_blank"><img
+                    src="{% static 'czechtarzan/images/fblogo.png' %}"></a>
+        </div>
+        <br/>
+        © Adam Bůžek {% now "Y" %}
+    </div>
+    <div class="footer-section">
+        <a href="/" class="active">Domů</a>
+        <a href="#o-mne">O mně</a>
+        <a href="{% url 'contact' %}">Kontakt</a>
+    </div>
+    <a href="https://unar.dev/" target="_blank" title="Website by Johnny Unar">
+        <div class="svg-container">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="50 50 300 300">
+                <defs>
+                    <symbol id="e">
+                        <ellipse cx="200" cy="200" rx="33" ry="88" fill="none" stroke="inherit"/>
+                    </symbol>
+                </defs>
+                <circle id="atom" fill="#FFF" cx="200" cy="200" r="139"/>
+
+                <use id="orbit-1" xlink:href="#e"/>
+                <use id="orbit-2" xlink:href="#e" transform="rotate(60 200 200)"/>
+                <use id="orbit-3" xlink:href="#e" transform="rotate(120 200 200)"/>
+
+                <use id="electron-1" xlink:href="#e"/>
+                <use id="electron-2" xlink:href="#e" transform="rotate(60 200 200)"/>
+                <use id="electron-3" xlink:href="#e" transform="rotate(120 200 200)"/>
+
+                <circle id="nucleus" fill="#1A4C59" cx="200" cy="200" r="16"/>
+            </svg>
+        </div>
+    </a>
+</footer>
+</body>
+</html>

@@ -1,0 +1,43 @@
+/* FIXME: NOT LIKE THIS - REMOVE ASAP!!!!!! */
+
+/* MOBILE STYLES */
+@media screen and (max-width: 600px) {
+
+  .hero-arrow {
+    bottom: 0;
+  }
+
+  .opening-hours {
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .download-ebook {
+    flex-direction: column;
+  }
+
+  .download-ebook .flex-column p {
+    padding: inherit;
+  }
+
+  .cta {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+  }
+}
+
+/* TABLETS */
+@media screen and (min-width: 600px) and (max-width: 1050px) {
+  .hero {
+    background-position: right;
+  }
+
+  .flex-column, .flex-section {
+    flex-direction: column;
+  }
+
+  .cta {
+    margin-top: 30px;
+  }
+}

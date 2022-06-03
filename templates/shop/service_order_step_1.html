@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static i18n l10n djmoney %}
+{% block title %}{% trans 'Quiz' %} - {% trans 'Step 1' %}{% endblock %}
+{% block content %}
+    <section id="quiz">
+        <h1>{% trans 'Physique Quiz' %}</h1>
+
+        <h4 class="text-center">
+            {% trans 'I am so happy you want to start working out with me!' %}<br/>
+            {% trans "Before we start, I need to know some stuff about you and your goals. Don't worry, your data are safe." %}
+        </h4>
+        <form action="" method="post" id="quiz-form">
+            <div class="steps-container">
+                <a href="{% url 'shop:service_order_step_1' view.kwargs.pk %}" class="step active">1</a>
+                <span class="step-divider">---------</span>
+                <button type="submit" class="step">2</button>
+            </div>
+
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="cta center" type="submit">
+                {% trans "Next" %}&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></i>
+            </button>
+        </form>
+    </section>
+{% endblock %}
+
+

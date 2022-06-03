@@ -1,0 +1,156 @@
+/* HERO */
+.hero {
+  height: 100vh;
+  width: 100vw;
+  background: url("/static/snapshop/images/rocket-earth-wide.png");
+  background-size: cover;
+  background-position-x: center;
+  box-shadow: inset 0 0 0 2000px rgba(33, 33, 33, 0.4);
+  padding: 0;
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-logo {
+  display: block;
+  margin-top: 100px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 20%;
+}
+
+.hero-title {
+  text-align: center;
+  font-size: 50px;
+  color: white;
+  margin-bottom: 10px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: bold;
+  cursor: default;
+  width: 100%;
+}
+
+.hero-arrow {
+  width: 50px;
+  text-decoration: none;
+  display: block;
+  font-size: 40px;
+  color: white;
+  text-align: center;
+  position: absolute;
+  top: 60vh;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+.subheading {
+  text-align: center;
+  font-style: italic;
+  font-size: 19px;
+}
+
+/* END HERO */
+
+/* PARTICLES*/
+.heading {
+  position: absolute;
+  text-align: center;
+  top: 30vh;
+  width: 100%;
+}
+
+#particles-js {
+  height: 100%;
+  width: 100%;
+  z-index: -10;
+}
+
+/* END PARTICLES*/
+
+/* QUIZ */
+#quiz {
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+  h3, small {
+    text-align: center;
+  }
+}
+
+#quiz h1 {
+  font-size: 40px;
+}
+
+#quiz h2 {
+  font-size: 22px;
+}
+
+@media screen and (max-width: 600px) {
+  #quiz h1 {
+    font-size: 30px;
+  }
+
+  #quiz h2 {
+    font-size: 12px;
+  }
+
+  .hero-logo {
+    width: 60%;
+  }
+
+  .hero {
+    background-position: 50%;
+    height: 100vh;
+  }
+}
+
+/* END QUIZ */
+
+/* SERVICES */
+#services-cards-sm {
+  flex-direction: row !important;
+  flex-wrap: nowrap;
+  overflow: auto;
+  height: 300px;
+}
+
+.service-card-sm {
+  width: 250px;
+  height: 250px;
+  border-radius: 10px;
+  margin-right: 50px;
+  flex-shrink: 0;
+  -webkit-box-shadow: inset 0 0 0 200px #0e0e0e, 0px 7px 9px -1px rgba(0, 0, 0, 0.55);
+  box-shadow: inset 0 0 0 200px #0e0e0e, 0px 7px 9px -1px rgba(0, 0, 0, 0.55);
+  background-size: cover;
+  transition: .4s;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center; /* align horizontal */
+  align-items: center; /* align vertical */
+  cursor: pointer;
+}
+
+.service-card-sm:hover {
+  box-shadow: inset 0 0 0 200px #f1f1f1, 0 7px 9px -1px rgba(0, 0, 0, 0.55) !important;
+  transform: scale(1.02);
+  color: black;
+}
+
+.service-name {
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  #services-section {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+/* END SERVICES */

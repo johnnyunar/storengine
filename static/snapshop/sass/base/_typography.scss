@@ -1,0 +1,93 @@
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+p {
+  font-size: 18px;
+  max-width: 800px;
+}
+
+h1 {
+  font-size: 35px;
+}
+
+h2 {
+  font-size: 31px;
+}
+
+h3 {
+  font-weight: 400;
+  font-size: 23px;
+}
+
+small {
+  text-align: left;
+}
+
+/* FIXME: NOT LIKE THIS - REMOVE ASAP !!!! */
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  font-family: 'Space Grotesk', sans-serif;
+  text-align: left;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  color: white;
+  background: #0e1513;
+  scroll-padding-top: 100px;
+}
+
+main {
+  background: $primary-color;
+  min-height: 500px;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.img-center {
+  display: block;
+  margin: 0 auto;
+}
+
+.w-300 {
+  width: 300px !important;
+}
+
+@media screen and (max-width: 1025px) {
+  .w-300 {
+    width: 200px !important;
+  }
+}
+
+.mw-300 {
+  max-width: 300px !important;
+}
+
+
+.no-select {
+  user-select: none;
+}
+
+.close {
+  cursor: pointer;
+}
+
+section.headline {
+  padding-bottom: 0;
+}
+
+section.headline h1 {
+  text-align: center;
+}

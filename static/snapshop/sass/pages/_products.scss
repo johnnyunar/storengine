@@ -1,0 +1,19 @@
+#products {
+  justify-content: space-around;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+
+  img {
+    margin-top: 30px;
+    width: 30%;
+  }
+}
+
+.product-img {
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+}

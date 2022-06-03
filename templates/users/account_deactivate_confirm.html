@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static i18n l10n %}
+
+{% block title %}{% trans "Confirm Deactivating Your Account" %}{% endblock %}
+{% block extrahead %}
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section class="headline">
+        <img class="warning-image-center" src="{% static 'users/images/pause-cloud.svg' %}">
+    </section>
+    <section class="flex-section" id="login">
+        <div class="login-form warning-form">
+            {% if user.is_authenticated %}
+                <form method="post">
+                    {% csrf_token %}
+                    <p>{{ user.first_name }}! Are you sure you want to deactivate your account?<br/>
+                        All of your subscriptions will be stopped and your account will be set to inactive.<br/>
+                        Your data will not be deleted and we can reactivate your account on your request.
+                        See you later then!
+                    </p>
+                    <input type="submit" class="cta center bg-warning"
+                           value="{% trans 'Yes! Deactivate my account!' %}">
+                    <p>
+                        <span><i class="fas fa-angle-double-left"></i>&nbsp;<a
+                                href="{% url 'profile' %}">{% trans "Nope! Take me back." %}</a></span>
+                    </p>
+                </form>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

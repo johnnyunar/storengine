@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}{% trans 'Contact' %}{% endblock %}
+{% block content %}
+    <section class="first">
+    </section>
+
+    <section class="contact first">
+        <div class="flex-section">
+            <h1>{% trans 'Contact' %}</h1>
+            <p>
+                {{ content_settings.full_name }}<br/>
+                {% if content_settings.vat_id %}
+                    {% trans "VAT ID" %}: {{ content_settings.vat_id }}<br/>
+                {% endif %}
+                {{ content_settings.phone_number }}<br/><br/>
+                <a href="mailto:{{ content_settings.email }}" target="_blank">{{ content_settings.email }}</a>
+            </p>
+            <div class="social-contact">
+                {% if content_settings.instagram_link %}
+                    <a href="{{ content_settings.instagram_link }}" target="_blank">
+                        <img src="{% static 'snapshop/images/iglogo.png' %}">
+                    </a>
+                {% endif %}
+                {% if content_settings.facebook_link %}
+                    <a href="{{ content_settings.facebook_link }}" target="_blank">
+                        <img src="{% static 'snapshop/images/fblogo.png' %}">
+                    </a>
+                {% endif %}
+                {% if content_settings.linkedin_link %}
+                    <a href="{{ content_settings.linkedin_link }}" target="_blank">
+                        <img src="{% static 'snapshop/imfages/lilogo.png' %}">
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <br/>
+    </section>
+    <section class="first">
+        <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1s4s2ejU8DO0kmlF4gyU4fytMPJO5PAPk&ehbc=2E312F"
+                width="100%"
+                height="600"
+                style="border:0;"></iframe>
+    </section>
+{% endblock %}
+

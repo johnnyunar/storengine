@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static i18n l10n djmoney %}
+{% block title %}FAQ{% endblock %}
+{% block extrahead %}
+    <script src="{% static 'snapshop/js/faq.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <section id="faqs">
+        <h1>FAQ</h1>
+        {% for faq in faqs %}
+            <div class="faq">
+                <div class="question">{{ faq.question | safe }}</div>
+                <div class="answer">{{ faq.answer | safe }}</div>
+            </div>
+        {% empty %}
+            <h2 class="text-center">{% trans "Come back later!" %}</h2>
+        {% endfor %}
+    </section>
+{% endblock %}
+

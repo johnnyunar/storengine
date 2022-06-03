@@ -1,0 +1,1170 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-26 17:33+0200\n"
+"PO-Revision-Date: 2021-09-28 01:26:39\n"
+"Last-Translator: Server <johnny@unar.dev>\n"
+"Language-Team: English <johnny@unar.devt>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: automations/apps.py:8 automations/models.py:88
+msgid "Automations"
+msgstr "Automatizace"
+
+#: automations/const.py:6
+msgid "New User"
+msgstr "Nový Uživatel"
+
+#: automations/const.py:7
+msgid "New Order"
+msgstr "Nová Objednávka"
+
+#: automations/const.py:8
+msgid "New Quiz Record"
+msgstr "Nový Kvízový Záznam"
+
+#: automations/models.py:13
+msgid "Trigger Type"
+msgstr "Typ Spouště"
+
+#: automations/models.py:15 automations/models.py:28 automations/models.py:73
+#: mails/models.py:37 shop/models.py:134 shop/models.py:148 shop/models.py:280
+msgid "Name"
+msgstr "Název"
+
+#: automations/models.py:16 automations/models.py:29 automations/models.py:78
+#: users/models.py:57
+msgid "Is Active"
+msgstr "Aktivní"
+
+#: automations/models.py:22 automations/models.py:75
+msgid "Trigger"
+msgstr "Spoušť"
+
+#: automations/models.py:23
+msgid "Triggers"
+msgstr "Spouště"
+
+#: automations/models.py:27
+msgid "Action ID"
+msgstr "ID Akce"
+
+#: automations/models.py:35
+msgid "Action"
+msgstr "Akce"
+
+#: automations/models.py:36 automations/models.py:77
+msgid "Actions"
+msgstr "Všechny Akce"
+
+#: automations/models.py:45
+msgid "Recipients"
+msgstr "Příjemci"
+
+#: automations/models.py:47
+msgid ""
+"Enter a list of email addresses divided by a comma. In case of trigger "
+"notifications, this list will be used instead of the trigger recipient data."
+msgstr ""
+"Zadej seznam adres oddělených čárkou. V případě notifikací o spouštích bude "
+"tento seznam použit místo dat ze spouště."
+
+#: automations/models.py:52
+msgid "Trigger Notification"
+msgstr "Notifikace o Spoušti"
+
+#: automations/models.py:53
+msgid "Internal Notification"
+msgstr "Interní Notifikace"
+
+#: automations/models.py:68
+msgid "Email Action"
+msgstr "Emailová Akce"
+
+#: automations/models.py:69
+msgid "Email Actions"
+msgstr "Emailové Akce"
+
+#: automations/models.py:80 core/models.py:161 core/models.py:189
+#: mails/models.py:55 shop/models.py:36 shop/models.py:114 shop/models.py:248
+#: shop/models.py:295 shop/models.py:370 users/models.py:17
+msgid "Created At"
+msgstr "Vytvořeno"
+
+#: automations/models.py:81 core/models.py:78 core/models.py:162
+#: core/models.py:190 mails/models.py:56 shop/models.py:37 shop/models.py:115
+#: shop/models.py:249 shop/models.py:296 shop/models.py:371 users/models.py:18
+msgid "Updated At"
+msgstr "Upraveno"
+
+#: automations/models.py:87
+msgid "Automation"
+msgstr "Automatizace"
+
+#: core/admin.py:30
+msgid "Homepage"
+msgstr "Homepage"
+
+#: core/admin.py:47
+msgid "Notifications"
+msgstr "Notifikace"
+
+#: core/admin.py:56
+msgid "Global"
+msgstr "Globální"
+
+#: core/admin.py:60 templates/czechtarzan/contact.html:3
+#: templates/czechtarzan/contact.html:10
+msgid "Contact"
+msgstr "Kontakt"
+
+#: core/admin.py:73
+msgid "Billing"
+msgstr "Fakturace"
+
+#: core/admin.py:87
+msgid "Legal"
+msgstr "Právní"
+
+#: core/admin.py:168 core/models.py:152
+msgid "Question"
+msgstr "Otázka"
+
+#: core/admin.py:169 core/models.py:153
+msgid "Answer"
+msgstr "Odpověď"
+
+#: core/models.py:23 shop/models.py:299 shop/models.py:402 shop/models.py:476
+#: shop/models.py:520
+msgid "Order"
+msgstr "Objednávka"
+
+#: core/models.py:30
+msgid "Testimonial"
+msgstr "Recenze"
+
+#: core/models.py:31 templates/czechtarzan/home.html:88
+msgid "Testimonials"
+msgstr "Řekli o mně"
+
+#: core/models.py:40 core/models.py:178 shop/models.py:437
+msgid "Reduce"
+msgstr "Zhubnout"
+
+#: core/models.py:41 core/models.py:179 shop/models.py:438
+msgid "Gain"
+msgstr "Nabrat"
+
+#: core/models.py:42 core/models.py:180 shop/models.py:439
+msgid "Sustain"
+msgstr "Udržet"
+
+#: core/models.py:69
+msgid "Plan Type"
+msgstr "Typ Programu"
+
+#: core/models.py:77
+msgid "Added At"
+msgstr "Přidáno"
+
+#: core/models.py:85
+msgid "Ebook"
+msgstr "Ebook"
+
+#: core/models.py:86
+msgid "Ebooks"
+msgstr "Ebooky"
+
+#: core/models.py:117
+msgid "Button"
+msgstr "Tlačítko"
+
+#: core/models.py:118
+msgid "Buttons"
+msgstr "Tlačítka"
+
+#: core/models.py:124
+msgid "At least custom_html or a link must be specified."
+msgstr "Alespoň custom html nebo link musí být vyplněn."
+
+#: core/models.py:127
+msgid "Link must be specified with text."
+msgstr "Link i text musí být vyplněny."
+
+#: core/models.py:131
+msgid "Number"
+msgstr "Číslo"
+
+#: core/models.py:131
+msgid "E.g. 420 or 69+"
+msgstr "Např. 420 nebo 69+"
+
+#: core/models.py:133
+msgid "Text"
+msgstr "Text"
+
+#: core/models.py:133
+msgid "E.g. Clients or Lectures"
+msgstr "Např. 'Clients' nebo 'Lekcí'"
+
+#: core/models.py:137 core/models.py:156 shop/models.py:175
+msgid "Ordering"
+msgstr "Pořadí"
+
+#: core/models.py:140 core/models.py:159 shop/models.py:136 shop/models.py:172
+#: shop/models.py:293
+msgid "Available"
+msgstr "Dostupné"
+
+#: core/models.py:147
+msgid "Counter"
+msgstr "Počítadlo"
+
+#: core/models.py:148
+msgid "Counters"
+msgstr "Počítadla"
+
+#: core/models.py:166
+msgid "Frequently Asked Question"
+msgstr "Často Kladená Otázka"
+
+#: core/models.py:167
+msgid "Frequently Asked Questions"
+msgstr "Často Kladené Otázky"
+
+#: core/models.py:172 shop/models.py:431
+msgid "Male"
+msgstr "Muž"
+
+#: core/models.py:173 shop/models.py:432
+msgid "Female"
+msgstr "Žena"
+
+#: core/models.py:174 shop/models.py:433
+msgid "Other / Don't wish to respond"
+msgstr "Jiné / Nechci odpovídat"
+
+#: core/models.py:183 shop/models.py:442
+msgid "Gender"
+msgstr "Pohlaví"
+
+#: core/models.py:184 shop/models.py:443
+msgid "Age"
+msgstr "Věk"
+
+#: core/models.py:185 shop/models.py:444
+msgid "Goal"
+msgstr "Cíl"
+
+#: core/models.py:186 shop/models.py:211 users/models.py:27
+msgid "First Name"
+msgstr "Křestní Jméno"
+
+#: core/models.py:196
+msgid "Quiz Record"
+msgstr "Kvízový Záznam"
+
+#: core/models.py:197
+msgid "Quiz Records"
+msgstr "Kvízové Záznamy"
+
+#: core/models.py:208
+msgid "Show notification bar"
+msgstr "Zobrazit Notifikační Lištu"
+
+#: core/models.py:213
+msgid "Notification text"
+msgstr "Text Notifikace"
+
+#: core/models.py:221
+msgid "Hero Title"
+msgstr "Hero Nadpis"
+
+#: core/models.py:225
+msgid "This is the big title that shows up in the hero section."
+msgstr "Tento nadpis se ukazuje jako největší v Hero sekci."
+
+#: core/models.py:229
+msgid "Hero Video"
+msgstr "Hero Video"
+
+#: core/models.py:241
+msgid "Hero Subheading"
+msgstr "Hero Podnadpis"
+
+#: core/models.py:245
+msgid "This is the text that shows up under the title in the hero section."
+msgstr "Tento podnadpis se ukazuje pod nadpisem v Hero sekci."
+
+#: core/models.py:248
+msgid "Quiz Heading"
+msgstr "Nadpis u Kvízu"
+
+#: core/models.py:249
+msgid "Quiz Subheading"
+msgstr "Podnadpis u Kvízu"
+
+#: core/models.py:253
+msgid "About Me Section Image"
+msgstr "Obrázek v Sekci \"O Mně\""
+
+#: core/models.py:271
+msgid "Hero Section Image"
+msgstr "Obrázek v Hero Sekci"
+
+#: core/models.py:278
+msgid "Ebook Text"
+msgstr "Ebook Text"
+
+#: core/models.py:281
+msgid "Footer Section Image"
+msgstr "Obrázek v Patičce"
+
+#: core/models.py:290 shop/models.py:395
+msgid "Full Name"
+msgstr "Celé Jméno"
+
+#: core/models.py:297 templates/czechtarzan/contact.html:13
+#: templates/shop/invoice_detail.html:53 templates/shop/invoice_detail.html:89
+msgid "VAT ID"
+msgstr "IČO"
+
+#: core/models.py:304 shop/models.py:221
+msgid "Phone Number"
+msgstr "Telefonní Číslo"
+
+#: core/models.py:311 mails/models.py:97 shop/models.py:220 users/models.py:26
+msgid "Email"
+msgstr ""
+
+#: core/models.py:320
+msgid "GDPR Text"
+msgstr "GDPR"
+
+#: core/models.py:322
+msgid "Terms And Conditions Text"
+msgstr "Obchodní Podmínky"
+
+#: core/models.py:326
+msgid "GDPR Document"
+msgstr "GDPR Dokument"
+
+#: core/models.py:334
+msgid "Terms And Conditions Document"
+msgstr "Obchodní Podmínky"
+
+#: core/models.py:342 shop/filters.py:24 shop/models.py:271 shop/models.py:331
+msgid "Billing Address"
+msgstr "Fakturační Adresa"
+
+#: core/models.py:343 shop/models.py:237
+msgid "ZIP"
+msgstr "PSČ"
+
+#: core/models.py:344 shop/models.py:242
+msgid "City"
+msgstr "Město"
+
+#: core/models.py:345
+msgid "Default Number of Days until Invoice is Due"
+msgstr "Výchozí Splatnost Faktur (dny)"
+
+#: core/models.py:346 templates/shop/invoice_detail.html:61
+msgid "Bank Account"
+msgstr "Bankovní Účet"
+
+#: core/models.py:347
+msgid "VAT Payer"
+msgstr "Plátce DPH"
+
+#: core/models.py:353
+msgid "Content Settings"
+msgstr "Správa Obsahu"
+
+#: czechtarzan/settings/settings.py:169
+msgid "Czech"
+msgstr "Česky"
+
+#: czechtarzan/settings/settings.py:170
+msgid "English"
+msgstr ""
+
+#: mails/admin.py:14 mails/models.py:85
+msgid "Attachments"
+msgstr "Přílohy"
+
+#: mails/apps.py:8
+msgid "Mails"
+msgstr "Emaily"
+
+#: mails/models.py:17
+msgid "Order Confirmation Email"
+msgstr "Potvrzení Objednávky"
+
+#: mails/models.py:18
+msgid "This email format is great for order confirmations."
+msgstr "Tento email se hodí pro potvrzení objednávek."
+
+#: mails/models.py:25
+msgid "Internal Notification Email"
+msgstr "Interní Notifikace"
+
+#: mails/models.py:26
+msgid "This email format is great for internal notifications."
+msgstr "Tento email se hodí pro interní notifikace."
+
+#: mails/models.py:39
+msgid "File"
+msgstr "Soubor"
+
+#: mails/models.py:46
+msgid "Send as"
+msgstr "Poslat jako"
+
+#: mails/models.py:49
+msgid ""
+"This filename will be used as the attachment name. For example: "
+"my_great_ebook.pdf. In case you enter a filename without extension "
+"(my_great_ebook), the extension will be added automatically corresponding to "
+"the uploaded file."
+msgstr ""
+"Tento název bude použit jako název souboru přílohy. Např.: muj_skvely_ebook."
+"pdf. V případě, že zadáš název bez přípony (muj_skvely_ebook), přípona se "
+"přidá automaticky podle nahraného souboru."
+
+#: mails/models.py:72
+msgid "Email Attachment"
+msgstr "Příloha Emailu"
+
+#: mails/models.py:73
+msgid "Email Attachments"
+msgstr "Přílohy Emailů"
+
+#: mails/models.py:98
+msgid "Emails"
+msgstr "Emaily"
+
+#: shop/admin.py:56 shop/models.py:344
+msgid "Order Number"
+msgstr "Číslo Objednávky"
+
+#: shop/admin.py:57 shop/models.py:33
+msgid "Payment Data"
+msgstr "Data Platby"
+
+#: shop/admin.py:78 shop/admin.py:101 shop/models.py:155
+msgid "Description"
+msgstr "Popisek"
+
+#: shop/apps.py:7
+msgid "Shop"
+msgstr "Obchod"
+
+#: shop/filters.py:10
+msgid "Address Type"
+msgstr "Typ Adresy"
+
+#: shop/filters.py:25 shop/models.py:265 shop/models.py:410
+msgid "Shipping Address"
+msgstr "Doručovací Adresa"
+
+#: shop/models.py:28
+msgid "Payment ID"
+msgstr "ID Platby"
+
+#: shop/models.py:31
+msgid "Payment Status"
+msgstr "Stav Platby"
+
+#: shop/models.py:34 shop/models.py:342
+msgid "Paid"
+msgstr "Zaplaceno"
+
+#: shop/models.py:55 shop/models.py:362
+msgid "GoPay Payment"
+msgstr "GoPay Platba"
+
+#: shop/models.py:56
+msgid "GoPay Payments"
+msgstr "GoPay Platby"
+
+#: shop/models.py:62 shop/models.py:154
+msgid "Amount"
+msgstr "Množství"
+
+#: shop/models.py:64 shop/models.py:106 shop/models.py:169
+msgid "Price"
+msgstr "Cena"
+
+#: shop/models.py:142
+msgid "Category"
+msgstr "Kategorie"
+
+#: shop/models.py:143
+msgid "Categories"
+msgstr "Kategorie"
+
+#: shop/models.py:157
+msgid "Short Description"
+msgstr "Krátký Popisek"
+
+#: shop/models.py:159
+msgid "External URL"
+msgstr "Externí URL"
+
+#: shop/models.py:162 shop/models.py:286
+msgid "Image"
+msgstr "Obrázek"
+
+#: shop/models.py:188
+msgid "Product"
+msgstr "Produkt"
+
+#: shop/models.py:189 templates/shop/products.html:3
+#: templates/shop/products.html:9 templates/users/account_orders.html:41
+msgid "Products"
+msgstr "Produkty"
+
+#: shop/models.py:195 shop/models.py:479
+msgid "Service"
+msgstr "Služba"
+
+#: shop/models.py:196 templates/czechtarzan/home.html:64
+#: templates/shop/services.html:3 templates/shop/services.html:6
+#: templates/users/account_orders.html:13
+msgid "Services"
+msgstr "Služby"
+
+#: shop/models.py:207 shop/models.py:318 users/models.py:73
+msgid "User"
+msgstr "Uživatel"
+
+#: shop/models.py:216 users/models.py:28
+msgid "Last Name"
+msgstr "Příjmení"
+
+#: shop/models.py:222
+msgid "Company"
+msgstr "Společnost"
+
+#: shop/models.py:225
+msgid "Address line 1"
+msgstr "Adresa 1"
+
+#: shop/models.py:230
+msgid "Address line 2"
+msgstr "Adresa 2"
+
+#: shop/models.py:246
+msgid "Country"
+msgstr "Stát"
+
+#: shop/models.py:259
+msgid "Address"
+msgstr "Adresa"
+
+#: shop/models.py:260
+msgid "Addresses"
+msgstr "Adresy"
+
+#: shop/models.py:266
+msgid "Shipping Addresses"
+msgstr "Doručovací Adresy"
+
+#: shop/models.py:272
+msgid "Billing Addresses"
+msgstr "Fakturační Adresy"
+
+#: shop/models.py:282
+msgid "Should be human readable, this will be displayed on checkout."
+msgstr "Zobrazí u platby."
+
+#: shop/models.py:284
+msgid "Slug"
+msgstr ""
+
+#: shop/models.py:307 shop/models.py:339
+msgid "Billing Type"
+msgstr "Způsob Platby"
+
+#: shop/models.py:308
+msgid "Billing Types"
+msgstr "Způsoby Platby"
+
+#: shop/models.py:321 shop/models.py:460
+msgid "Total Price"
+msgstr "Celková Cena"
+
+#: shop/models.py:341
+msgid "Newsletter Subscribe"
+msgstr "Odběr Newsletteru"
+
+#: shop/models.py:351
+msgid "Internal Notification Sent"
+msgstr "Interní Notifikace Poslána"
+
+#: shop/models.py:354
+msgid "Confirmation Email Sent"
+msgstr "Potvrzovací Email Poslán"
+
+#: shop/models.py:403
+msgid "Orders"
+msgstr "Objednávky"
+
+#: shop/models.py:415
+msgid "Shipping Type"
+msgstr "Způsob Dopravy"
+
+#: shop/models.py:425
+msgid "Product Order"
+msgstr "Objednávka Produktů"
+
+#: shop/models.py:426
+msgid "Product Orders"
+msgstr "Objednávky Produktů"
+
+#: shop/models.py:453
+msgid "Service Order"
+msgstr "Objednávka Služeb"
+
+#: shop/models.py:454
+msgid "Service Orders"
+msgstr "Objednávky Služeb"
+
+#: shop/models.py:458
+msgid "Quantity"
+msgstr "Množství"
+
+#: shop/models.py:469
+msgid "Order Item"
+msgstr "Položka Objednávky"
+
+#: shop/models.py:470
+msgid "Order Items"
+msgstr "PoložkyObjednávky"
+
+#: shop/models.py:522 templates/shop/invoice_detail.html:101
+msgid "Due Date"
+msgstr "Datum Splatnosti"
+
+#: shop/models.py:537 templates/shop/invoice_detail.html:7
+#: templates/shop/invoice_detail.html:40 templates/users/account_orders.html:29
+#: templates/users/account_orders.html:55
+msgid "Invoice"
+msgstr "Faktura"
+
+#: shop/models.py:538
+msgid "Invoices"
+msgstr "Faktury"
+
+#: shop/urls.py:17
+msgid "Thank You for your order! It is paid."
+msgstr "Díky za Tvou objednávku! Vše je zaplacené."
+
+#: shop/urls.py:20
+msgid ""
+"Thank You for your order! It was not paid, please check your payment status "
+"in your email."
+msgstr ""
+"Díky za Tvou objednávku! Nebyla zaplacená, proto prosím zkontroluj stav "
+"platby ve svém emailu."
+
+#: templates/404.html:3 templates/404.html:9
+msgid "Page Not Found"
+msgstr "Stránka Nenalezena"
+
+#: templates/base.html:66 templates/base.html:120
+msgid "HOME"
+msgstr "DOMŮ"
+
+#: templates/base.html:67 templates/base.html:121
+msgid "ABOUT"
+msgstr "O&nbsp;MNĚ"
+
+#: templates/base.html:68
+msgid "SERVICES"
+msgstr "SLUŽBY"
+
+#: templates/base.html:69
+msgid "PRODUCTS"
+msgstr "PRODUKTY"
+
+#: templates/base.html:70 templates/base.html:122
+msgid "CONTACT"
+msgstr "KONTAKT"
+
+#: templates/base.html:71 templates/base.html:123
+msgid "FAQ"
+msgstr "FAQ"
+
+#: templates/base.html:77
+msgid "Change Language"
+msgstr "Změnit Jazyk"
+
+#: templates/base.html:81 templates/users/account_base.html:3
+#: templates/users/account_base.html:6
+msgid "Account"
+msgstr "Účet"
+
+#: templates/base.html:84
+msgid "Log Out"
+msgstr "Odhlásit se"
+
+#: templates/base.html:125
+msgid "T & C"
+msgstr "OP"
+
+#: templates/base.html:205 templates/users/account_index.html:32
+msgid "Save"
+msgstr "Uložit"
+
+#: templates/czechtarzan/faq.html:16 templates/shop/products.html:28
+#: templates/shop/services.html:24
+msgid "Come back later!"
+msgstr "Sekce se připravuje. Brzy se vraťte!"
+
+#: templates/czechtarzan/gdpr.html:3
+msgid "GDPR"
+msgstr "GDPR"
+
+#: templates/czechtarzan/gdpr.html:10
+#: templates/czechtarzan/terms_and_conditions.html:9
+#: templates/shop/invoice_detail.html:125
+msgid "Download"
+msgstr "Stáhnout"
+
+#: templates/czechtarzan/home.html:41
+msgid "TAKE THE QUIZ"
+msgstr "VYPLNIT KVÍZ"
+
+#: templates/czechtarzan/home.html:46
+msgid "Who is Czech Tarzan?"
+msgstr "Kdo je český Tarzan?"
+
+#: templates/czechtarzan/home.html:75
+msgid "NOT SURE? TRY A FREE QUIZ!"
+msgstr "NEVÍŠ? ZKUS KVÍZ ZDARMA!"
+
+#: templates/czechtarzan/quiz.html:3 templates/shop/service_order_step_1.html:3
+#: templates/shop/service_order_step_2.html:3
+msgid "Quiz"
+msgstr "Dotazník"
+
+#: templates/czechtarzan/quiz.html:6 templates/shop/service_order_step_1.html:6
+#: templates/shop/service_order_step_2.html:7
+msgid "Physique Quiz"
+msgstr "Vstupní Dotazník"
+
+#: templates/czechtarzan/quiz.html:7
+msgid "Fill the Quiz and find the perfect workout plan just for you."
+msgstr "Vyplň dotazník a najdi program přesně pro sebe."
+
+#: templates/czechtarzan/quiz.html:23
+#: templates/registration/password_reset_confirm.html:24
+#: templates/registration/password_reset_form.html:27
+msgid "Submit"
+msgstr "Odeslat"
+
+#: templates/czechtarzan/quiz.html:25
+msgid "You will find your perfect plan in your inbox!"
+msgstr "Svůj program najdeš ve schránce!"
+
+#: templates/czechtarzan/quiz.html:26
+msgid ""
+"By submitting this form you agree to our Terms And Conditions and processing "
+"your personal data."
+msgstr ""
+"Odesláním tohoto formuláře souhlasíte s našimi obchodními podmínkami a se "
+"zpracováním osobních dat."
+
+#: templates/czechtarzan/terms_and_conditions.html:3
+#: templates/czechtarzan/terms_and_conditions.html:6
+msgid "Terms And Conditions"
+msgstr "Obchodní Podmínky"
+
+#: templates/mails/internal_notification.html:8
+#: templates/mails/order_confirmation.html:8
+msgid "Email Confirmation"
+msgstr "Potvrzení"
+
+#: templates/mails/internal_notification.html:111
+#: templates/mails/order_confirmation.html:111
+#: templates/mails/order_confirmation.html:160
+msgid "Thank you for your order!"
+msgstr "Díky za Tvou objednávku!"
+
+#: templates/mails/internal_notification.html:231
+msgid "You received this email because you are a staff member at adambuzek.cz."
+msgstr ""
+"Obrdželi jste tento email, protože jste vedeni jako zaměstnanci na webu "
+"adambuzek.cz"
+
+#: templates/mails/order_confirmation.html:187
+msgid "You have just created a new order at"
+msgstr "Právě jsi zadal novou objednávku na"
+
+#: templates/mails/order_confirmation.html:190
+msgid "You ordered: "
+msgstr "Objednal sis: "
+
+#: templates/mails/order_confirmation.html:203
+msgid "Total"
+msgstr "Celkem"
+
+#: templates/mails/order_confirmation.html:213
+msgid "See you soon then!"
+msgstr "Vidíme se brzy!"
+
+#: templates/mails/order_confirmation.html:244
+msgid ""
+"\n"
+"                                You received this email because we received "
+"a new order request with this\n"
+"                                email address.\n"
+"                                If you didn't order anything from me, you "
+"can safely delete this email.\n"
+"                            "
+msgstr ""
+
+#: templates/registration/login.html:4 templates/registration/login.html:8
+#: templates/registration/signup.html:8
+msgid "Login"
+msgstr "Přihlášení"
+
+#: templates/registration/login.html:34
+msgid "Log In"
+msgstr "Přihlásit se"
+
+#: templates/registration/login.html:35
+msgid "No account yet?"
+msgstr "Ještě nemáš účet?"
+
+#: templates/registration/login.html:36
+#: templates/registration/password_reset_form.html:8
+msgid "Forgot Password?"
+msgstr "Zapomněl jsi heslo?"
+
+#: templates/registration/password_reset_complete.html:4
+msgid "Password Changed"
+msgstr "Heslo Změněno"
+
+#: templates/registration/password_reset_complete.html:14
+msgid "Your password has been changed!"
+msgstr "Tvoje heslo bylo změněno!"
+
+#: templates/registration/password_reset_complete.html:15
+msgid "You can now log in."
+msgstr "Teď se můžeš přihlásit."
+
+#: templates/registration/password_reset_confirm.html:4
+msgid "Password Reset"
+msgstr "Reset Hesla"
+
+#: templates/registration/password_reset_confirm.html:8
+#: templates/users/account_index.html:38
+msgid "Reset Password"
+msgstr "Reset Hesla"
+
+#: templates/registration/password_reset_confirm.html:13
+msgid "You can set your new password right here."
+msgstr "Tady si můžeš nastavit nové heslo."
+
+#: templates/registration/password_reset_confirm.html:27
+msgid "Your reset link is either invalid or you already used it."
+msgstr "Tvůj odkaz je pravděpodobně neplatný nebo jsi ho již použil."
+
+#: templates/registration/password_reset_done.html:4
+msgid "Check Your Inbox"
+msgstr "Zkontroluj svoji schránku"
+
+#: templates/registration/password_reset_done.html:8
+msgid "Check your inbox!"
+msgstr "Zkontroluj svoji schránku!"
+
+#: templates/registration/password_reset_done.html:13
+msgid ""
+"You should soon find the instructions for resetting your password right in "
+"your inbox."
+msgstr "Instrukce pro reset hesla bys brzy měl mít ve schránce."
+
+#: templates/registration/password_reset_form.html:4
+msgid "Forgot Password"
+msgstr "Zapomenuté Heslo"
+
+#: templates/registration/password_reset_form.html:12
+msgid "Just leave your email here to get a reset link right away."
+msgstr "Nech tady svůj email a do schránky ti hned přijde odkaz."
+
+#: templates/registration/signup.html:4
+msgid "Signup"
+msgstr "Registrace"
+
+#: templates/registration/signup.html:27
+msgid "Sign Up"
+msgstr "Registrovat se"
+
+#: templates/registration/signup.html:28
+msgid "Already a Member?"
+msgstr "Už máš účet?"
+
+#: templates/registration/signup.html:29
+msgid ""
+"By clicking Sign Up, you agree to our Terms and that you have read our Data "
+"Use Policy, including our Cookie Use."
+msgstr ""
+"Kliknutím na \"Registrovat se\" souhlasíš s <a href=\"/terms-and-conditions"
+"\">obchodními podmínkami</a> a s tím, že jsi četl <a href=\"/gdpr\">poučení "
+"o zpracování osobních dat.</a>"
+
+#: templates/shop/error.html:3
+msgid "Something went wrong"
+msgstr "Něco se pokazilo"
+
+#: templates/shop/error.html:9
+msgid "I'm sorry :("
+msgstr "Omlouvám se :("
+
+#: templates/shop/error.html:12
+msgid "I'm sorry, something went wrong. Please try again later."
+msgstr "Omlouvám se, něco se pokazilo. Zkus to prosím znovu."
+
+#: templates/shop/invoice_detail.html:33
+msgid "This Invoice has already been paid. Do not pay anything."
+msgstr "Faktura je již zaplacená. Nic neplaťte."
+
+#: templates/shop/invoice_detail.html:44
+msgid "Supplier"
+msgstr "Dodavatel"
+
+#: templates/shop/invoice_detail.html:56
+msgid "VAT Payer, Not a VAT Payer"
+msgstr "Plátce DPH, Neplátce DPH"
+
+#: templates/shop/invoice_detail.html:67
+msgid "Variable Symbol"
+msgstr "Variabilní Symbol"
+
+#: templates/shop/invoice_detail.html:72
+msgid "Payment Method"
+msgstr "Způsob Platby"
+
+#. Translators: Customer on Invoice
+#: templates/shop/invoice_detail.html:79
+msgid "Customer"
+msgstr "Odběratel"
+
+#: templates/shop/invoice_detail.html:97
+msgid "Issue Date"
+msgstr "Datum Vystavení"
+
+#: templates/shop/invoice_detail.html:126
+msgid "Share"
+msgstr "Sdílet"
+
+#: templates/shop/invoice_detail.html:127
+msgid ""
+"Only you can view this invoice. If you would like to share this page, click "
+"here."
+msgstr ""
+"Pouze ty si můžeš zobrazit svoje faktury. Pokud s někým chceš sdílet tuto "
+"stránku, klikni zde."
+
+#: templates/shop/products.html:25 templates/shop/products.html:47
+msgid "Buy Now"
+msgstr "Koupit"
+
+#: templates/shop/service_order_step_1.html:3
+msgid "Step 1"
+msgstr "Krok 1"
+
+#: templates/shop/service_order_step_1.html:9
+#: templates/shop/service_order_step_2.html:10
+msgid "I am so happy you want to start working out with me!"
+msgstr "Jsem moc rád, že se mnou chceš začít svoji cestu!"
+
+#: templates/shop/service_order_step_1.html:10
+#: templates/shop/service_order_step_2.html:11
+msgid ""
+"Before we start, I need to know some stuff about you and your goals. Don't "
+"worry, your data are safe."
+msgstr ""
+"Než začneme, budu od tebe potřebovat pár informací o tobě a tvých cílech. "
+"Neboj, tvoje data jsou v bezpečí."
+
+#: templates/shop/service_order_step_1.html:22
+msgid "Next"
+msgstr "Další"
+
+#: templates/shop/service_order_step_2.html:3
+msgid "Step 2"
+msgstr "Krok 2"
+
+#: templates/shop/service_order_step_2.html:21
+msgid "Buy now"
+msgstr "Koupit"
+
+#: templates/shop/service_order_step_2.html:23
+msgid "Submit and pay later"
+msgstr "Odeslat a zaplatit později"
+
+#: templates/shop/services.html:20
+msgid "I'm in!"
+msgstr "Jdu do toho!"
+
+#: templates/shop/thank_you.html:3 templates/shop/thank_you.html:6
+msgid "Thank You"
+msgstr "Děkuji"
+
+#: templates/shop/thank_you.html:9
+msgid "Thank You for your order!"
+msgstr "Díky za Tvou objednávku!"
+
+#: templates/users/account_deactivate_confirm.html:4
+msgid "Confirm Deactivating Your Account"
+msgstr "Deaktivovat Účet"
+
+#: templates/users/account_deactivate_confirm.html:24
+msgid "Yes! Deactivate my account!"
+msgstr "Ano! Chci deaktivovat účet"
+
+#: templates/users/account_deactivate_confirm.html:27
+#: templates/users/account_delete_confirm.html:22
+msgid "Nope! Take me back."
+msgstr "To ne! Chci zpět."
+
+#: templates/users/account_delete_confirm.html:4
+msgid "Confirm Deleting Your Account"
+msgstr "Vymazat Účet"
+
+#: templates/users/account_delete_confirm.html:20
+msgid "Yes! Delete my account!"
+msgstr "Ano! Chci vymazat účet"
+
+#: templates/users/account_index.html:3
+msgid "My Account"
+msgstr "Účet"
+
+#: templates/users/account_index.html:7 templates/users/account_orders.html:7
+msgid "GENERAL"
+msgstr "OBECNÉ"
+
+#: templates/users/account_index.html:8 templates/users/account_orders.html:8
+msgid "MY ORDERS"
+msgstr "MOJE OBJEDNÁVKY"
+
+#: templates/users/account_index.html:13
+msgid "User Settings"
+msgstr "Nastavení"
+
+#: templates/users/account_index.html:36
+msgid "DANGER ZONE"
+msgstr "TADY POZOR"
+
+#: templates/users/account_index.html:42
+msgid "Deactivate Account"
+msgstr "Deaktivovat Účet"
+
+#: templates/users/account_index.html:46
+msgid "Delete Account"
+msgstr "Vymazat Účet"
+
+#: templates/users/account_orders.html:3
+msgid "My Orders"
+msgstr "Objednávky"
+
+#: templates/users/account_orders.html:32
+#: templates/users/account_orders.html:58
+msgid "Paid, Not Paid"
+msgstr "Zaplaceno, Nezaplaceno"
+
+#: templates/users/account_orders.html:37
+msgid "You have not ordered any services yet."
+msgstr "Zatím sis neobjednal žádné služby."
+
+#: templates/users/account_orders.html:62
+msgid "You have not ordered any products yet."
+msgstr "Zatím sis neobjednal žádné produkty."
+
+#: users/admin.py:51
+msgid "Permissions"
+msgstr "Oprávnění"
+
+#: users/admin.py:93
+msgid "Important Cookies"
+msgstr "Důležité Cookies"
+
+#: users/admin.py:100
+msgid "Analytic Cookies"
+msgstr "Statistické Cookies"
+
+#: users/admin.py:107
+msgid "Marketing Cookies"
+msgstr "Marketingové Cookies"
+
+#: users/admin.py:114
+msgid "Cookies Updated"
+msgstr "Cookies Aktualizovány"
+
+#: users/apps.py:7 users/models.py:74
+msgid "Users"
+msgstr "Uživatelé"
+
+#: users/managers.py:16
+msgid "The Email must be set"
+msgstr "Email musí být nastaven"
+
+#: users/managers.py:32
+msgid "Superuser must have is_staff=True."
+msgstr ""
+
+#: users/managers.py:34
+msgid "Superuser must have is_superuser=True."
+msgstr ""
+
+#: users/models.py:13
+msgid "Important Cookies Accepted"
+msgstr "Důležité Cookies Povoleny"
+
+#: users/models.py:14
+msgid "Analytic Cookies Accepted"
+msgstr "Statistické Cookies Povoleny"
+
+#: users/models.py:15
+msgid "Marketing Cookies Accepted"
+msgstr "Marketingové Cookies Povoleny"
+
+#: users/models.py:21 users/models.py:22 users/models.py:53
+msgid "Cookies Preferences"
+msgstr "Předvolby Cookies"
+
+#: users/models.py:30
+msgid "Avatar"
+msgstr ""
+
+#: users/models.py:38
+msgid "Newsletter Subscription"
+msgstr "Odběr Newsletteru"
+
+#: users/models.py:42
+msgid "Send Internal Messages"
+msgstr "Posílat Interní Zprávy"
+
+#: users/models.py:43
+msgid "E.g. New orders notifications."
+msgstr "Například o nových objednávkách."
+
+#: users/models.py:56
+msgid "Is Staff"
+msgstr "Zaměstnanec"
+
+#: users/models.py:58
+msgid "Date Joined"
+msgstr "Datum Přidání"
+
+#~ msgid "Type"
+#~ msgstr "Typ"

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static i18n l10n djmoney thumbnail %}
+{% block title %}{% trans 'Services' %}{% endblock %}
+{% block content %}
+    <section class="headline">
+        <h1>{% trans "Services" %}</h1>
+    </section>
+    <section class="flex-section" id="services">
+        {% for service in services %}
+
+            <div class="service-card" id="service-{{ service.pk }}"
+                 {% thumbnail service.image "500x500" crop="center" as im %}style="background-image: url('{{ im.url }}'); box-shadow: inset 0 0 0 200px rgba(33, 33, 33, 0.7), 0px 7px 9px -1px rgba(0, 0, 0, 0.55);"{% endthumbnail %}>
+                <div class="card-text no-select">
+                    <h3>{{ service.name }}</h3>
+                    {{ service.description | safe }}
+                </div>
+                <span class="price">{% money_localize service.price %}</span>
+                <br/><br/>
+                <a href="{% url 'shop:service_order_step_1' service.pk %}"
+                   class="card-cta">{% trans "I'm in!" %}</a>
+            </div>
+        {% empty %}
+            <h2>{% trans "Come back later!" %}</h2>
+        {% endfor %}
+    </section>
+{% endblock %}
+

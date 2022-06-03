@@ -1,0 +1,29 @@
+{% extends 'admin/base.html' %}
+{% load static i18n %}
+
+
+{% block title %}Admin - {{ request.get_host }}{% endblock %}
+
+
+{% block extrahead %}
+    <link href="{% static 'czechtarzan/images/trzn_logo_small_blk.png' %}" rel="shortcut icon" type="image/x-icon">
+    <link href="{% static 'czechtarzan/images/trzn_logo_small_blk.png' %}" rel="apple-touch-icon">
+    <style>
+        .checkbox-row input[type="checkbox"] {
+            display: inline;
+        }
+
+        .ui-tabs {
+            margin-bottom: 20px;
+        }
+
+        .readonly a {
+            display: inline-block;
+            line-height: 2.28571rem;
+        }
+    </style>
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name">{{ request.get_host }} ADMIN</h1>
+{% endblock %}

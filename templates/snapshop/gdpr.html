@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static i18n l10n djmoney %}
+{% block title %}{% trans 'GDPR' %}{% endblock %}
+{% block content %}
+    <section>
+        <h1>GDPR</h1>
+        {{ content_settings.gdpr_text | safe }}
+        {% if content_settings.gdpr_file %}
+            <a class="cta center" href="{{ content_settings.gdpr_file.url }}"
+               download>{% trans 'Download' %}</a>
+        {% endif %}
+    </section>
+{% endblock %}
+

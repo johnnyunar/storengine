@@ -1,0 +1,62 @@
+/* FIXME: Further divide */
+
+small {
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+}
+
+#quiz-form {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.steps-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-divider {
+    margin: 0 10px 0 10px;
+}
+
+.step {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: space-around;
+    width: 45px;
+    height: 45px;
+    background: none;
+    border: 1px white solid;
+    border-radius: 100%;
+    cursor: pointer;
+    transition: 400ms;
+    text-decoration: none;
+    color: white;
+}
+
+.step:hover {
+    background: $orange-color;
+    border: none;
+}
+
+label {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+    margin-top: 20px;
+}
+
+label[for="id_newsletter_subscribe"] {
+    width: auto;
+}
+
+@media screen and (max-width: 765px) {
+    #quiz-form {
+        width: 90%;
+    }
+}

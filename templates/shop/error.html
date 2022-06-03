@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static i18n l10n %}
+{% block title %}{% trans 'Something went wrong' %}{% endblock %}
+{% block extrahead %}
+    <script src="{% static 'shop/js/shop.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <section class="headline">
+        <h1>{% trans "I'm sorry :(" %}</h1>
+    </section>
+    <section class="flex-section" id="products">
+        <h2>{% trans "I'm sorry, something went wrong. Please try again later." %}</h2>
+    </section>
+{% endblock %}
+
