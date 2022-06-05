@@ -10,3 +10,5 @@ from .models import (
 from .snippets import PageSection, Button
 
 from .pages import HomePage
+
+from .site_settings import SocialMediaSettings, BrandSettings

@@ -1,0 +1,20 @@
+{% load static %}
+<section class="hero">
+    {% if hero.video %}
+        <video class="hero-video fade-in" playsinline autoplay loop muted disablePictureInPicture
+               controlsList="nodownload">
+            <source src="{{ hero.video.url }}" type="video/mp4">
+        </video>
+    {% endif %}
+    <div id="particles-js">
+        <div class="heading">
+            <h1 class="hero-title no-select">
+                {{ hero.title }}
+            </h1>
+            <h3 class="subheading">{{ hero.subheading }}</h3>
+            <a href="#quiz" class="hero-arrow bounce-slow">
+                <img src="{% static 'snapshop/images/arrow-down-simple.png' %}" width="50px">
+            </a>
+        </div>
+    </div>
+</section>

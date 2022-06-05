@@ -60,11 +60,16 @@
             <i class="fas fa-bars"></i>
         </span>
         <a href="/">
-            <img class="logo" src="{% static 'snapshop/images/rocket-earth.png' %}" alt="Logo">
+            {% if settings.core.BrandSettings.logo %}
+                <img class="logo" src="{{ settings.core.BrandSettings.logo.url }}" alt="Logo">
+            {% else %}
+                <img class="logo" src="{% static 'snapshop/images/rocket-earth.png' %}" alt="Logo">
+            {% endif %}
         </a>
         <ul class="main-nav" id="js-menu">
             {% for page in menu_pages %}
-                <li><a href="{% if page.url_path.lower != '/home/' %}{{ page.url_path }}{% else %}/{% endif %}" class="nav-links">{{ page.title.upper }}</a></li>
+                <li><a href="{% if page.url_path.lower != '/home/' %}{{ page.url_path }}{% else %}/{% endif %}"
+                       class="nav-links">{{ page.title.upper }}</a></li>
             {% endfor %}
             <form action="{% url 'set_language' %}" method="post" id="language-form">
                 {% csrf_token %}

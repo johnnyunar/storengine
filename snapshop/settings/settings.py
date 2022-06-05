@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     "wagtail.contrib.redirects",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.styleguide",
+    "wagtail.contrib.settings",
     "wagtail.locales",
     "wagtail.embeds",
     "wagtail.sites",
@@ -138,6 +139,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "core.settings_context_processor.global_context",
+                "wagtail.contrib.settings.context_processors.settings",
             ],
         },
     },
@@ -248,6 +250,8 @@ LOGGING = {
         },
     },
 }
+
+WAGTAILEMBEDS_RESPONSIVE_HTML = True
 
 WAGTAILADMIN_RICH_TEXT_EDITORS = {
     "default": {

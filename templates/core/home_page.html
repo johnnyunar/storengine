@@ -16,32 +16,11 @@
     </style>
 {% endblock %}
 {% block content %}
-    <section class="hero" role="region">
-        {% if page.hero_video %}
-            <video class="hero-video fade-in" playsinline autoplay loop muted disablePictureInPicture
-                   controlsList="nodownload">
-                <source src="{{ page.hero_video.url }}" type="video/mp4">
-            </video>
-        {% endif %}
-        <div id="particles-js">
-            <div class="heading">
-                <h1 class="hero-title no-select">
-                    {{ page.hero_title }}
-                </h1>
-                <h3 class="subheading">{{ page.subheading_text }}</h3>
-                <a href="#quiz" class="hero-arrow bounce-slow">
-                    <img src="{% static 'snapshop/images/arrow-down-simple.png' %}" width="50px">
-                </a>
-            </div>
-        </div>
-    </section>
+    {% if page.hero_section %}
+        {% include 'core/snippets/_hero_section.html' with hero=page.hero_section %}
+    {% endif %}
     {% for section in page.page_sections.all %}
-        <section class="odd">
-            {{ section.section.text|safe }}
-            {% if section.section.button %}
-                <a href="{{ section.section.button.link }}" class="cta center">{{ section.section.button.text }}</a>
-            {% endif %}
-        </section>
+        {% include 'core/snippets/_page_section.html' with section=section.section %}
     {% endfor %}
     <section class="even" id="about">
         <div class="flex-section">

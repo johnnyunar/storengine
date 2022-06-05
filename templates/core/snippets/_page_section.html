@@ -1,0 +1,27 @@
+{% load wagtailcore_tags %}
+
+<section
+        style="background-color: {% firstof section.background_color settings.core.BrandSettings.primary_color %};
+                color: {% firstof section.text_color settings.core.BrandSettings.text_color %}">
+    {% if section.image %}
+        <div class="flex-section">
+            <div>
+                {{ section.text|richtext }}
+            </div>
+
+            <div class="flex-column w-300 mw-300">
+                {% if section.image %}
+                    <img class="img-center" src="{{ section.image.url }}" width="100%">
+                {% endif %}
+            </div>
+
+        </div>
+    {% else %}
+        <div>
+            {{ section.text|richtext }}
+        </div>
+    {% endif %}
+    {% if section.button %}
+        <a href="{{ section.button.link }}" class="cta center">{{ section.button.text }}</a>
+    {% endif %}
+</section>
