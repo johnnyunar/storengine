@@ -43,11 +43,13 @@ class Ebook(models.Model):
 
     title = models.CharField(max_length=256, verbose_name=_("Title"))
     author = models.CharField(max_length=64, default="Snap Shop", verbose_name=_("Author"))
-    image = models.ImageField(
-        verbose_name=_("Image"),
-        upload_to=partial(user_directory_path, subdir="ebook_images"),
-        blank=True,
+    image = models.ForeignKey(
+        "wagtailimages.Image",
         null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Image"),
     )
     file = models.FileField(
         verbose_name=_("File"),
@@ -166,15 +168,6 @@ class SiteConfiguration(SingletonModel):
         default="",
     )
 
-    # Homepage
-    hero_title = models.CharField(
-        _("Hero Title"),
-        max_length=64,
-        blank=True,
-        default="SNAPSHOP",
-        help_text=_("This is the big title that shows up in the hero section."),
-    )
-
     hero_video = models.FileField(
         _("Hero Video"),
         upload_to=partial(user_directory_path, subdir="hero_videos"),
@@ -187,42 +180,13 @@ class SiteConfiguration(SingletonModel):
         ],
     )
 
-    subheading_text = models.CharField(
-        _("Hero Subheading"),
-        max_length=128,
-        blank=True,
-        default="",
-        help_text=_("This is the text that shows up under the title in the hero section."),
-    )
-
-    quiz_heading = models.TextField(_("Quiz Heading"), blank=True, null=True)
-    quiz_subheading = models.TextField(_("Quiz Subheading"), blank=True, null=True)
-
-    about_me_text = RichTextField(blank=True, default="")
-    about_me_image = models.ImageField(
-        _("About Me Section Image"),
-        blank=True,
+    footer_image = models.ForeignKey(
+        "wagtailimages.Image",
         null=True,
-        upload_to=partial(user_directory_path, subdir="about_me_images"),
-        max_length=300,
-    )
-
-    hero_image = models.ImageField(
-        _("Hero Section Image"),
         blank=True,
-        null=True,
-        upload_to=partial(user_directory_path, subdir="hero_images"),
-        max_length=300,
-    )
-
-    ebook_text = RichTextField(_("Ebook Text"), blank=True, default="")
-
-    footer_image = models.ImageField(
-        _("Footer Section Image"),
-        blank=True,
-        null=True,
-        upload_to=partial(user_directory_path, subdir="footer_images"),
-        max_length=300,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Footer Image"),
     )
 
     # Contact
@@ -252,10 +216,6 @@ class SiteConfiguration(SingletonModel):
         blank=True,
         default="",
     )
-
-    instagram_link = models.URLField(max_length=512, blank=True, default="")
-    facebook_link = models.URLField(max_length=512, blank=True, default="")
-    linkedin_link = models.URLField(max_length=512, blank=True, default="")
 
     gdpr_text = RichTextField(_("GDPR Text"), blank=True, default="")
     terms_and_conditions_text = RichTextField(

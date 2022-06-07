@@ -1,7 +1,7 @@
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register, ModelAdminGroup
 
 from shop import admin
-from shop.models import Product, Order
+from shop.models import Product, Order, BillingAddress, ShippingAddress
 
 
 class ProductAdmin(ModelAdmin):
@@ -29,11 +29,35 @@ class OrderAdmin(ModelAdmin):
     search_fields = admin.OrderAdmin.search_fields
 
 
+class BillingAddressAdmin(ModelAdmin):
+    model = BillingAddress
+    menu_icon = "fa-address-book"  # change as required
+    menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
+    add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
+    exclude_from_explorer = (
+        False  # or True to exclude pages of this type from Wagtail's explorer view
+    )
+    list_display = admin.BillingAddressAdmin.list_display
+    search_fields = admin.BillingAddressAdmin.search_fields
+
+
+class ShippingAddressAdmin(ModelAdmin):
+    model = ShippingAddress
+    menu_icon = "fa-address-book-o"  # change as required
+    menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
+    add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
+    exclude_from_explorer = (
+        False  # or True to exclude pages of this type from Wagtail's explorer view
+    )
+    list_display = admin.ShippingAddressAdmin.list_display
+    search_fields = admin.ShippingAddressAdmin.search_fields
+
+
 class ShopGroup(ModelAdminGroup):
     menu_label = 'Shop'
     menu_icon = 'fa-shopping-bag'  # change as required
     menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
-    items = (ProductAdmin, OrderAdmin)
+    items = (ProductAdmin, OrderAdmin, BillingAddressAdmin, ShippingAddressAdmin)
 
 
 modeladmin_register(ShopGroup)

@@ -1,0 +1,35 @@
+{% load static i18n %}
+
+<section class="contact first"
+         style="background-color: {% firstof section.background_color settings.core.BrandSettings.primary_color %};
+                 color: {% firstof section.text_color settings.core.BrandSettings.text_color %}">
+    <div class="flex-section">
+        <h1>{% trans 'Contact' %}</h1>
+        <p>
+            {{ settings.core.ContactSettings.full_name }}<br/>
+            {% if settings.core.ContactSettings.vat_id %}
+                {% trans "VAT ID" %}: {{ settings.core.ContactSettings.vat_id }}<br/>
+            {% endif %}
+            {{ settings.core.ContactSettings.phone_number }}<br/><br/>
+            <a href="mailto:{{ settings.core.ContactSettings.email }}" target="_blank">{{ settings.core.ContactSettings.email }}</a>
+        </p>
+        <div class="social-contact">
+            {% if settings.core.ContactSettings.instagram %}
+                <a href="{{ settings.core.ContactSettings.instagram }}" target="_blank">
+                    <img src="{% static 'snapshop/images/iglogo.png' %}">
+                </a>
+            {% endif %}
+            {% if settings.core.ContactSettings.facebook %}
+                <a href="{{ settings.core.ContactSettings.facebook }}" target="_blank">
+                    <img src="{% static 'snapshop/images/fblogo.png' %}">
+                </a>
+            {% endif %}
+            {% if settings.core.ContactSettings.linkedin %}
+                <a href="{{ settings.core.ContactSettings.linkedin }}" target="_blank">
+                    <img src="{% static 'snapshop/images/lilogo.png' %}">
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <br/>
+</section>

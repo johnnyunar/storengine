@@ -4,14 +4,14 @@ from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
-from .forms import CustomUserChangeForm, CustomUserCreationForm
+from .forms import ShopUserChangeForm, ShopUserCreationForm
 from .models import ShopUser
 
 
 @admin.register(ShopUser)
-class CustomUserAdmin(UserAdmin):
-    add_form = CustomUserCreationForm
-    form = CustomUserChangeForm
+class ShopUserAdmin(UserAdmin):
+    add_form = ShopUserCreationForm
+    form = ShopUserChangeForm
     model = ShopUser
     list_display = (
         "avatar_tag",

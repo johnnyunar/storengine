@@ -7,8 +7,8 @@ from .models import (
     SiteConfiguration,
 )
 
-from .snippets import PageSection, Button
+from .snippets import PageSection, BasicPageSection, Button, ContactSection
 
-from .pages import HomePage
+from .pages import HomePage, SimplePage
 
-from .site_settings import SocialMediaSettings, BrandSettings
+from .site_settings import ContactSettings, BrandSettings

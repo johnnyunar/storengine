@@ -1,0 +1,6 @@
+li.readonly div.input input {
+    background-color: rgb(239 239 239);
+    color: rgb(99 99 99);
+    pointer-events: none;
+    cursor: text;
+}

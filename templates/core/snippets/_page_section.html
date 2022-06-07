@@ -1,8 +1,7 @@
 {% load wagtailcore_tags %}
 
-<section
-        style="background-color: {% firstof section.background_color settings.core.BrandSettings.primary_color %};
-                color: {% firstof section.text_color settings.core.BrandSettings.text_color %}">
+<section style="background-color: {% firstof section.background_color settings.core.BrandSettings.primary_color %};
+        color: {% firstof section.text_color settings.core.BrandSettings.text_color %}">
     {% if section.image %}
         <div class="flex-section">
             <div>

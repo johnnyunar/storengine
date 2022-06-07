@@ -16,21 +16,13 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-
-from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
+from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 from core.views import (
-    HomePageView,
-    ContactView,
-    FAQView,
-    QuizView,
-    GDPRView,
-    TermsAndConditionsView,
     SetCookiesPreferencesView,
 )
-from shop.views import ServicesView, ProductsView, OrderStep1, OrderStep2
 
 urlpatterns = [
     path("cms/", include(wagtailadmin_urls)),
@@ -43,21 +35,19 @@ urlpatterns = [
         name="set_cookies_preferences",
     ),
     path("", include(wagtail_urls)),
-
     # Left here for compatibility reasons before references are removed
-    path("", HomePageView.as_view(), name="home"),
-    path("", include("users.urls")),
-    path("contact/", ContactView.as_view(), name="contact"),
-    path("faq/", FAQView.as_view(), name="faq"),
-    path("quiz/", QuizView.as_view(), name="quiz"),
-    path("gdpr/", GDPRView.as_view(), name="gdpr"),
-    path(
-        "terms-and-conditions/",
-        TermsAndConditionsView.as_view(),
-        name="terms_and_conditions",
-    ),
-    path("", include("shop.urls")),
-
+    # path("", HomePageView.as_view(), name="home"),
+    # path("", include("users.urls")),
+    # path("contact/", ContactView.as_view(), name="contact"),
+    # path("faq/", FAQView.as_view(), name="faq"),
+    # path("quiz/", QuizView.as_view(), name="quiz"),
+    # path("gdpr/", GDPRView.as_view(), name="gdpr"),
+    # path(
+    #    "terms-and-conditions/",
+    #    TermsAndConditionsView.as_view(),
+    #    name="terms_and_conditions",
+    # ),
+    # path("", include("shop.urls")),
 ]
 
 try:

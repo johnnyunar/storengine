@@ -1,11 +1,10 @@
-from functools import partial
-
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from wagtail.admin.panels import FieldPanel
+from wagtail.users.models import UserProfile
 
-from core.utils import user_directory_path
 from .managers import CustomUserManager
 
 
@@ -26,12 +25,14 @@ class ShopUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_("Email"), unique=True)
     first_name = models.CharField(_("First Name"), max_length=100)
     last_name = models.CharField(_("Last Name"), max_length=100)
-    avatar = models.ImageField(
-        _("Avatar"),
-        upload_to=partial(user_directory_path, subdir="avatar_images"),
-        blank=True,
+
+    avatar = models.ForeignKey(
+        "wagtailimages.Image",
         null=True,
-        default="accounts/default-user.png",
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Avatar"),
     )
 
     newsletter_subscribe = models.BooleanField(
@@ -62,9 +63,25 @@ class ShopUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
+    panels = (
+        FieldPanel("email"),
+        FieldPanel("first_name"),
+        FieldPanel("last_name"),
+        FieldPanel("avatar"),
+        FieldPanel("newsletter_subscribe"),
+        FieldPanel("send_internal_notifications"),
+        FieldPanel("is_staff"),
+        FieldPanel("is_active"),
+        FieldPanel("date_joined", classname="readonly")
+    )
+
     @property
     def full_name(self):
         return "%s %s" % (self.first_name, self.last_name)
+
+    @property
+    def profile(self):
+        return UserProfile.objects.get(user=self)
 
     def __str__(self):
         return "%s (%s)" % (self.full_name, self.email)

@@ -1,5 +1,4 @@
 from datetime import timedelta
-from functools import partial
 
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
@@ -12,11 +11,12 @@ from django_countries.fields import CountryField
 from django_currentuser.db.models import CurrentUserField
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
-from djrichtextfield.models import RichTextField
 from phonenumber_field.modelfields import PhoneNumberField
+from wagtail import blocks
+from wagtail.admin.panels import FieldPanel
+from wagtail.fields import RichTextField
 
 from core.models import SiteConfiguration
-from core.utils import user_directory_path
 from shop.gopay_api import is_gopay_payment_paid
 from shop.utils import generate_order_number
 from users.models import ShopUser
@@ -141,11 +141,13 @@ class Product(models.Model):
     )
     external_url = models.URLField(_("External URL"), blank=True, default="")
 
-    image = models.ImageField(
-        _("Image"),
-        upload_to=partial(user_directory_path, subdir="product_images"),
-        blank=True,
+    image = models.ForeignKey(
+        "wagtailimages.Image",
         null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Image"),
     )
 
     price = MoneyField(
@@ -221,7 +223,7 @@ class Address(models.Model):
         return f"{self.first_name} {self.last_name}"
 
     def __str__(self):
-        return self.address1
+        return f"{self.address1}, {self.zip_code} {self.city}"
 
     class Meta:
         verbose_name = _("Address")
@@ -250,12 +252,14 @@ class BillingType(models.Model):
         help_text=_("Should be human readable, this will be displayed on checkout."),
     )
     name = models.SlugField(_("Slug"), max_length=255, unique=True)
-    image = models.ImageField(
-        _("Image"),
-        upload_to=partial(user_directory_path, subdir="payment_method_images"),
-        max_length=300,
-        blank=True,
+
+    image = models.ForeignKey(
+        "wagtailimages.Image",
         null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Image"),
     )
 
     is_active = models.BooleanField(_("Available"))
@@ -274,6 +278,14 @@ class BillingType(models.Model):
         ordering = ("ordering",)
         verbose_name = _("Billing Type")
         verbose_name_plural = _("Billing Types")
+
+
+class BillingAddressBlock(blocks.StructBlock):
+    first_name = blocks.CharBlock()
+    last_name = blocks.CharBlock()
+
+    class Meta:
+        icon = 'address'
 
 
 class Order(models.Model):
@@ -343,6 +355,11 @@ class Order(models.Model):
 
     items = models.ManyToManyField(Product, through="OrderItem")
 
+    panels = [
+        FieldPanel("order_number", classname="readonly"),
+        FieldPanel("billing_address"),
+    ]
+
     def save(self, *args, **kwargs):
         if self.gopay_payment:
             self.is_paid = self.gopay_payment.is_paid
@@ -393,9 +410,7 @@ class OrderItem(models.Model):
         default_currency="CZK",
         null=True,
     )
-    order = models.ForeignKey(
-        Order, on_delete=models.CASCADE, verbose_name=_("Order")
-    )
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name=_("Order"))
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, verbose_name=_("Product")
     )

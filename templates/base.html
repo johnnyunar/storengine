@@ -40,6 +40,10 @@
                 background-size: cover;
             }
         {% endif %}
+
+            footer::after {
+                background: {{ settings.core.BrandSettings.primary_color }};
+            }
     </style>
     {% block extrahead %}
     {% endblock %}
@@ -68,7 +72,7 @@
         </a>
         <ul class="main-nav" id="js-menu">
             {% for page in menu_pages %}
-                <li><a href="{% if page.url_path.lower != '/home/' %}{{ page.url_path }}{% else %}/{% endif %}"
+                <li><a href="{% if page.url_path.lower != '/home/' %}/{{ page.slug }}/{% else %}/{% endif %}"
                        class="nav-links">{{ page.title.upper }}</a></li>
             {% endfor %}
             <form action="{% url 'set_language' %}" method="post" id="language-form">
@@ -121,12 +125,11 @@
         © {{ content_settings.full_name }} {% now "Y" %}
     </div>
     <div class="footer-section">
-        <a href="{% url 'home' %}">{% trans 'HOME' %}</a>
-        <a href="{% url 'home' %}#about">{% trans 'ABOUT' %}</a>
-        <a href="{% url 'contact' %}">{% trans 'CONTACT' %}</a>
-        <a href="{% url 'faq' %}">{% trans 'FAQ' %}</a>
-        <a href="{% url 'gdpr' %}">GDPR</a>
-        <a href="{% url 'terms_and_conditions' %}">{% trans 'T & C' %}</a>
+        {% for page in menu_pages %}
+            <a href="{% if page.url_path.lower != '/home/' %}/{{ page.slug }}/{% else %}/{% endif %}">
+                {{ page.title.upper }}
+            </a>
+        {% endfor %}
     </div>
     <a href="https://unar.dev/" target="_blank" title="Website by Johnny Unar" class="footer-lottie">
         <lottie-player src="{% static 'snapshop/images/rocket-ship.json' %}" background="transparent" speed="1"

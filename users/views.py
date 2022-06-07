@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, UpdateView, DeleteView, TemplateView
 
 from shop.models import Order
-from users.forms import CustomUserCreationForm
+from users.forms import ShopUserCreationForm
 from users.models import ShopUser
 
 logger = logging.getLogger("django")
@@ -39,7 +39,7 @@ class CustomLoginView(LoginView):
 
 class SignupView(FormView):
     template_name = "registration/signup.html"
-    form_class = CustomUserCreationForm
+    form_class = ShopUserCreationForm
     success_url = reverse_lazy("profile")
 
     def form_valid(self, form):

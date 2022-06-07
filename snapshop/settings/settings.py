@@ -57,16 +57,6 @@ INSTALLED_APPS = [
     "users",
     # Development static files serving
     "whitenoise.runserver_nostatic",
-    # Overriding 3rd party
-    "modeltranslation",
-    "polymorphic",
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "django.contrib.sites",
     # 3rd party
     # --- wagtail ---
     "wagtail.contrib.forms",
@@ -89,6 +79,16 @@ INSTALLED_APPS = [
     "modelcluster",
     "taggit",
     # --- wagtail ---
+    # Overriding 3rd party
+    "modeltranslation",
+    "polymorphic",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.sites",
     "sorl.thumbnail",
     "formtools",
     "djrichtextfield",
@@ -224,9 +224,9 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": (
-                "%(asctime)s [%(process)d] [%(levelname)s] "
-                + "pathname=%(pathname)s lineno=%(lineno)s "
-                + "funcname=%(funcName)s %(message)s"
+                    "%(asctime)s [%(process)d] [%(levelname)s] "
+                    + "pathname=%(pathname)s lineno=%(lineno)s "
+                    + "funcname=%(funcName)s %(message)s"
             ),
             "datefmt": "%Y-%m-%d %H:%M:%S",
         },

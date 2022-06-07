@@ -7,11 +7,6 @@ from core.models import SiteConfiguration, Button, FrequentlyAskedQuestion, Coun
 class SiteConfigurationTranslationOptions(TranslationOptions):
     fields = (
         "notification_bar_text",
-        "subheading_text",
-        "about_me_text",
-        "quiz_heading",
-        "quiz_subheading",
-        "ebook_text",
         "gdpr_text",
         "gdpr_file",
         "terms_and_conditions_text",

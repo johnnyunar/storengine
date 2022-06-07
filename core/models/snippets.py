@@ -1,10 +1,15 @@
 from functools import partial
 
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.template.loader import render_to_string
+from django.utils.html import format_html
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_currentuser.db.models import CurrentUserField
+from polymorphic.models import PolymorphicModel
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
 from wagtail.search import index
@@ -13,7 +18,7 @@ from wagtail_color_panel.edit_handlers import NativeColorPanel
 
 from wagtail_color_panel.fields import ColorField
 
-from core.utils import user_directory_path
+from core.utils import user_directory_path, camel_to_snake
 
 
 @register_snippet
@@ -59,19 +64,52 @@ class Button(models.Model):
             raise ValidationError(_("Link must be specified with text."))
 
 
-@register_snippet
-class PageSection(index.Indexed, models.Model):
+class PageSection(index.Indexed, PolymorphicModel):
     created_by = CurrentUserField()
     name = models.TextField(_("Name"), max_length=128)
-    text = RichTextField(_("Text"))
     text_color = ColorField(_("Text Color"), blank=True, null=True)
     background_color = ColorField(_("Background Color"), blank=True, null=True)
 
-    image = models.ImageField(
-        _("Image"),
-        blank=True,
+    panels = [
+        FieldPanel("name"),
+        NativeColorPanel("text_color"),
+        NativeColorPanel("background_color"),
+    ]
+
+    search_fields = [
+        index.SearchField("name", partial_match=True),
+    ]
+
+    def __str__(self):
+        return self.name
+
+    def get_template_name(self):
+        obj_content_type = ContentType.objects.get_for_model(self)
+        app_label = obj_content_type.app_label
+        print(f"{app_label}/snippets/_{camel_to_snake(self.__class__.__name__)}.html")
+        return f"{app_label}/snippets/_{camel_to_snake(self.__class__.__name__)}.html"
+
+    def render(self):
+        return format_html(
+            render_to_string(
+                self.get_template_name(),
+                context={"section": self},
+            )
+        )
+
+
+@register_snippet
+class BasicPageSection(PageSection):
+    text = RichTextField(_("Text"))
+
+    image = models.ForeignKey(
+        "wagtailimages.Image",
         null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
         help_text=_("This image will show up on the right side of the section."),
+        verbose_name=_("Image"),
     )
 
     button = models.ForeignKey(
@@ -123,12 +161,14 @@ class HeroSection(index.Indexed, models.Model):
         ),
     )
 
-    image = models.ImageField(
-        _("Hero Image"),
-        blank=True,
+    image = models.ForeignKey(
+        "wagtailimages.Image",
         null=True,
-        upload_to=partial(user_directory_path, subdir="hero_images"),
-        max_length=300,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text=_("This image shows up in the hero section."),
+        verbose_name=_("Hero Image"),
     )
 
     video = models.FileField(
@@ -159,3 +199,8 @@ class HeroSection(index.Indexed, models.Model):
 
     def __str__(self):
         return self.name
+
+
+@register_snippet
+class ContactSection(PageSection):
+    pass
