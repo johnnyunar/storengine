@@ -1,16 +1,19 @@
 from functools import partial
+from html import unescape
 
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy as _
 from django_currentuser.db.models import CurrentUserField
-from djrichtextfield.models import RichTextField
 from solo.models import SingletonModel
+from wagtail.fields import RichTextField
+from wagtail.models import TranslatableMixin
 
 from core.utils import user_directory_path
 
 
-class Testimonial(models.Model):
+class Testimonial(TranslatableMixin):
     """
     Testimonials that show up on the homepage
     """
@@ -26,9 +29,10 @@ class Testimonial(models.Model):
         ordering = ("order",)
         verbose_name = _("Testimonial")
         verbose_name_plural = _("Testimonials")
+        unique_together = [("translation_key", "locale")]
 
 
-class Ebook(models.Model):
+class Ebook(TranslatableMixin):
     """
     Ebook that can be used all over the app
     """
@@ -77,9 +81,10 @@ class Ebook(models.Model):
         ordering = ("created_at",)
         verbose_name = _("Ebook")
         verbose_name_plural = _("Ebooks")
+        unique_together = [("translation_key", "locale")]
 
 
-class Counter(models.Model):
+class Counter(TranslatableMixin):
     number = models.CharField(_("Number"), max_length=8, help_text=_("E.g. 420 or 69+"))
     text = models.CharField(
         _("Text"), max_length=32, help_text=_("E.g. Clients or Lectures")
@@ -98,15 +103,12 @@ class Counter(models.Model):
         ordering = ("ordering",)
         verbose_name = _("Counter")
         verbose_name_plural = _("Counters")
+        unique_together = [("translation_key", "locale")]
 
 
-class FrequentlyAskedQuestion(models.Model):
+class FrequentlyAskedQuestion(TranslatableMixin):
     question = RichTextField(_("Question"))
     answer = RichTextField(_("Answer"))
-
-    ordering = models.PositiveIntegerField(
-        _("Ordering"), default=0, blank=False, null=False
-    )
 
     is_active = models.BooleanField(_("Available"), default=True)
 
@@ -114,9 +116,12 @@ class FrequentlyAskedQuestion(models.Model):
     updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
 
     class Meta:
-        ordering = ("ordering",)
         verbose_name = _("Frequently Asked Question")
         verbose_name_plural = _("Frequently Asked Questions")
+        unique_together = [("translation_key", "locale")]
+
+    def __str__(self):
+        return unescape(strip_tags(self.question))
 
 
 class QuizRecord(models.Model):
@@ -189,39 +194,6 @@ class SiteConfiguration(SingletonModel):
         verbose_name=_("Footer Image"),
     )
 
-    # Contact
-    full_name = models.CharField(
-        _("Full Name"),
-        max_length=64,
-        blank=True,
-        default="Snap Shop",
-    )
-
-    vat_id = models.CharField(
-        _("VAT ID"),
-        max_length=10,
-        blank=True,
-        default="",
-    )
-
-    phone_number = models.CharField(
-        _("Phone Number"),
-        max_length=16,
-        blank=True,
-        default="",
-    )
-
-    email = models.EmailField(
-        _("Email"),
-        blank=True,
-        default="",
-    )
-
-    gdpr_text = RichTextField(_("GDPR Text"), blank=True, default="")
-    terms_and_conditions_text = RichTextField(
-        _("Terms And Conditions Text"), blank=True, default=""
-    )
-
     gdpr_file = models.FileField(
         _("GDPR Document"),
         blank=True,
@@ -237,14 +209,6 @@ class SiteConfiguration(SingletonModel):
         upload_to=partial(user_directory_path, subdir="legal_documents"),
         max_length=300,
     )
-
-    # Billing
-    billing_address = models.CharField(_("Billing Address"), blank=True, null=True, max_length=128)
-    billing_address_zip = models.CharField(_("ZIP"), blank=True, null=True, max_length=16)
-    billing_address_city = models.CharField(_("City"), blank=True, null=True, max_length=64)
-    invoices_due_in_days = models.PositiveIntegerField(_("Default Number of Days until Invoice is Due"), default=14)
-    bank_account = models.CharField(_("Bank Account"), blank=True, null=True, max_length=64)
-    vat_payer = models.BooleanField(_("VAT Payer"), default=False)
 
     def __str__(self):
         return "Site Configuration"

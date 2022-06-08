@@ -5,7 +5,6 @@ from django.conf import settings
 from django.db import models
 from django.template import Template, Context
 from django.template.loader import render_to_string
-
 from django.utils.translation import gettext_lazy as _
 from django_currentuser.db.models import CurrentUserField
 from djrichtextfield.models import RichTextField
@@ -33,7 +32,7 @@ EMAIL_TEMPLATES = [
 
 
 class EmailAttachment(models.Model):
-    created_by =  CurrentUserField()
+    created_by = CurrentUserField()
     name = models.CharField(_("Name"), max_length=125)
     file = models.FileField(
         _("File"),

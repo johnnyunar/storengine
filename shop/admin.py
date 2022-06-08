@@ -4,8 +4,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from modeltranslation.admin import TabbedTranslationAdmin
-from polymorphic.admin import PolymorphicChildModelFilter
+
 from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
 from pygments.lexers.data import JsonLexer
@@ -52,14 +51,14 @@ class GopayPaymentAdmin(admin.ModelAdmin):
 
 
 @admin.register(Category)
-class CategoryAdmin(TabbedTranslationAdmin):
+class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name", "is_active")
     search_fields = ("name",)
     list_editable = ("is_active",)
 
 
 @admin.register(Product)
-class ProductAdmin(TabbedTranslationAdmin):
+class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "ordering",
         "name",
@@ -106,7 +105,7 @@ class BillingAddressAdmin(admin.ModelAdmin):
 
 
 @admin.register(BillingType)
-class BillingTypeAdmin(TabbedTranslationAdmin):
+class BillingTypeAdmin(admin.ModelAdmin):
     list_display = ("image_tag", "display_name", "is_active")
     list_display_links = ("image_tag", "display_name")
     list_filter = ("is_active",)

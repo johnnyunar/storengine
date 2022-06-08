@@ -15,6 +15,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
+from wagtail.models import TranslatableMixin
 
 from core.models import SiteConfiguration
 from shop.gopay_api import is_gopay_payment_paid
@@ -109,7 +110,7 @@ class Cart(models.Model):
         return f"{self.created_by.username} from {self.created_at}"
 
 
-class Category(models.Model):
+class Category(TranslatableMixin):
     name = models.CharField(_("Name"), max_length=128)
 
     is_active = models.BooleanField(_("Available"), default=True)
@@ -120,11 +121,34 @@ class Category(models.Model):
     class Meta:
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
+        unique_together = [("translation_key", "locale")]
 
 
-class Product(models.Model):
+class ProductType(TranslatableMixin):
+    name = models.CharField(_("Name"), max_length=128)
+
+    is_active = models.BooleanField(_("Available"), default=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _("Main Category")
+        verbose_name_plural = _("Main Categories")
+        unique_together = [("translation_key", "locale")]
+
+
+class Product(TranslatableMixin):
     created_by = CurrentUserField()
     name = models.CharField(_("Name"), max_length=128)
+
+    product_type = models.ForeignKey(
+        ProductType,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_("Product Type"),
+    )
 
     category = models.ForeignKey(
         Category,
@@ -165,6 +189,7 @@ class Product(models.Model):
 
     class Meta:
         ordering = ("ordering",)
+        unique_together = [("translation_key", "locale")]
 
 
 class Address(models.Model):
@@ -242,7 +267,7 @@ class BillingAddress(Address):
         verbose_name_plural = _("Billing Addresses")
 
 
-class BillingType(models.Model):
+class BillingType(TranslatableMixin):
     """Stores a single payment method available at the checkout."""
 
     created_by = CurrentUserField()
@@ -278,6 +303,7 @@ class BillingType(models.Model):
         ordering = ("ordering",)
         verbose_name = _("Billing Type")
         verbose_name_plural = _("Billing Types")
+        unique_together = [("translation_key", "locale")]
 
 
 class BillingAddressBlock(blocks.StructBlock):

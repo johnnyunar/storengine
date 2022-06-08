@@ -1,0 +1,14 @@
+{% load i18n %}
+<section id="faqs"
+         style="background-color: {% firstof section.background_color settings.core.BrandSettings.primary_color %};
+                 color: {% firstof section.text_color settings.core.BrandSettings.text_color %}">
+    <h1>FAQ</h1>
+    {% for faq in section.faqs %}
+        <div class="faq">
+            <div class="question">{{ faq.question | safe }}</div>
+            <div class="answer">{{ faq.answer | safe }}</div>
+        </div>
+    {% empty %}
+        <h2 class="text-center">{% trans "Come back later!" %}</h2>
+    {% endfor %}
+</section>

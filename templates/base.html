@@ -41,9 +41,13 @@
             }
         {% endif %}
 
-            footer::after {
-                background: {{ settings.core.BrandSettings.primary_color }};
-            }
+        footer::after {
+            background: {{ settings.core.BrandSettings.primary_color }};
+        }
+
+        main {
+            background: {{ settings.core.BrandSettings.primary_color }};
+        }
     </style>
     {% block extrahead %}
     {% endblock %}
@@ -75,15 +79,17 @@
                 <li><a href="{% if page.url_path.lower != '/home/' %}/{{ page.slug }}/{% else %}/{% endif %}"
                        class="nav-links">{{ page.title.upper }}</a></li>
             {% endfor %}
-            <form action="{% url 'set_language' %}" method="post" id="language-form">
-                {% csrf_token %}
-                <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
-                <input name="language" type="hidden" {% if LANGUAGE_CODE == "en" %}value="cs"
-                       {% else %}value="en"{% endif %}>
-                <li><input class="nav-links" type="submit" title="{% trans 'Change Language' %}"
-                           {% if LANGUAGE_CODE == "en" %}value="🇨🇿"
-                           {% else %}value="🇬🇧"{% endif %}/></li>
-            </form>
+            {% if locales.count > 1 %}
+                <form action="{% url 'set_language' %}" method="post" id="language-form">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
+                    <input name="language" type="hidden" {% if LANGUAGE_CODE == "en" %}value="cs"
+                           {% else %}value="en"{% endif %}>
+                    <li><input class="nav-links" type="submit" title="{% trans 'Change Language' %}"
+                               {% if LANGUAGE_CODE == "en" %}value="🇨🇿"
+                               {% else %}value="🇬🇧"{% endif %}/></li>
+                </form>
+            {% endif %}
             {% comment %}
                 <li><a href="{% url 'profile' %}" class="nav-links" title="{% trans 'Account' %}"><i
                         class="fas fa-user"></i></a></li>
@@ -122,7 +128,7 @@
             {% endif %}
         </div>
         <br/>
-        © {{ content_settings.full_name }} {% now "Y" %}
+        © {{ settings.core.ContactSettings.full_name }} {% now "Y" %}
     </div>
     <div class="footer-section">
         {% for page in menu_pages %}

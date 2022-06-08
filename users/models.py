@@ -1,3 +1,5 @@
+from functools import partial
+
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
@@ -5,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel
 from wagtail.users.models import UserProfile
 
+from core.utils import user_directory_path
 from .managers import CustomUserManager
 
 
@@ -26,13 +29,12 @@ class ShopUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_("First Name"), max_length=100)
     last_name = models.CharField(_("Last Name"), max_length=100)
 
-    avatar = models.ForeignKey(
-        "wagtailimages.Image",
-        null=True,
+    avatar = models.ImageField(
+        _("Avatar"),
+        upload_to=partial(user_directory_path, subdir="avatar_images"),
         blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        verbose_name=_("Avatar"),
+        null=True,
+        default="accounts/default-user.png",
     )
 
     newsletter_subscribe = models.BooleanField(

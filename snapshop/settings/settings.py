@@ -59,12 +59,14 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     # 3rd party
     # --- wagtail ---
+    "wagtail_localize",
+    "wagtail_localize.locales",  # This replaces "wagtail.locales"
+    "wagtail_localize.modeladmin",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.styleguide",
     "wagtail.contrib.settings",
-    "wagtail.locales",
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
@@ -75,12 +77,12 @@ INSTALLED_APPS = [
     "wagtail.admin",
     "wagtailfontawesome",
     "wagtail_color_panel",
+    "wagtail_adminsortable",
     "wagtail",
     "modelcluster",
     "taggit",
     # --- wagtail ---
     # Overriding 3rd party
-    "modeltranslation",
     "polymorphic",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -138,7 +140,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "core.settings_context_processor.global_context",
+                "core.global_context_processor.global_context",
                 "wagtail.contrib.settings.context_processors.settings",
             ],
         },
@@ -181,19 +183,21 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = "cs"
+LANGUAGE_CODE = "en"
 TIME_ZONE = "Europe/Prague"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 DATE_FORMAT = "d/m/Y"
 WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
-    ("cs", _("Czech")),
     ("en", _("English")),
+    ("cs", _("Czech")),
 ]
 LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
 
 CURRENCIES = ("CZK", "EUR")
+
+WAGTAIL_I18N_ENABLED = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -224,9 +228,9 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": (
-                    "%(asctime)s [%(process)d] [%(levelname)s] "
-                    + "pathname=%(pathname)s lineno=%(lineno)s "
-                    + "funcname=%(funcName)s %(message)s"
+                "%(asctime)s [%(process)d] [%(levelname)s] "
+                + "pathname=%(pathname)s lineno=%(lineno)s "
+                + "funcname=%(funcName)s %(message)s"
             ),
             "datefmt": "%Y-%m-%d %H:%M:%S",
         },

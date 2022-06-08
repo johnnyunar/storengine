@@ -7,7 +7,7 @@ from .models import (
     SiteConfiguration,
 )
 
-from .snippets import PageSection, BasicPageSection, Button, ContactSection
+from .snippets import PageSection, Button
 
 from .pages import HomePage, SimplePage
 

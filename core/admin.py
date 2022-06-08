@@ -3,7 +3,6 @@ from html import unescape
 from django.contrib import admin
 from django.utils.html import format_html, strip_tags
 from django.utils.translation import gettext_lazy as _
-from modeltranslation.admin import TranslationAdmin, TabbedTranslationAdmin
 from solo.admin import SingletonModelAdmin
 
 from core.models import (
@@ -16,88 +15,13 @@ from core.models import (
 
 
 @admin.register(Button)
-class ButtonAdmin(TabbedTranslationAdmin):
+class ButtonAdmin(admin.ModelAdmin):
     search_fields = ("name", "text_en", "text_cs", "link_en", "link_cs", "color")
 
 
 @admin.register(SiteConfiguration)
-class SiteConfigurationAdmin(SingletonModelAdmin, TabbedTranslationAdmin):
-    save_on_top = True
-
-    fieldsets = (
-        (
-            _("Homepage"),
-            {
-                "fields": (
-                    "hero_image",
-                    "hero_video",
-                    "about_me_image",
-                    "hero_title",
-                    "cta_button",
-                    "subheading_text",
-                    "quiz_heading",
-                    "quiz_subheading",
-                    "ebook_text",
-                    "about_me_text",
-                )
-            },
-        ),
-        (
-            _("Notifications"),
-            {
-                "fields": (
-                    "notification_bar_show",
-                    "notification_bar_text",
-                )
-            },
-        ),
-        (
-            _("Global"),
-            {"fields": ("footer_image",)},
-        ),
-        (
-            _("Contact"),
-            {
-                "fields": (
-                    "full_name",
-                    "phone_number",
-                    "email",
-                    "instagram_link",
-                    "facebook_link",
-                    "linkedin_link",
-                )
-            },
-        ),
-        (
-            _("Billing"),
-            {
-                "fields": (
-                    "bank_account",
-                    "vat_id",
-                    "billing_address",
-                    "billing_address_zip",
-                    "billing_address_city",
-                    "invoices_due_in_days",
-                    "vat_payer",
-                )
-            },
-        ),
-        (
-            _("Legal"),
-            {
-                "fields": (
-                    "gdpr_file_cs",
-                    "gdpr_file_en",
-                    "terms_and_conditions_file_cs",
-                    "terms_and_conditions_file_en",
-                    "gdpr_text_cs",
-                    "gdpr_text_en",
-                    "terms_and_conditions_text_cs",
-                    "terms_and_conditions_text_en",
-                )
-            },
-        ),
-    )
+class SiteConfigurationAdmin(SingletonModelAdmin, admin.ModelAdmin):
+    pass
 
 
 @admin.register(Testimonial)
@@ -113,7 +37,7 @@ class TestimonialAdmin(admin.ModelAdmin):
 
 
 @admin.register(Counter)
-class CounterAdmin(TranslationAdmin):
+class CounterAdmin(admin.ModelAdmin):
     save_on_top = True
     list_display = ("ordering", "number", "text", "is_active")
     list_display_links = ("number", "text")
@@ -148,7 +72,7 @@ class EbookAdmin(admin.ModelAdmin):
 
 
 @admin.register(FrequentlyAskedQuestion)
-class FAQAdmin(TabbedTranslationAdmin):
+class FAQAdmin(admin.ModelAdmin):
     list_display = ("question_tag", "answer_tag", "is_active")
     list_editable = ("is_active",)
     search_fields = ("question", "answer")

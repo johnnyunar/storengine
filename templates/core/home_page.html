@@ -20,7 +20,9 @@
         {% include 'core/snippets/_hero_section.html' with hero=page.hero_section %}
     {% endif %}
     {% for section in page.page_sections.all %}
-        {% include 'core/snippets/_page_section.html' with section=section.section %}
+        {% with template_name=section.section.get_template_name %}
+            {% include template_name with section=section.section %}
+        {% endwith %}
     {% endfor %}
     {% if not page.hero_video %}
         <script src="{% static 'particles/particles.js-master/particles.js' %}"></script>
