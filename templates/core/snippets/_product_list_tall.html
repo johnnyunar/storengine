@@ -1,0 +1,22 @@
+{% extends 'core/snippets/_base_section.html' %}
+{% load static i18n l10n djmoney thumbnail %}
+
+{% block section_content %}
+    {% for product in section.products.all %}
+        {% with product.product as product %}
+            <div class="product-card-tall" id="product-{{ product.pk }}"
+                 style="background-image: url('{{ product.image.url }}'); box-shadow: inset 0 0 0 200px rgba(33, 33, 33, 0.7), 0px 7px 9px -1px rgba(0, 0, 0, 0.55);">
+                <div class="card-text no-select">
+                    <h3>{{ product.name }}</h3>
+                    {{ product.description | safe }}
+                </div>
+                <span class="price">{% money_localize product.price %}</span>
+                <br/><br/>
+                <a href="#" class="card-cta">{% trans "I'm in!" %}</a>
+            </div>
+        {% endwith %}
+    {% empty %}
+        <h2>{% trans "Come back later!" %}</h2>
+    {% endfor %}
+    <script src="{% static 'shop/js/shop.js' %}"></script>
+{% endblock %}

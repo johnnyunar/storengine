@@ -77,7 +77,6 @@ INSTALLED_APPS = [
     "wagtail.admin",
     "wagtailfontawesome",
     "wagtail_color_panel",
-    "wagtail_adminsortable",
     "wagtail",
     "modelcluster",
     "taggit",

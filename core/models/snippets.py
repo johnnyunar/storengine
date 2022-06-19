@@ -6,9 +6,11 @@ from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_currentuser.db.models import CurrentUserField
-from wagtail.admin.panels import FieldPanel
+from modelcluster.fields import ParentalKey
+from modelcluster.models import ClusterableModel
+from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.fields import RichTextField
-from wagtail.models import TranslatableMixin
+from wagtail.models import TranslatableMixin, Orderable
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 from wagtail_color_panel.edit_handlers import NativeColorPanel
@@ -16,6 +18,7 @@ from wagtail_color_panel.fields import ColorField
 
 from core.models import FrequentlyAskedQuestion
 from core.utils import user_directory_path
+from shop.models import Product
 
 
 @register_snippet
@@ -63,11 +66,13 @@ class Button(TranslatableMixin):
 
 
 @register_snippet
-class PageSection(index.Indexed, TranslatableMixin):
+class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
     class SectionTypes(models.TextChoices):
         DEFAULT = "default_section", _("Default Section")
         FAQ = "faq_section", _("FAQ Section")
         CONTACT = "contact_section", _("Contact Section")
+        PRODUCT_LIST_SQUARE = "product_list_square", _("Product List (Square Cards)")
+        PRODUCT_LIST_TALL = "product_list_tall", _("Product List (Tall Cards)")
 
     created_by = CurrentUserField()
 
@@ -119,6 +124,7 @@ class PageSection(index.Indexed, TranslatableMixin):
         FieldPanel("image"),
         FieldPanel("button"),
         FieldPanel("iframe"),
+        InlinePanel("products", label="Products"),
         NativeColorPanel("text_color"),
         NativeColorPanel("background_color"),
     ]
@@ -143,6 +149,24 @@ class PageSection(index.Indexed, TranslatableMixin):
         obj_content_type = ContentType.objects.get_for_model(self)
         app_label = obj_content_type.app_label
         return f"{app_label}/snippets/_{self.section_type}.html"
+
+
+class ProductPlacement(Orderable, models.Model):
+    section = ParentalKey(PageSection, on_delete=models.CASCADE, related_name="products")
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="+"
+    )
+
+    class Meta(Orderable.Meta):
+        verbose_name = "Products"
+        verbose_name_plural = "Products"
+
+    panels = [
+        FieldPanel("product"),
+    ]
+
+    def __str__(self):
+        return self.section.title + " -> " + self.product.name
 
 
 @register_snippet

@@ -133,8 +133,8 @@ class ProductType(TranslatableMixin):
         return self.name
 
     class Meta:
-        verbose_name = _("Main Category")
-        verbose_name_plural = _("Main Categories")
+        verbose_name = _("Product Type")
+        verbose_name_plural = _("Product Types")
         unique_together = [("translation_key", "locale")]
 
 
@@ -180,15 +180,10 @@ class Product(TranslatableMixin):
 
     is_active = models.BooleanField(_("Available"), default=True)
 
-    ordering = models.PositiveIntegerField(
-        _("Ordering"), default=0, blank=False, null=False
-    )
-
     def __str__(self):
         return self.name
 
     class Meta:
-        ordering = ("ordering",)
         unique_together = [("translation_key", "locale")]
 
 

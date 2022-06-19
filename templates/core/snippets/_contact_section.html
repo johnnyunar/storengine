@@ -1,8 +1,6 @@
+{% extends 'core/snippets/_base_section.html' %}
 {% load static i18n %}
-
-<section class="contact first"
-         style="background-color: {% firstof section.background_color settings.core.BrandSettings.primary_color %};
-                 color: {% firstof section.text_color settings.core.BrandSettings.text_color %}">
+{% block section_content %}
     <div class="flex-section">
         <h1>{% trans 'Contact' %}</h1>
         <p>
@@ -11,7 +9,8 @@
                 {% trans "VAT ID" %}: {{ settings.core.ContactSettings.vat_id }}<br/>
             {% endif %}
             {{ settings.core.ContactSettings.phone_number }}<br/><br/>
-            <a href="mailto:{{ settings.core.ContactSettings.email }}" target="_blank">{{ settings.core.ContactSettings.email }}</a>
+            <a href="mailto:{{ settings.core.ContactSettings.email }}"
+               target="_blank">{{ settings.core.ContactSettings.email }}</a>
         </p>
         <div class="social-contact">
             {% if settings.core.ContactSettings.instagram %}
@@ -31,5 +30,4 @@
             {% endif %}
         </div>
     </div>
-    <br/>
-</section>
+{% endblock %}

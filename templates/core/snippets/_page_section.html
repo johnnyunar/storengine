@@ -1,14 +1,14 @@
+{% extends 'core/snippets/_base_section.html' %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<section style="background-color: {% firstof section.background_color settings.core.BrandSettings.primary_color %};
-        color: {% firstof section.text_color settings.core.BrandSettings.text_color %}">
+{% block section_content %}
     {% if section.image %}
         <div class="flex-section">
             <div>
                 {{ section.text|richtext }}
             </div>
 
-           <div class="flex-column w-300 mw-300">
+            <div class="flex-column w-300 mw-300">
                 {% if section.image %}
                     {% image section.image min-100x100 class="img-center" %}
                 {% endif %}
@@ -26,4 +26,4 @@
     {% if section.iframe %}
         {{ section.iframe | safe }}
     {% endif %}
-</section>
+{% endblock %}

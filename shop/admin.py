@@ -60,7 +60,6 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-        "ordering",
         "name",
         "amount",
         "description_tag",
