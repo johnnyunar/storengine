@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django_currentuser.db.models import CurrentUserField
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.fields import RichTextField
 from wagtail.models import TranslatableMixin, Orderable
 from wagtail.search import index
@@ -16,7 +16,7 @@ from wagtail.snippets.models import register_snippet
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 
-from core.models import FrequentlyAskedQuestion
+from core.models import FrequentlyAskedQuestion, Testimonial, Counter
 from core.utils import user_directory_path
 from shop.models import Product
 
@@ -71,6 +71,9 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
         DEFAULT = "default_section", _("Default Section")
         FAQ = "faq_section", _("FAQ Section")
         CONTACT = "contact_section", _("Contact Section")
+        COUNTERS = "counters_section", _("Counters Section")
+        TESTIMONIALS = "testimonials_section", _("Testimonials Section")
+        PRODUCT_CAROUSEL = "product_carousel_section", _("Product Carousel Section")
         PRODUCT_LIST_SQUARE = "product_list_square", _("Product List (Square Cards)")
         PRODUCT_LIST_TALL = "product_list_tall", _("Product List (Tall Cards)")
 
@@ -120,13 +123,26 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
     panels = [
         FieldPanel("section_type"),
         FieldPanel("name"),
-        FieldPanel("text"),
-        FieldPanel("image"),
-        FieldPanel("button"),
-        FieldPanel("iframe"),
-        InlinePanel("products", label="Products"),
-        NativeColorPanel("text_color"),
-        NativeColorPanel("background_color"),
+        MultiFieldPanel(
+            [
+                FieldPanel("text"),
+                FieldPanel("image"),
+                FieldPanel("button"),
+                FieldPanel("iframe"),
+                NativeColorPanel("text_color"),
+                NativeColorPanel("background_color"),
+            ],
+            heading=_("General"),
+            classname="collapsible collapsed"
+        ),
+        MultiFieldPanel(
+            [
+                InlinePanel("products", label=_("Products")),
+            ],
+            heading=_("Products"),
+            classname="collapsible collapsed"
+        ),
+
     ]
 
     search_fields = [
@@ -145,6 +161,14 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
     def faqs(self):
         return FrequentlyAskedQuestion.objects.filter(is_active=True)
 
+    @property
+    def testimonials(self):
+        return Testimonial.objects.filter(is_active=True)
+
+    @property
+    def counters(self):
+        return Counter.objects.filter(is_active=True)
+
     def get_template_name(self):
         obj_content_type = ContentType.objects.get_for_model(self)
         app_label = obj_content_type.app_label
@@ -152,10 +176,10 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
 
 
 class ProductPlacement(Orderable, models.Model):
-    section = ParentalKey(PageSection, on_delete=models.CASCADE, related_name="products")
-    product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="+"
+    section = ParentalKey(
+        PageSection, on_delete=models.CASCADE, related_name="products"
     )
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="+")
 
     class Meta(Orderable.Meta):
         verbose_name = "Products"

@@ -20,13 +20,13 @@ class Testimonial(TranslatableMixin):
 
     text = models.TextField()
     author = models.CharField(max_length=64, verbose_name="Autor")
-    order = models.PositiveIntegerField(_("Order"), default=0, blank=False, null=False)
+
+    is_active = models.BooleanField(_("Available"), default=True)
 
     def __str__(self):
         return self.author
 
     class Meta:
-        ordering = ("order",)
         verbose_name = _("Testimonial")
         verbose_name_plural = _("Testimonials")
         unique_together = [("translation_key", "locale")]
@@ -90,17 +90,12 @@ class Counter(TranslatableMixin):
         _("Text"), max_length=32, help_text=_("E.g. Clients or Lectures")
     )
 
-    ordering = models.PositiveIntegerField(
-        _("Ordering"), default=0, blank=False, null=False
-    )
-
     is_active = models.BooleanField(_("Available"), default=True)
 
     def __str__(self):
         return f"{self.number} {self.text}"
 
     class Meta:
-        ordering = ("ordering",)
         verbose_name = _("Counter")
         verbose_name_plural = _("Counters")
         unique_together = [("translation_key", "locale")]

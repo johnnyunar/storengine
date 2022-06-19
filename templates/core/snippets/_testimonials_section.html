@@ -1,0 +1,22 @@
+{% extends 'core/snippets/_base_section.html' %}
+{% load i18n %}
+{% block section_content %}
+    <h2>{% trans "Testimonials" %}</h2>
+    <div class="splide">
+        <div class="splide__track">
+            <ul class="splide__list">
+                {% for testimonial in section.testimonials %}
+                    <li class="splide__slide">
+                        <div class="testimonial">
+                            <div class="testimonial-text-wrapper">
+                                <p class="testimonial-text">{{ testimonial.text }}<br/><br/>
+                                    <span class="testimonial-author">{{ testimonial.author }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

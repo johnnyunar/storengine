@@ -27,7 +27,7 @@ class SiteConfigurationAdmin(SingletonModelAdmin, admin.ModelAdmin):
 @admin.register(Testimonial)
 class TestimonialAdmin(admin.ModelAdmin):
     save_on_top = True
-    list_display = ("order", "author", "text_column")
+    list_display = ("author", "text_column")
     list_display_links = ("author", "text_column")
 
     def text_column(self, obj):
@@ -39,7 +39,7 @@ class TestimonialAdmin(admin.ModelAdmin):
 @admin.register(Counter)
 class CounterAdmin(admin.ModelAdmin):
     save_on_top = True
-    list_display = ("ordering", "number", "text", "is_active")
+    list_display = ("number", "text", "is_active")
     list_display_links = ("number", "text")
     list_editable = ("is_active",)
 

@@ -1,0 +1,13 @@
+{% extends 'core/snippets/_base_section.html' %}
+{% block section_content %}
+    {% for counter in section.counters %}
+        <div class="number-counter">
+            <span class="count">{{ counter.number }}</span>
+            <br/>
+            <span class="count-text">{{ counter.text }}</span>
+        </div>
+    {% endfor %}
+    {% if section.button %}
+        <a href="{{ section.button.link }}" class="cta center">{{ section.button.text }}</a>
+    {% endif %}
+{% endblock %}

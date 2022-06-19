@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $(".product-card").on("click", function () {
+    $(".product-card-square").on("click", function () {
         let id = $(this).data("id");
         console.log(id);
         $(".overlay").attr("style", "display: flex");
