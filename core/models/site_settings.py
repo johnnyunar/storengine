@@ -43,11 +43,21 @@ class ContactSettings(BaseSetting):
     tiktok = models.URLField(help_text=_("Your TikTok account URL"))
 
     # Billing
-    billing_address = models.CharField(_("Billing Address"), blank=True, null=True, max_length=128)
-    billing_address_zip = models.CharField(_("ZIP"), blank=True, null=True, max_length=16)
-    billing_address_city = models.CharField(_("City"), blank=True, null=True, max_length=64)
-    invoices_due_in_days = models.PositiveIntegerField(_("Default Number of Days until Invoice is Due"), default=14)
-    bank_account = models.CharField(_("Bank Account"), blank=True, null=True, max_length=64)
+    billing_address = models.CharField(
+        _("Billing Address"), blank=True, null=True, max_length=128
+    )
+    billing_address_zip = models.CharField(
+        _("ZIP"), blank=True, null=True, max_length=16
+    )
+    billing_address_city = models.CharField(
+        _("City"), blank=True, null=True, max_length=64
+    )
+    invoices_due_in_days = models.PositiveIntegerField(
+        _("Default Number of Days until Invoice is Due"), default=14
+    )
+    bank_account = models.CharField(
+        _("Bank Account"), blank=True, null=True, max_length=64
+    )
     vat_payer = models.BooleanField(_("VAT Payer"), default=False)
 
     contact_panels = [
@@ -66,7 +76,7 @@ class ContactSettings(BaseSetting):
 
     billing_panels = [
         FieldPanel("vat_id"),
-        FieldPanel('billing_address'),
+        FieldPanel("billing_address"),
         FieldPanel("billing_address_zip"),
         FieldPanel("billing_address_city"),
         FieldPanel("invoices_due_in_days"),
@@ -74,11 +84,13 @@ class ContactSettings(BaseSetting):
         FieldPanel("vat_payer"),
     ]
 
-    edit_handler = TabbedInterface([
-        ObjectList(contact_panels, heading='Contact'),
-        ObjectList(social_panels, heading='Social'),
-        ObjectList(billing_panels, heading='Billing'),
-    ])
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(contact_panels, heading="Contact"),
+            ObjectList(social_panels, heading="Social"),
+            ObjectList(billing_panels, heading="Billing"),
+        ]
+    )
 
     class Meta:
         verbose_name = _("Contact")
@@ -91,6 +103,8 @@ class BrandSettings(BaseSetting):
     accent_color = ColorField(_("Accent Color"), default="#4E8397")
 
     text_color = ColorField(_("Text Color"), default="#FFFFFF")
+
+    show_footer_waves = models.BooleanField(_("Show Footer Waves"), default=False)
 
     class Meta:
         verbose_name = _("Branding")

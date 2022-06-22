@@ -10,7 +10,7 @@ from users.models import CookiesPreferences
 
 
 class HomePageView(TemplateView):
-    template_name = "snapshop/home.html"
+    template_name = "storengine/home.html"
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data()
@@ -21,11 +21,11 @@ class HomePageView(TemplateView):
 
 
 class ContactView(TemplateView):
-    template_name = "snapshop/contact.html"
+    template_name = "storengine/contact.html"
 
 
 class FAQView(TemplateView):
-    template_name = "snapshop/faq.html"
+    template_name = "storengine/faq.html"
 
     def get_context_data(self, **kwargs):
         context = super(FAQView, self).get_context_data()
@@ -34,7 +34,7 @@ class FAQView(TemplateView):
 
 
 class QuizView(CreateView):
-    template_name = "snapshop/quiz.html"
+    template_name = "storengine/quiz.html"
     model = QuizRecord
     success_url = "/"
 
@@ -42,11 +42,11 @@ class QuizView(CreateView):
 
 
 class GDPRView(TemplateView):
-    template_name = "snapshop/gdpr.html"
+    template_name = "storengine/gdpr.html"
 
 
 class TermsAndConditionsView(TemplateView):
-    template_name = "snapshop/terms_and_conditions.html"
+    template_name = "storengine/terms_and_conditions.html"
 
 
 class SetCookiesPreferencesView(View):

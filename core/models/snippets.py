@@ -201,7 +201,7 @@ class HeroSection(index.Indexed, TranslatableMixin):
         _("Hero Title"),
         max_length=64,
         blank=True,
-        default="SNAPSHOP",
+        default="Store Engine",
         help_text=_("This is the big title that shows up in the hero section."),
     )
 

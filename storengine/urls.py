@@ -1,4 +1,4 @@
-"""snapshop URL Configuration
+"""storengine URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -51,7 +51,7 @@ urlpatterns = [
 ]
 
 try:
-    from snapshop.settings import local_settings
+    from storengine.settings import local_settings
 
     urlpatterns += static(
         local_settings.MEDIA_URL, document_root=local_settings.MEDIA_ROOT

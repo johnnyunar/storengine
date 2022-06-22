@@ -3,7 +3,7 @@ from functools import partial
 
 from django.conf import settings
 from django.db import models
-from django.template import Template, Context
+from django.template import Template, Context, TemplateDoesNotExist
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 from django_currentuser.db.models import CurrentUserField
@@ -11,24 +11,27 @@ from djrichtextfield.models import RichTextField
 
 from core.utils import user_directory_path
 
-EMAIL_TEMPLATES = [
-    {
-        "title": _("Order Confirmation Email"),
-        "description": _("This email format is great for order confirmations."),
-        "content": render_to_string(
-            "mails/order_confirmation.html",
-            context={"base_url": settings.BASE_URL},
-        ),
-    },
-    {
-        "title": _("Internal Notification Email"),
-        "description": _("This email format is great for internal notifications."),
-        "content": render_to_string(
-            "mails/internal_notification.html",
-            context={"base_url": settings.BASE_URL},
-        ),
-    },
-]
+try:
+    EMAIL_TEMPLATES = [
+        {
+            "title": _("Order Confirmation Email"),
+            "description": _("This email format is great for order confirmations."),
+            "content": render_to_string(
+                "mails/order_confirmation.html",
+                context={"base_url": settings.BASE_URL},
+            ),
+        },
+        {
+            "title": _("Internal Notification Email"),
+            "description": _("This email format is great for internal notifications."),
+            "content": render_to_string(
+                "mails/internal_notification.html",
+                context={"base_url": settings.BASE_URL},
+            ),
+        },
+    ]
+except TemplateDoesNotExist:
+    EMAIL_TEMPLATES = []
 
 
 class EmailAttachment(models.Model):

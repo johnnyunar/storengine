@@ -5,8 +5,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% trans 'Invoice' %} {{ invoice.order.order_number }} {% endblock %}</title>
-    <link href="{% static 'snapshop/images/trzn_logo_small.png' %}" rel="shortcut icon" type="image/x-icon">
-    <link href="{% static 'snapshop/images/trzn_logo_small.png' %}" rel="apple-touch-icon">
+    <link href="{% static 'storengine/images/trzn_logo_small.png' %}" rel="shortcut icon" type="image/x-icon">
+    <link href="{% static 'storengine/images/trzn_logo_small.png' %}" rel="apple-touch-icon">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
           integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald&family=Space+Grotesk:wght@400;500;600&display=swap"
           rel="stylesheet">
 
-    <link rel="stylesheet" href="{% static 'snapshop/css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'storengine/css/style.css' %}" type="text/css">
 
     <script src="https://unpkg.com/htmx.org@1.7.0"
             integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo"
@@ -38,7 +38,7 @@
     {% block content %}
         <div id="webinvoice">
             <h1 class="webinvoice-title">{% trans "Invoice" %} {{ invoice.order.order_number }}</h1>
-            <img class="webinvoice-logo" src="{% static 'snapshop/images/trzn_logo_small.png' %}">
+            <img class="webinvoice-logo" src="{% static 'storengine/images/trzn_logo_small.png' %}">
             <div class="webinvoice-contact-wrapper">
                 <div class="webinvoice-contact">
                     <h2>{% trans "Supplier" %}</h2>

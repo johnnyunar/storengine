@@ -30,7 +30,7 @@
                 </h1>
                 <h3 class="subheading">{{ content_settings.subheading_text }}</h3>
                 <a href="#quiz" class="hero-arrow bounce-slow">
-                    <img src="{% static 'snapshop/images/arrow-down-simple.png' %}" width="50px">
+                    <img src="{% static 'storengine/images/arrow-down-simple.png' %}" width="50px">
                 </a>
             </div>
         </div>
@@ -43,7 +43,7 @@
     <section class="even" id="about">
         <div class="flex-section">
             <div class="flex-column text-left">
-                <h2>{% trans 'What is the snapshop?' %}</h2>
+                <h2>{% trans 'Store Engine' %}</h2>
                 <p>{{ content_settings.about_me_text | safe }}</p>
             </div>
             <div class="flex-column w-300 mw-300">
@@ -52,7 +52,7 @@
                         <img class="img-center" src="{{ im.url }}" width="100%">
                     {% endthumbnail %}
                 {% else %}
-                    <img class="img-center" src="{% static 'snapshop/images/rocket-earth.png' %}" width="100%">
+                    <img class="img-center" src="{% static 'storengine/images/rocket-earth.png' %}" width="100%">
                 {% endif %}
             </div>
         </div>
