@@ -36,6 +36,30 @@
     }
 },
 {
+    "model": "wagtailsearch.indexentry",
+    "pk": 6,
+    "fields": {
+        "content_type": 68,
+        "object_id": "1",
+        "title_norm": 1.0,
+        "autocomplete": "",
+        "title": "",
+        "body": "'contact':1 'none':3 'section':2"
+    }
+},
+{
+    "model": "wagtailsearch.indexentry",
+    "pk": 7,
+    "fields": {
+        "content_type": 72,
+        "object_id": "4",
+        "title_norm": 1.25,
+        "autocomplete": "'contact':1",
+        "title": "'contact':1B",
+        "body": ""
+    }
+},
+{
     "model": "wagtailcore.locale",
     "pk": 1,
     "fields": {
@@ -147,6 +171,54 @@
         "content_changed": false,
         "deleted": false,
         "object_id": "2"
+    }
+},
+{
+    "model": "wagtailcore.modellogentry",
+    "pk": 7,
+    "fields": {
+        "content_type": 68,
+        "label": "Contact Section",
+        "action": "wagtail.create",
+        "data": {},
+        "timestamp": "2022-06-22T17:40:29.536Z",
+        "uuid": "6317863d-9e21-4d12-84c2-79e778fffeab",
+        "user": 1,
+        "content_changed": false,
+        "deleted": false,
+        "object_id": "1"
+    }
+},
+{
+    "model": "wagtailcore.modellogentry",
+    "pk": 8,
+    "fields": {
+        "content_type": 62,
+        "label": "Contact for Localhost [default]",
+        "action": "wagtail.edit",
+        "data": {},
+        "timestamp": "2022-06-22T17:45:56.905Z",
+        "uuid": "8a59b28a-df15-44e1-97f2-d1afe64ffb45",
+        "user": 1,
+        "content_changed": false,
+        "deleted": false,
+        "object_id": "1"
+    }
+},
+{
+    "model": "wagtailcore.modellogentry",
+    "pk": 9,
+    "fields": {
+        "content_type": 68,
+        "label": "Contact Section",
+        "action": "wagtail.edit",
+        "data": {},
+        "timestamp": "2022-06-22T18:00:05.017Z",
+        "uuid": "4942afda-439f-48b6-a2d0-07e8a9b2bd3a",
+        "user": 1,
+        "content_changed": false,
+        "deleted": false,
+        "object_id": "1"
     }
 },
 {
@@ -288,7 +360,7 @@
     "fields": {
         "path": "00010001",
         "depth": 2,
-        "numchild": 0,
+        "numchild": 1,
         "translation_key": "0184bb75-8825-45b0-a229-7aca7c93ce2c",
         "locale": 1,
         "title": "Home",
@@ -312,6 +384,39 @@
         "last_published_at": "2022-06-22T16:58:13.701Z",
         "latest_revision_created_at": "2022-06-22T16:58:13.673Z",
         "live_revision": 1,
+        "alias_of": null
+    }
+},
+{
+    "model": "wagtailcore.page",
+    "pk": 4,
+    "fields": {
+        "path": "000100010001",
+        "depth": 3,
+        "numchild": 0,
+        "translation_key": "93f2f23d-6366-478c-a447-5bad3ce1c945",
+        "locale": 1,
+        "title": "Contact",
+        "draft_title": "Contact",
+        "slug": "contact",
+        "content_type": 72,
+        "live": true,
+        "has_unpublished_changes": false,
+        "url_path": "/home/contact/",
+        "owner": 1,
+        "seo_title": "",
+        "show_in_menus": true,
+        "search_description": "",
+        "go_live_at": null,
+        "expire_at": null,
+        "expired": false,
+        "locked": false,
+        "locked_at": null,
+        "locked_by": null,
+        "first_published_at": "2022-06-22T17:46:14.459Z",
+        "last_published_at": "2022-06-22T17:46:24.307Z",
+        "latest_revision_created_at": "2022-06-22T17:46:24.276Z",
+        "live_revision": 3,
         "alias_of": null
     }
 },
@@ -355,6 +460,106 @@
             "wagtail_admin_comments": [],
             "has_unpublished_changes": false,
             "latest_revision_created_at": null
+        },
+        "approved_go_live_at": null
+    }
+},
+{
+    "model": "wagtailcore.pagerevision",
+    "pk": 2,
+    "fields": {
+        "page": 4,
+        "submitted_for_moderation": false,
+        "created_at": "2022-06-22T17:46:14.420Z",
+        "user": 1,
+        "content": {
+            "pk": 4,
+            "live": true,
+            "path": "000100010001",
+            "slug": "contact",
+            "depth": 3,
+            "owner": 1,
+            "title": "Contact",
+            "locale": 1,
+            "locked": false,
+            "expired": false,
+            "alias_of": null,
+            "numchild": 0,
+            "url_path": "/home/contact/",
+            "expire_at": null,
+            "locked_at": null,
+            "locked_by": null,
+            "seo_title": "",
+            "go_live_at": null,
+            "draft_title": "Contact",
+            "content_type": 72,
+            "live_revision": null,
+            "page_sections": [
+                {
+                    "pk": 1,
+                    "page": 4,
+                    "section": 1,
+                    "sort_order": 0
+                }
+            ],
+            "show_in_menus": false,
+            "translation_key": "93f2f23d-6366-478c-a447-5bad3ce1c945",
+            "last_published_at": null,
+            "first_published_at": null,
+            "search_description": "",
+            "wagtail_admin_comments": [],
+            "has_unpublished_changes": false,
+            "latest_revision_created_at": null
+        },
+        "approved_go_live_at": null
+    }
+},
+{
+    "model": "wagtailcore.pagerevision",
+    "pk": 3,
+    "fields": {
+        "page": 4,
+        "submitted_for_moderation": false,
+        "created_at": "2022-06-22T17:46:24.276Z",
+        "user": 1,
+        "content": {
+            "pk": 4,
+            "live": true,
+            "path": "000100010001",
+            "slug": "contact",
+            "depth": 3,
+            "owner": 1,
+            "title": "Contact",
+            "locale": 1,
+            "locked": false,
+            "expired": false,
+            "alias_of": null,
+            "numchild": 0,
+            "url_path": "/home/contact/",
+            "expire_at": null,
+            "locked_at": null,
+            "locked_by": null,
+            "seo_title": "",
+            "go_live_at": null,
+            "draft_title": "Contact",
+            "content_type": 72,
+            "live_revision": 2,
+            "page_sections": [
+                {
+                    "pk": 1,
+                    "page": 4,
+                    "section": 1,
+                    "sort_order": 0
+                }
+            ],
+            "show_in_menus": true,
+            "translation_key": "93f2f23d-6366-478c-a447-5bad3ce1c945",
+            "last_published_at": "2022-06-22T17:46:14.459Z",
+            "first_published_at": "2022-06-22T17:46:14.459Z",
+            "search_description": "",
+            "wagtail_admin_comments": [],
+            "has_unpublished_changes": false,
+            "latest_revision_created_at": "2022-06-22T17:46:14.420Z"
         },
         "approved_go_live_at": null
     }
@@ -516,11 +721,88 @@
     }
 },
 {
+    "model": "wagtailcore.pagelogentry",
+    "pk": 4,
+    "fields": {
+        "content_type": 72,
+        "label": "Contact",
+        "action": "wagtail.create",
+        "data": {},
+        "timestamp": "2022-06-22T17:46:14.396Z",
+        "uuid": "9ec386c8-bcfa-42b6-8641-51e90f66c0a5",
+        "user": 1,
+        "content_changed": true,
+        "deleted": false,
+        "page": 4,
+        "revision": null
+    }
+},
+{
+    "model": "wagtailcore.pagelogentry",
+    "pk": 5,
+    "fields": {
+        "content_type": 72,
+        "label": "Contact",
+        "action": "wagtail.publish",
+        "data": {},
+        "timestamp": "2022-06-22T17:46:14.513Z",
+        "uuid": "9ec386c8-bcfa-42b6-8641-51e90f66c0a5",
+        "user": 1,
+        "content_changed": true,
+        "deleted": false,
+        "page": 4,
+        "revision": 2
+    }
+},
+{
+    "model": "wagtailcore.pagelogentry",
+    "pk": 6,
+    "fields": {
+        "content_type": 72,
+        "label": "Contact",
+        "action": "wagtail.edit",
+        "data": {},
+        "timestamp": "2022-06-22T17:46:24.290Z",
+        "uuid": "adce9d1e-acbe-46be-8e7b-18cb8d7f912d",
+        "user": 1,
+        "content_changed": true,
+        "deleted": false,
+        "page": 4,
+        "revision": 3
+    }
+},
+{
+    "model": "wagtailcore.pagelogentry",
+    "pk": 7,
+    "fields": {
+        "content_type": 72,
+        "label": "Contact",
+        "action": "wagtail.publish",
+        "data": {},
+        "timestamp": "2022-06-22T17:46:24.339Z",
+        "uuid": "adce9d1e-acbe-46be-8e7b-18cb8d7f912d",
+        "user": 1,
+        "content_changed": true,
+        "deleted": false,
+        "page": 4,
+        "revision": 3
+    }
+},
+{
     "model": "wagtailcore.pagesubscription",
     "pk": 1,
     "fields": {
         "user": 1,
         "page": 3,
+        "comment_notifications": true
+    }
+},
+{
+    "model": "wagtailcore.pagesubscription",
+    "pk": 2,
+    "fields": {
+        "user": 1,
+        "page": 4,
         "comment_notifications": true
     }
 },
@@ -4669,6 +4951,23 @@
     }
 },
 {
+    "model": "core.pagesection",
+    "pk": 1,
+    "fields": {
+        "translation_key": "c2afcb24-16f0-4a1d-a4eb-cb361af1f39b",
+        "locale": 1,
+        "created_by": 1,
+        "section_type": "contact_section",
+        "name": "Contact Section",
+        "text_color": null,
+        "background_color": null,
+        "text": "",
+        "image": null,
+        "button": null,
+        "iframe": "<iframe src=\"https://www.google.com/maps/d/u/0/embed?mid=1GjzVNWm1x4qa0Aumu32cOhP1cfdQjcU&ehbc=2E312F\" width=\"100%\" height=\"600\"></iframe>"
+    }
+},
+{
     "model": "core.herosection",
     "pk": 1,
     "fields": {
@@ -4683,6 +4982,11 @@
     }
 },
 {
+    "model": "core.simplepage",
+    "pk": 4,
+    "fields": {}
+},
+{
     "model": "core.homepage",
     "pk": 3,
     "fields": {
@@ -4690,23 +4994,32 @@
     }
 },
 {
+    "model": "core.pagesectionplacement",
+    "pk": 1,
+    "fields": {
+        "sort_order": 0,
+        "page": 4,
+        "section": 1
+    }
+},
+{
     "model": "core.contactsettings",
     "pk": 1,
     "fields": {
         "site": 2,
-        "full_name": "Snap Shop",
-        "vat_id": "",
-        "phone_number": "",
-        "email": "",
-        "facebook": "",
-        "instagram": "",
-        "linkedin": "",
-        "trip_advisor": "",
-        "youtube": "",
-        "tiktok": "",
-        "billing_address": null,
-        "billing_address_zip": null,
-        "billing_address_city": null,
+        "full_name": "Store Engine",
+        "vat_id": "12345678",
+        "phone_number": "123 456 789",
+        "email": "storengine@example.com",
+        "facebook": "https://facebook.com",
+        "instagram": "https://instagram.com",
+        "linkedin": null,
+        "trip_advisor": null,
+        "youtube": null,
+        "tiktok": null,
+        "billing_address": "Billing Address 1313",
+        "billing_address_zip": "123 45",
+        "billing_address_city": "Address Town",
         "invoices_due_in_days": 14,
         "bank_account": null,
         "vat_payer": false

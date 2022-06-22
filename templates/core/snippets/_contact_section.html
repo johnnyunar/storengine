@@ -1,7 +1,7 @@
 {% extends 'core/snippets/_base_section.html' %}
 {% load static i18n %}
 {% block section_content %}
-    <div class="flex-section">
+    <div class="flex-section mb-5">
         <h1>{% trans 'Contact' %}</h1>
         <p>
             {{ settings.core.ContactSettings.full_name }}<br/>
@@ -30,4 +30,7 @@
             {% endif %}
         </div>
     </div>
+    {% if section.iframe %}
+        {{ section.iframe | safe }}
+    {% endif %}
 {% endblock %}

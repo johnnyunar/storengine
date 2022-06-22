@@ -12,7 +12,7 @@ class ContactSettings(BaseSetting):
         _("Full Name"),
         max_length=64,
         blank=True,
-        default="Snap Shop",
+        default="Store Engine",
     )
 
     vat_id = models.CharField(
@@ -26,21 +26,21 @@ class ContactSettings(BaseSetting):
         _("Phone Number"),
         max_length=16,
         blank=True,
-        default="",
+        null=True,
     )
 
     email = models.EmailField(
         _("Email"),
         blank=True,
-        default="",
+        null=True,
     )
 
-    facebook = models.URLField(help_text=_("Your Facebook page URL"))
-    instagram = models.URLField(help_text=_("Your Instagram Profile URL"))
-    linkedin = models.URLField(help_text=_("Your LinkedIn Profile URL"))
-    trip_advisor = models.URLField(help_text=_("Your Trip Advisor page URL"))
-    youtube = models.URLField(help_text=_("Your YouTube channel or user account URL"))
-    tiktok = models.URLField(help_text=_("Your TikTok account URL"))
+    facebook = models.URLField(help_text=_("Your Facebook page URL"), blank=True, null=True)
+    instagram = models.URLField(help_text=_("Your Instagram Profile URL"), blank=True, null=True)
+    linkedin = models.URLField(help_text=_("Your LinkedIn Profile URL"), blank=True, null=True)
+    trip_advisor = models.URLField(help_text=_("Your Trip Advisor page URL"), blank=True, null=True)
+    youtube = models.URLField(help_text=_("Your YouTube channel or user account URL"), blank=True, null=True)
+    tiktok = models.URLField(help_text=_("Your TikTok account URL"), blank=True, null=True)
 
     # Billing
     billing_address = models.CharField(
