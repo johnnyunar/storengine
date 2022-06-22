@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-SECRET_KEY = os.environ.get("CZECHTARZAN_SECRET_KEY")
+SECRET_KEY = os.environ.get("STORENGINE_SECRET_KEY")
 
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
@@ -41,8 +41,8 @@ SECURE_SSL_REDIRECT = True
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "ab-stage.herokuapp.com",
-    "adambuzek.cz",
+    "storengine-dev.herokuapp.com",
+    "storengine.herokuapp.com",
 ]
 
 INTERNAL_IPS = ["127.0.0.1"]
@@ -307,16 +307,20 @@ LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
+SENTRY_DSN = os.environ.get("SENTRY_DSN")
 # Sentry
 if ENV != "LOCAL":
     sentry_sdk.init(
-        dsn="https://3f90a8d1447d45828409360df5c6b388@o522271.ingest.sentry.io/6031517",
+        dsn=SENTRY_DSN,
         integrations=[DjangoIntegration()],
         traces_sample_rate=1.0,
         send_default_pii=True,
         release=f"storengine@{storengine.VERSION}",
         environment=ENV,
     )
+
+# GOOGLE CONFIG
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 
 # GOPAY CONFIG
 GOPAY_URL = os.environ.get("GOPAY_URL")

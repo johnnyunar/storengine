@@ -5,6 +5,8 @@ from wagtail.admin.panels import FieldPanel, ObjectList, TabbedInterface
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail_color_panel.fields import ColorField
 
+from core.models import fonts
+
 
 @register_setting(icon="fa-hashtag")
 class ContactSettings(BaseSetting):
@@ -35,12 +37,24 @@ class ContactSettings(BaseSetting):
         null=True,
     )
 
-    facebook = models.URLField(help_text=_("Your Facebook page URL"), blank=True, null=True)
-    instagram = models.URLField(help_text=_("Your Instagram Profile URL"), blank=True, null=True)
-    linkedin = models.URLField(help_text=_("Your LinkedIn Profile URL"), blank=True, null=True)
-    trip_advisor = models.URLField(help_text=_("Your Trip Advisor page URL"), blank=True, null=True)
-    youtube = models.URLField(help_text=_("Your YouTube channel or user account URL"), blank=True, null=True)
-    tiktok = models.URLField(help_text=_("Your TikTok account URL"), blank=True, null=True)
+    facebook = models.URLField(
+        help_text=_("Your Facebook page URL"), blank=True, null=True
+    )
+    instagram = models.URLField(
+        help_text=_("Your Instagram Profile URL"), blank=True, null=True
+    )
+    linkedin = models.URLField(
+        help_text=_("Your LinkedIn Profile URL"), blank=True, null=True
+    )
+    trip_advisor = models.URLField(
+        help_text=_("Your Trip Advisor page URL"), blank=True, null=True
+    )
+    youtube = models.URLField(
+        help_text=_("Your YouTube channel or user account URL"), blank=True, null=True
+    )
+    tiktok = models.URLField(
+        help_text=_("Your TikTok account URL"), blank=True, null=True
+    )
 
     # Billing
     billing_address = models.CharField(
@@ -99,6 +113,11 @@ class ContactSettings(BaseSetting):
 @register_setting(icon="fa-tint")
 class BrandSettings(BaseSetting):
     logo = ImageField(_("Logo"), null=True, blank=True)
+    google_font = models.ForeignKey(
+        "GoogleFont",
+        on_delete=models.SET(fonts.get_default_font),
+        default=fonts.get_default_font_id,
+    )
     primary_color = ColorField(_("Primary Color"), default="#4E8397")
     accent_color = ColorField(_("Accent Color"), default="#4E8397")
 

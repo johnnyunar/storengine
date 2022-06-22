@@ -12,6 +12,11 @@ from core.models import (
     Button,
     FrequentlyAskedQuestion, Counter,
 )
+from core.models.fonts import GoogleFontVariant, GoogleFontSubset, GoogleFont
+
+admin.site.register(GoogleFontVariant)
+admin.site.register(GoogleFontSubset)
+admin.site.register(GoogleFont)
 
 
 @admin.register(Button)

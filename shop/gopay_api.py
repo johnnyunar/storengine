@@ -94,14 +94,12 @@ def is_gopay_payment_paid(payment_number) -> bool:
 
 
 def update_gopay_orders():
-    from shop.models import ServiceOrder, ProductOrder
+    from shop.models import Order
     two_days_ago = timezone.now() - timedelta(days=2)
     filters = {
         "billing_type__name": "card-online",
         "paid": False,
         "created_at__gt": two_days_ago,
     }
-    for order in ServiceOrder.objects.filter(**filters):
-        order.update_payment_status()
-    for order in ProductOrder.objects.filter(**filters):
+    for order in Order.objects.filter(**filters):
         order.update_payment_status()

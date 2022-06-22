@@ -20,8 +20,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald&family=Space+Grotesk:wght@400;500;600&display=swap"
-          rel="stylesheet">
+    <link href="{{ settings.core.BrandSettings.google_font.url }}|Oswald" rel="stylesheet">
 
 
     <link rel="stylesheet" href="{% static 'storengine/css/style.css' %}" type="text/css">
@@ -39,6 +38,11 @@
     <script src="{% static 'storengine/js/splide.min.js' %}"></script>
 
     <style>
+        * {
+            font-family: '{{ settings.core.BrandSettings.google_font.family }}',{{ settings.core.BrandSettings.google_font.category }};
+            text-align: left;
+        }
+
         {% if content_settings.footer_image %}
             footer {
                 background: url("{{ content_settings.footer_image.url }}") center;
