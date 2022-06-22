@@ -30,6 +30,9 @@
             {% endif %}
         </div>
     </div>
+    {% if section.button %}
+        {{ section.button.render }}
+    {% endif %}
     {% if section.iframe %}
         {{ section.iframe | safe }}
     {% endif %}

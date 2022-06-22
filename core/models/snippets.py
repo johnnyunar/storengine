@@ -4,6 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from django_currentuser.db.models import CurrentUserField
 from modelcluster.fields import ParentalKey
@@ -54,6 +55,11 @@ class Button(TranslatableMixin):
         verbose_name = _("Button")
         verbose_name_plural = _("Buttons")
         unique_together = [("translation_key", "locale")]
+
+    def render(self):
+        return format_html(
+            f'<a href="{self.link}" class="cta center mb-5" style="background-color: {self.color}">{self.text}</a>'
+        )
 
     def clean(self):
         super(Button, self).clean()
@@ -133,16 +139,15 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
                 NativeColorPanel("background_color"),
             ],
             heading=_("General"),
-            classname="collapsible collapsed"
+            classname="collapsible collapsed",
         ),
         MultiFieldPanel(
             [
                 InlinePanel("products", label=_("Products")),
             ],
             heading=_("Products"),
-            classname="collapsible collapsed"
+            classname="collapsible collapsed",
         ),
-
     ]
 
     search_fields = [
