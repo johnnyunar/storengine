@@ -46,7 +46,7 @@ $(document).ready(function () {
     $(window).scroll(function () {
         var scrollTop = $(this).scrollTop();
 
-        $('.navbar').css({
+        $('.main-navbar').css({
             background: function () {
                 var elementHeight = $(this).height(),
                     opacity = ((1 - (elementHeight - scrollTop) / elementHeight) * 0.8);

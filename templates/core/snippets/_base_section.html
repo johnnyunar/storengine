@@ -1,5 +1,6 @@
 <section style="background-color: {% firstof section.background_color settings.core.BrandSettings.primary_color %};
-        color: {% firstof section.text_color settings.core.BrandSettings.text_color %}">
+        color: {% firstof section.text_color settings.core.BrandSettings.text_color %};
+        {% block section_style %}{% endblock %}" {% block extra_attrs %}{% endblock %}>
     {% block section_content %}
     {% endblock %}
 </section>

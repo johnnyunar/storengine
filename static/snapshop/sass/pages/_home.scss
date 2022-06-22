@@ -112,14 +112,14 @@
 /* END QUIZ */
 
 /* SERVICES */
-#services-cards-sm {
+#product-cards-sm {
   flex-direction: row !important;
   flex-wrap: nowrap;
   overflow: auto;
   height: 300px;
 }
 
-.service-card-sm {
+.product-card-sm {
   width: 250px;
   height: 250px;
   border-radius: 10px;
@@ -136,13 +136,13 @@
   cursor: pointer;
 }
 
-.service-card-sm:hover {
+.product-card-sm:hover {
   box-shadow: inset 0 0 0 200px #f1f1f1, 0 7px 9px -1px rgba(0, 0, 0, 0.55) !important;
   transform: scale(1.02);
   color: black;
 }
 
-.service-name {
+.product-name {
   text-align: center;
 }
 
