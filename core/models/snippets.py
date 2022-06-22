@@ -57,8 +57,9 @@ class Button(TranslatableMixin):
         unique_together = [("translation_key", "locale")]
 
     def render(self):
+        target = "_blank" if self.open_in_new_tab else "_self"
         return format_html(
-            f'<a href="{self.link}" class="cta center mb-5" style="background-color: {self.color}">{self.text}</a>'
+            f'<a href="{self.link}" target="{target}" class="cta center mb-5" style="background-color: {self.color}">{self.text}</a>'
         )
 
     def clean(self):
