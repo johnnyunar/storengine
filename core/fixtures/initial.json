@@ -1,19 +1,5 @@
 [
 {
-    "model": "wagtailusers.userprofile",
-    "pk": 1,
-    "fields": {
-        "user": 1,
-        "submitted_notifications": true,
-        "approved_notifications": true,
-        "rejected_notifications": true,
-        "updated_comments_notifications": true,
-        "preferred_language": "",
-        "current_time_zone": "",
-        "avatar": ""
-    }
-},
-{
     "model": "wagtailsearch.indexentry",
     "pk": 1,
     "fields": {
