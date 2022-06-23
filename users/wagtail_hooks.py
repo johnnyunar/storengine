@@ -17,14 +17,15 @@ class UserAdmin(ThumbnailMixin, ModelAdmin):
     menu_label = "Shop Users"
     menu_icon = "user"
     add_to_settings_menu = True
-    list_display = ("admin_thumb", "email", "first_name", "last_name")
+    list_display = ("avatar_thumb", "email", "first_name", "last_name")
     list_filter = ("is_staff", "is_superuser")
     ordering = ("email",)
     form_fields_exclude = ("password",)
-    thumb_image_field_name = "avatar"
-    thumb_classname = "avatar-thumb"  # this is the default
-    thumb_default = static("users/images/default-user.png")
-    thumb_col_header_text = ""
+
+    def avatar_thumb(self, obj):
+        return format_html(f"<img src='{obj.avatar.url}' width='50'>")
+
+    avatar_thumb.short_description = "avatar"
 
 
 modeladmin_register(UserAdmin)
