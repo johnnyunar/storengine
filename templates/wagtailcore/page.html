@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n static %}
 {% get_current_language as LANGUAGE_CODE %}
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 {% if self.title != "Welcome to your new Wagtail site!" %}
@@ -12,5 +12,70 @@
     </body>
     </html>
 {% else %}
-    {% include 'core/home_page.html' %}
+    <!DOCTYPE html>
+    <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Store Engine</title>
+        <link href="/static/storengine/images/rocket-earth.png" rel="shortcut icon" type="image/x-icon">
+        <link href="/static/storengine/images/rocket-earth.png" rel="apple-touch-icon">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+              crossorigin="anonymous">
+
+
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+              integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css?family=Space Grotesk:regular,500,600,700,300|Oswald"
+              rel="stylesheet">
+
+
+        <link rel="stylesheet" href="/static/storengine/css/style.css" type="text/css">
+
+        <script src="/static/storengine/js/main.js"></script>
+        <script src="/static/storengine/js/in-view.min.js"></script>
+        <script src="/static/storengine/js/splide.min.js"></script>
+
+        <style>
+            * {
+                font-family: 'Space Grotesk', sans-serif;
+                text-align: left;
+            }
+
+            main {
+                background: #4E8397;
+            }
+        </style>
+
+        <style>
+            .hero {
+                background-image: url("{% static 'storengine/images/rocket-earth-wide.png' %}");
+            }
+        </style>
+
+    </head>
+    <body>
+    <main role="main">
+        <section class="hero">
+            <div id="particles-js">
+                <div class="heading">
+                    <h1 class="hero-title no-select">
+                        Store Engine
+                    </h1>
+                    <h3 class="subheading">Welcome!</h3>
+                </div>
+            </div>
+        </section>
+        <script src="/static/particles/particles.js-master/particles.js"></script>
+        <script src="/static/particles/demo/js/app.js"></script>
+    </main>
+    </body>
+    </html>
 {% endif %}
