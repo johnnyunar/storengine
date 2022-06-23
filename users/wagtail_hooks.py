@@ -6,13 +6,12 @@ from wagtail.core import hooks
 
 from users.models import ShopUser
 
-
+"""
 @hooks.register("construct_settings_menu")
 def hide_user_menu_item(request, menu_items):
     menu_items[:] = [item for item in menu_items if item.name != "users"]
 
-
-class UserAdmin(ThumbnailMixin, ModelAdmin):
+class UserAdmin(ModelAdmin):
     model = ShopUser
     menu_label = "Shop Users"
     menu_icon = "user"
@@ -20,7 +19,6 @@ class UserAdmin(ThumbnailMixin, ModelAdmin):
     list_display = ("avatar_thumb", "email", "first_name", "last_name")
     list_filter = ("is_staff", "is_superuser")
     ordering = ("email",)
-    form_fields_exclude = ("password",)
 
     def avatar_thumb(self, obj):
         return format_html(f"<img src='{obj.avatar.url}' width='50'>")
@@ -29,3 +27,4 @@ class UserAdmin(ThumbnailMixin, ModelAdmin):
 
 
 modeladmin_register(UserAdmin)
+"""
