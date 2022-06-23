@@ -1,0 +1,93 @@
+{% extends 'wagtailadmin/login.html' %}
+{% load static i18n wagtailadmin_tags %}
+
+{% block furniture %}
+    <main class="content-wrapper">
+        {% if messages or form.errors %}
+            <div class="messages">
+                <ul>
+                    {% if form.errors %}
+                        <li>{% trans "Your username and password didn't match. Please try again." %}</li>
+                    {% endif %}
+
+                    {% if next and request.user.is_authenticated %}
+                        <li>{% trans "Your account doesn't have access to this page. To proceed, please log in with an account that has access." %}</li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {% block above_login %}
+            <img src="{% static 'storengine/images/rocket-earth.png' %}" width="100" style="display: block; margin: 0 auto;">
+        {% endblock %}
+
+        <form action="{% url 'wagtailcore_login' %}" method="post" autocomplete="off" novalidate>
+            {% block login_form %}
+                {% csrf_token %}
+
+                {% url 'wagtailadmin_home' as home_url %}
+                <input type="hidden" name="next" value="{{ next|default:home_url }}"/>
+
+                <h1>{% block branding_login %}{% trans "Sign in to Continue" %}{% endblock %}</h1>
+
+                <div class="fields-wrapper">
+                    <ul class="fields">
+                        {% block fields %}
+                            <li class="full">
+                                <div class="field iconfield">
+                                    {{ form.username.label_tag }}
+                                    <div class="input icon-user">
+                                        {{ form.username }}
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="full">
+                                <div class="field iconfield">
+                                    {{ form.password.label_tag }}
+                                    <div class="input icon-password">
+                                        {{ form.password }}
+                                    </div>
+                                </div>
+                            </li>
+
+                            {% block extra_fields %}
+                                {% for field_name, field in form.extra_fields %}
+                                    <li class="full">
+                                        {{ field.label_tag }}
+                                        <div class="field iconfield">
+                                            {{ field }}
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            {% endblock extra_fields %}
+
+                            <li class="checkbox">
+                                <div class="field">
+                                    <label><input name="remember" type="checkbox"/>{% trans "Remember me" %}</label>
+                                </div>
+                            </li>
+                        {% endblock %}
+
+                        <li class="submit">
+                            {% block submit_buttons %}
+                                <button type="submit" class="button button-longrunning"
+                                        data-clicked-text="{% trans 'Signing in…' %}">{% icon name="spinner" %}<em>{% trans 'Sign in' %}</em>
+                                </button>
+                            {% endblock %}
+                        </li>
+                    </ul>
+
+                    {% if show_password_reset %}
+                        <p class="help">
+                            <a class="help__link" href="{% url 'wagtailadmin_password_reset' %}"
+                               aria-label="{% trans 'Reset your password' %}">{% trans "Forgotten password?" %}</a>
+                        </p>
+                    {% endif %}
+                </div>
+            {% endblock %}
+        </form>
+
+        {% block below_login %}{% endblock %}
+
+    </main>
+{% endblock %}
