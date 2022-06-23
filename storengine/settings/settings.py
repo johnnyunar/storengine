@@ -38,12 +38,7 @@ ADMINS = (("Jan Unar", "johnny@unar.dev"),)
 
 SECURE_SSL_REDIRECT = True
 
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
-    "storengine-dev.herokuapp.com",
-    "storengine.herokuapp.com",
-]
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
 INTERNAL_IPS = ["127.0.0.1"]
 
