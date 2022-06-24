@@ -1,4 +1,4 @@
-{% load static i18n wagtailuserbar wagtailcore_tags storengine %}
+{% load static i18n wagtailuserbar wagtailcore_tags wagtailimages_tags storengine %}
 {% wagtail_site as current_site %}
 {% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
@@ -140,22 +140,18 @@
         Eshop solution
     </div>
     <div class="footer-section">
-        <a href="mailto:{{ content_settings.email }}">{{ content_settings.email }}</a>
+        <p>
+            <a href="mailto:{{ settings.core.ContactSettings.email }}">{{ settings.core.ContactSettings.email }}</a>
+        </p>
         <div class="social-footer">
-            {% if content_settings.instagram_link %}
-                <a href="{{ content_settings.instagram_link }}" target="_blank"><img
-                        src="{% static 'storengine/images/iglogo.png' %}"></a>
-            {% endif %}
-            {% if content_settings.facebook_link %}
-                <a href="{{ content_settings.facebook_link }}" target="_blank"><img
-                        src="{% static 'storengine/images/fblogo.png' %}"></a>
-            {% endif %}
-            {% if content_settings.linkedin_link %}
-                <a href="{{ content_settings.linkedin_link }}" target="_blank"><img
-                        src="{% static 'storengine/images/lilogo.png' %}"></a>
-            {% endif %}
+            {% for link in settings.core.ContactSettings.social_links.all %}
+                {% if link.is_active %}
+                    <a href="{{ link.url }}" target="_blank">
+                        {% image link.icon fill-30x30-c100 %}
+                    </a>
+                {% endif %}
+            {% endfor %}
         </div>
-        <br/>
         © {{ settings.core.ContactSettings.full_name }} {% now "Y" %}
     </div>
     <div class="footer-section">

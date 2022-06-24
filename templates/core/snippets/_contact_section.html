@@ -22,11 +22,10 @@
             {% for link in settings.core.ContactSettings.social_links.all %}
                 {% if link.is_active %}
                     <a href="{{ link.url }}" target="_blank">
-                        {% image link.icon width-100 %}
+                        {% image link.icon fill-100x100-c100 %}
                     </a>
                 {% endif %}
             {% endfor %}
-
         </div>
     </div>
     {% if section.button %}
