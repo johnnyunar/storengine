@@ -1,4 +1,4 @@
-select, input[type="text"], input[type="email"], input[type="number"], input[type="tel"], input[type="password"] {
+select:not(#language-select), input[type="text"], input[type="email"], input[type="number"], input[type="tel"], input[type="password"] {
   box-sizing: border-box;
   padding: 10px;
   width: 100%;

@@ -102,11 +102,14 @@
                 <form action="{% url 'set_language' %}" method="post" id="language-form">
                     {% csrf_token %}
                     <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
-                    <input name="language" type="hidden" {% if LANGUAGE_CODE == "en" %}value="cs"
-                           {% else %}value="en"{% endif %}>
-                    <li><input class="nav-links" type="submit" title="{% trans 'Change Language' %}"
-                               {% if LANGUAGE_CODE == "en" %}value="🇨🇿"
-                               {% else %}value="🇬🇧"{% endif %}/></li>
+                    <select name="language" id="language-select" onchange="this.form.submit()">
+                        {% for locale in locales %}
+                            <option value="{{ locale.language_code }}"
+                                    {% if locale.language_code == LANGUAGE_CODE %}selected{% endif %}>
+                                {{ locale.language_code.upper }}
+                            </option>
+                        {% endfor %}
+                    </select>
                 </form>
             {% endif %}
             {% comment %}
