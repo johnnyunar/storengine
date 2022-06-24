@@ -77,7 +77,7 @@ INSTALLED_APPS = [
     "modelcluster",
     "taggit",
     # --- wagtail ---
-    # Overriding 3rd party
+    "widget_tweaks",
     "polymorphic",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -245,9 +245,9 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": (
-                    "%(asctime)s [%(process)d] [%(levelname)s] "
-                    + "pathname=%(pathname)s lineno=%(lineno)s "
-                    + "funcname=%(funcName)s %(message)s"
+                "%(asctime)s [%(process)d] [%(levelname)s] "
+                + "pathname=%(pathname)s lineno=%(lineno)s "
+                + "funcname=%(funcName)s %(message)s"
             ),
             "datefmt": "%Y-%m-%d %H:%M:%S",
         },

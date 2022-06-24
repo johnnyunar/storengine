@@ -1,5 +1,5 @@
 {% extends 'wagtailadmin/login.html' %}
-{% load static i18n wagtailadmin_tags %}
+{% load static i18n wagtailadmin_tags widget_tweaks %}
 
 {% block furniture %}
     <main class="content-wrapper">
@@ -37,7 +37,9 @@
                                 <div class="field iconfield">
                                     {{ form.username.label_tag }}
                                     <div class="input icon-user">
-                                        {{ form.username }}
+                                        {% with "placeholder:"|add:_("Enter your Email") as username_ph %}
+                                            {{ form.username|attr:username_ph }}
+                                        {% endwith %}
                                     </div>
                                 </div>
                             </li>
@@ -45,7 +47,9 @@
                                 <div class="field iconfield">
                                     {{ form.password.label_tag }}
                                     <div class="input icon-password">
-                                        {{ form.password }}
+                                        {% with "placeholder:"|add:_("Enter Password") as password_ph %}
+                                            {{ form.password|attr:password_ph }}
+                                        {% endwith %}
                                     </div>
                                 </div>
                             </li>
@@ -76,13 +80,6 @@
                             {% endblock %}
                         </li>
                     </ul>
-
-                    {% if show_password_reset %}
-                        <p class="help">
-                            <a class="help__link" href="{% url 'wagtailadmin_password_reset' %}"
-                               aria-label="{% trans 'Reset your password' %}">{% trans "Forgotten password?" %}</a>
-                        </p>
-                    {% endif %}
                 </div>
             {% endblock %}
         </form>

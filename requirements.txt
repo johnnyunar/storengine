@@ -30,6 +30,7 @@ django-solo==2.0.0
 django-storages==1.12.3
 django-taggit==2.1.0
 django-treebeard==4.5.1
+django-widget-tweaks==1.4.12
 djangorestframework==3.13.1
 draftjs-exporter==2.1.7
 et-xmlfile==1.1.0
