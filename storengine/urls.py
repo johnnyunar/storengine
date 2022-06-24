@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
+from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
 
 from core.views import (
@@ -34,6 +35,7 @@ urlpatterns = [
         SetCookiesPreferencesView.as_view(),
         name="set_cookies_preferences",
     ),
+    path("sitemap.xml", sitemap),
     path("", include(wagtail_urls)),
     # Left here for compatibility reasons before references are removed
     # path("", HomePageView.as_view(), name="home"),

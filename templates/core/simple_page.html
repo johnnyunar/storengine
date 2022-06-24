@@ -2,6 +2,12 @@
 {% load static i18n thumbnail %}
 {% block extrahead %}
 {% endblock %}
+
+{% block title %}{{ page.title }}{% endblock %}
+{% block description %}{{ page.search_description }}{% endblock %}
+{% block og_title %}{{ page.seo_title }}{% endblock %}
+{% block og_image %}{{ page.og_image.url }}{% endblock %}
+
 {% block content %}
     {% for section in page.page_sections.all %}
         {% with template_name=section.section.get_template_name %}

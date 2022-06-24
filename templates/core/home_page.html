@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 {% load static i18n thumbnail %}
+
+{% block title %}{{ page.title }}{% endblock %}
+{% block description %}{{ page.search_description }}{% endblock %}
+{% block og_title %}{{ page.seo_title }}{% endblock %}
+{% block og_image %}{{ page.og_image.url }}{% endblock %}
+
 {% block extrahead %}
     <style>
         .hero {

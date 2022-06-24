@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     "wagtail.admin",
     "wagtailfontawesome",
     "wagtail_color_panel",
+    "wagtail_meta_preview",
     "wagtail",
     "modelcluster",
     "taggit",
@@ -86,6 +87,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "django.contrib.sitemaps",
     "sorl.thumbnail",
     "formtools",
     "djrichtextfield",
@@ -245,9 +247,9 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": (
-                    "%(asctime)s [%(process)d] [%(levelname)s] "
-                    + "pathname=%(pathname)s lineno=%(lineno)s "
-                    + "funcname=%(funcName)s %(message)s"
+                "%(asctime)s [%(process)d] [%(levelname)s] "
+                + "pathname=%(pathname)s lineno=%(lineno)s "
+                + "funcname=%(funcName)s %(message)s"
             ),
             "datefmt": "%Y-%m-%d %H:%M:%S",
         },
