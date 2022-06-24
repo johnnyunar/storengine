@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% load static i18n thumbnail %}
 
-{% block title %}{{ page.title }}{% endblock %}
-{% block description %}{{ page.search_description }}{% endblock %}
-{% block og_title %}{{ page.seo_title }}{% endblock %}
-{% block og_image %}{{ page.og_image.url }}{% endblock %}
-{% block keywords %}{{ page.seo_keywords }}{% endblock %}
+{% block title %}{{ page.title|default:current_site.site_name }}{% endblock %}
+{% block description %}{{ page.search_description|default:"" }}{% endblock %}
+{% block og_title %}{{ page.seo_title|default:"" }}{% endblock %}
+{% block og_image %}{{ page.og_image.url|default:"" }}{% endblock %}
+{% block keywords %}{{ page.seo_keywords|default:"" }}{% endblock %}
 
 {% block extrahead %}
     <style>
