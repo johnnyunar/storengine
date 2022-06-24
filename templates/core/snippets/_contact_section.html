@@ -10,9 +10,10 @@
                 {% trans "VAT ID" %}: {{ settings.core.ContactSettings.vat_id }}<br/>
             {% endif %}
 
-            {{ settings.core.ContactSettings.phone_number|default:"" }}<br/><br/>
+            {{ settings.core.ContactSettings.phone_number|default:"" }}
 
             {% if settings.core.ContactSettings.email %}
+                <br/><br/>
                 <a href="mailto:{{ settings.core.ContactSettings.email }}"
                    target="_blank">{{ settings.core.ContactSettings.email }}</a>
             {% endif %}
