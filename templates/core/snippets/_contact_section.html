@@ -1,7 +1,7 @@
 {% extends 'core/snippets/_base_section.html' %}
-{% load static i18n %}
+{% load static i18n wagtailimages_tags %}
 {% block section_content %}
-    <div class="flex-section mb-5">
+    <div class="flex-section mb-5 justify-content-around">
         <h1>{% trans 'Contact' %}</h1>
         <p>
             {{ settings.core.ContactSettings.full_name|default:"" }}<br/>
@@ -18,21 +18,14 @@
             {% endif %}
         </p>
         <div class="social-contact">
-            {% if settings.core.ContactSettings.instagram %}
-                <a href="{{ settings.core.ContactSettings.instagram }}" target="_blank">
-                    <img src="{% static 'storengine/images/iglogo.png' %}">
-                </a>
-            {% endif %}
-            {% if settings.core.ContactSettings.facebook %}
-                <a href="{{ settings.core.ContactSettings.facebook }}" target="_blank">
-                    <img src="{% static 'storengine/images/fblogo.png' %}">
-                </a>
-            {% endif %}
-            {% if settings.core.ContactSettings.linkedin %}
-                <a href="{{ settings.core.ContactSettings.linkedin }}" target="_blank">
-                    <img src="{% static 'storengine/images/lilogo.png' %}">
-                </a>
-            {% endif %}
+            {% for link in settings.core.ContactSettings.social_links.all %}
+                {% if link.is_active %}
+                    <a href="{{ link.url }}" target="_blank">
+                        {% image link.icon width-100 %}
+                    </a>
+                {% endif %}
+            {% endfor %}
+
         </div>
     </div>
     {% if section.button %}

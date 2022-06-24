@@ -140,7 +140,7 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
                 NativeColorPanel("background_color"),
             ],
             heading=_("General"),
-            classname="collapsible collapsed",
+            classname="collapsible",
         ),
         MultiFieldPanel(
             [

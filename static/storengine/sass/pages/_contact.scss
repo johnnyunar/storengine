@@ -4,9 +4,7 @@
 
 .social-contact {
   display: flex;
-}
-
-.social-contact img {
-  padding-right: 30px;
-  height: 5em;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: space-around;
 }

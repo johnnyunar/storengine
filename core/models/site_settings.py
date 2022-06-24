@@ -11,26 +11,6 @@ from wagtail_color_panel.fields import ColorField
 from core.models import fonts
 
 
-class SocialLink(models.Model):
-    name = models.CharField(_("Name"), max_length=64, help_text=_("E.g. Twitter"))
-
-    url = models.URLField(
-        _("URL"), max_length=512, help_text=_("E.g. https://twitter.com/home/")
-    )
-
-    icon = models.ForeignKey(
-        "wagtailimages.Image",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        verbose_name=_("Icon"),
-    )
-
-    def __str__(self):
-        return self.name
-
-
 @register_setting(icon="fa-hashtag")
 class ContactSettings(BaseSetting, ClusterableModel):
     full_name = models.CharField(
@@ -108,24 +88,40 @@ class ContactSettings(BaseSetting, ClusterableModel):
         verbose_name = _("Contact")
 
 
-class SocialLinkPlacement(Orderable, models.Model):
+class SocialLink(Orderable, models.Model):
     settings = ParentalKey(
         ContactSettings, on_delete=models.CASCADE, related_name="social_links"
     )
-    social_link = models.ForeignKey(
-        "SocialLink", on_delete=models.CASCADE, related_name="+"
+    name = models.CharField(_("Name"), max_length=64, help_text=_("E.g. Twitter"))
+
+    url = models.URLField(
+        _("URL"), max_length=512, help_text=_("E.g. https://twitter.com/home/")
     )
+
+    icon = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Icon"),
+    )
+
+    is_active = models.BooleanField(_("Available"), default=True)
 
     class Meta(Orderable.Meta):
         verbose_name = "Social Links"
         verbose_name_plural = "Social Links"
 
     panels = [
-        FieldPanel("social_link"),
+        FieldPanel("name"),
+        FieldPanel("url"),
+        FieldPanel("icon"),
+        FieldPanel("is_active"),
     ]
 
     def __str__(self):
-        return self.social_link.name
+        return self.name
 
 
 @register_setting(icon="fa-tint")
