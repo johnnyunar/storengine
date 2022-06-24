@@ -1,4 +1,4 @@
-{% load static i18n wagtailuserbar wagtailcore_tags %}
+{% load static i18n wagtailuserbar wagtailcore_tags storengine %}
 {% wagtail_site as current_site %}
 {% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
@@ -94,7 +94,7 @@
             {% endif %}
         </a>
         <ul class="main-nav" id="js-menu">
-            {% for page in menu_pages %}
+            {% for page in menu_pages|filter_by_locale:LANGUAGE_CODE %}
                 <li><a href="{% if page.url_path.lower != '/home/' %}/{{ page.slug }}/{% else %}/{% endif %}"
                        class="nav-links">{{ page.title.upper }}</a></li>
             {% endfor %}
@@ -150,7 +150,7 @@
         © {{ settings.core.ContactSettings.full_name }} {% now "Y" %}
     </div>
     <div class="footer-section">
-        {% for page in menu_pages %}
+        {% for page in menu_pages|filter_by_locale:LANGUAGE_CODE %}
             <a href="{% if page.url_path.lower != '/home/' %}/{{ page.slug }}/{% else %}/{% endif %}">
                 {{ page.title.upper }}
             </a>
@@ -162,86 +162,10 @@
     </a>
 </footer>
 {% if not request.session.cookies_preferences_set %}
-    <div id="cookie-bar" hx-swap="none">
-        <div id="cookie-bar-content">
-            <div>
-                <h2>COOKIES</h2>
-                <p>Pokud přijmete cookies, pomůžete mi s vylepšováním fungování webu a zároveň i se zlepšováním služeb.
-                    Více informací najdete v zásadách používání cookies. Své rozhodnutí můžete později změnit.
-                </p>
-                <button id="cookie-settings-button" class="cookie-button">Nastavit</button>
-                <button class="cookie-button" id="accept-important-cookies"
-                        hx-post="{% url 'set_cookies_preferences' %}"
-                        hx-vals='{"important": "on"}'>
-                    Přijmout nezbytné
-                </button>
-                <button class="cookie-button accept-all" id="accept-all-cookies"
-                        hx-post="{% url 'set_cookies_preferences' %}"
-                        hx-vals='{"important": "on", "analytic": "on", "marketing": "on"}'>
-                    Přijmout vše
-                </button>
-            </div>
-            <img width="100px" src="{% static 'storengine/images/cookie.svg' %}">
-        </div>
-    </div>
-    <div id="cookie-modal">
-        <div id="cookie-modal-content">
-            <i class="fa fa-times modal-close" aria-hidden="true"></i>
-            <h2>Pokročilá nastavení</h2>
-
-            <p>
-                Je pouze na vás, ke kterým cookies udělíte souhlas. A pokud svůj názor změníte, můžete se kdykoliv
-                vrátit a nastavení změnit.
-            </p>
-            <hr>
-            <br/>
-            <form id="cookies-form">
-                <label for="important" class="toggle-switchy" data-color="orange">
-                    <input checked type="checkbox" id="important" name="important" disabled>
-                    <span class="toggle">
-		            <span class="switch"></span>
-	            </span>
-                    &nbsp;Nezbytné Cookies
-                </label>
-                <br/>
-                <small>Tyto soubory cookie potřebujeme pro správné fungování základních funkcí webu a aplikace. Bez nich
-                    by to bohužel opravdu nešlo, nelze je proto vypnout. Nemusíte se ale bát, neukládají žádné vaše
-                    osobní
-                    informace.</small>
-                <hr/>
-                <label for="analytic" class="toggle-switchy" data-color="green">
-                    <input type="checkbox" id="analytic" name="analytic">
-                    <span class="toggle">
-		            <span class="switch"></span>
-	            </span>
-                    &nbsp;Statistické Cookies
-                </label>
-                <br/>
-                <small>Statistické cookies pomáhají majitelům webových stránek, aby porozuměli, jak návštěvníci
-                    používají
-                    webové stránky. Anonymně sbírají a sdělují informace.</small>
-                <hr/>
-                <label for="marketing" class="toggle-switchy" data-color="green">
-                    <input type="checkbox" id="marketing" name="marketing">
-                    <span class="toggle">
-		            <span class="switch"></span>
-	            </span>
-                    &nbsp;Marketingové Cookies
-                </label>
-                <br/>
-                <small>Pomocí marketingových cookies můžeme měřit a analyzovat návštěvnost webu. Dokážeme díky tomu
-                    například zjistit, které stránky jsou oblíbené. To mi pomáhá tvořit takový obsah, který je pro
-                    návštěvníky skutečně zajímavý.</small>
-                <br/><br/>
-                <button type="submit" hx-post="{% url 'set_cookies_preferences' %}"
-                        class="cookie-modal-button accept-all">{% trans 'Save' %}
-                </button>
-            </form>
-        </div>
-    </div>
+    {% include "storengine/includes/_cookie_bar.html" %}
 {% endif %}
 <div class="svgs">
-    {% include 'storengine/_svgs.html' %}
+    {% include "storengine/includes/_svgs.html" %}
 </div>
 </body>
 </html>
