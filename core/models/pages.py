@@ -29,6 +29,16 @@ class SimplePage(Page):
         verbose_name=_("SEO image"),
     )
 
+    seo_keywords = models.CharField(
+        _("Keywords"),
+        max_length=512,
+        null=True,
+        blank=True,
+        help_text=_(
+            "Comma-separated keywords for search engines. For Example: food, friends, travelling"
+        ),
+    )
+
     content_panels = Page.content_panels + [
         InlinePanel("page_sections", label="Sections"),
     ]
@@ -38,6 +48,7 @@ class SimplePage(Page):
             [
                 FieldPanel("seo_title"),
                 FieldPanel("search_description"),
+                FieldPanel("seo_keywords"),
                 FieldPanel("og_image"),
             ],
             heading="Facebook",
@@ -64,6 +75,16 @@ class HomePage(Page):
         on_delete=models.SET_NULL,
         related_name="+",
         verbose_name=_("SEO image"),
+    )
+
+    seo_keywords = models.CharField(
+        _("Keywords"),
+        max_length=512,
+        null=True,
+        blank=True,
+        help_text=_(
+            "Comma-separated keywords for search engines. For Example: food, friends, travelling"
+        ),
     )
 
     hero_section = models.ForeignKey(
