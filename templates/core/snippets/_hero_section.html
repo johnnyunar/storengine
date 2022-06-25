@@ -1,15 +1,15 @@
 {% load static wagtailimages_tags %}
 <style>
     .hero {
-        {% if hero.image %}
-            background: url('{% image_url hero.image "width-1920" %}');
-            background-size: cover;
-            background-position-x: center;
-            box-shadow: inset 0 0 0 2000px rgba(33, 33, 33, 0.4);
-            padding: 0;
-        {% elif hero.video %}
-            background: {{ settings.core.BrandSettings.primary_color }};
-        {% endif %}
+    {% if hero.image %}
+        background: url('{% image_url hero.image "width-1920" %}');
+        background-size: cover;
+        background-position-x: center;
+        box-shadow: inset 0 0 0 2000px rgba(33, 33, 33, 0.4);
+        padding: 0;
+    {% elif hero.video %}
+        background: {{ settings.core.BrandSettings.primary_color }};
+    {% endif %}
     }
 </style>
 <section class="hero">
@@ -19,17 +19,19 @@
             <source src="{{ hero.video.url }}" type="video/mp4">
         </video>
     {% endif %}
-    {% if not hero.video and hero.enable_particles %}
-        <div id="particles-js">
-            <div class="heading">
-                <h1 class="hero-title no-select">
-                    {{ hero.title }}
-                </h1>
-                <h3 class="subheading">{{ hero.subheading }}</h3>
-                <a href="#quiz" class="hero-arrow bounce-slow">
-                    <img src="{% static 'storengine/images/arrow-down-simple.png' %}" width="50px">
-                </a>
-            </div>
+    <div id="particles-js">
+        <div class="heading">
+            <h1 class="hero-title no-select">
+                {{ hero.title }}
+            </h1>
+            <h3 class="subheading">{{ hero.subheading }}</h3>
+            <a href="#quiz" class="hero-arrow bounce-slow">
+                <img src="{% static 'storengine/images/arrow-down-simple.png' %}" width="50px">
+            </a>
         </div>
+    </div>
+    {% if not hero.video and hero.enable_particles %}
+        <script src="{% static 'particles/particles.js-master/particles.js' %}"></script>
+        <script src="{% static 'particles/demo/js/app.js' %}"></script>
     {% endif %}
 </section>

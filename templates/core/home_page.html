@@ -31,8 +31,4 @@
             {% include template_name with section=section.section %}
         {% endwith %}
     {% endfor %}
-    {% if not page.hero_video %}
-        <script src="{% static 'particles/particles.js-master/particles.js' %}"></script>
-        <script src="{% static 'particles/demo/js/app.js' %}"></script>
-    {% endif %}
 {% endblock %}

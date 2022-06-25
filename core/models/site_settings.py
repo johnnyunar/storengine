@@ -139,5 +139,35 @@ class BrandSettings(BaseSetting):
 
     show_footer_waves = models.BooleanField(_("Show Footer Waves"), default=False)
 
+    footer_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text=_("This image shows up in the footer section."),
+        verbose_name=_("Footer Image"),
+    )
+
+    general_panels = [
+        FieldPanel("logo"),
+        FieldPanel("google_font"),
+        FieldPanel("primary_color"),
+        FieldPanel("accent_color"),
+        FieldPanel("text_color"),
+    ]
+
+    footer_panels = [
+        FieldPanel("show_footer_waves"),
+        FieldPanel("footer_image"),
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(general_panels, heading="General"),
+            ObjectList(footer_panels, heading="Footer"),
+        ]
+    )
+
     class Meta:
         verbose_name = _("Branding")

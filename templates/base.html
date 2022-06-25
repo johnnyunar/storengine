@@ -49,9 +49,9 @@
             text-align: left;
         }
 
-        {% if content_settings.footer_image %}
+        {% if settings.core.BrandSettings.footer_image %}
             footer {
-                background: url("{{ content_settings.footer_image.url }}") center;
+                background: url("{% image_url settings.core.BrandSettings.footer_image "fill-1920x1080-c100" %}") center;
                 background-size: cover;
             }
         {% endif %}
