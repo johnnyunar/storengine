@@ -51,18 +51,22 @@ class SimplePage(Page):
                 FieldPanel("seo_keywords"),
                 FieldPanel("og_image"),
             ],
-            heading="Facebook",
+            heading=_("For search engines"),
         ),
         GooglePreviewPanel(heading="Google Preview"),
         FacebookPreviewPanel(heading="Facebook Preview"),
         TwitterPreviewPanel(heading="Twitter Preview"),
     ]
 
+    settings_panels = [
+        MultiFieldPanel([FieldPanel("show_in_menus")], heading=_("For site menus"))
+    ] + Page.settings_panels
+
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading=_("Content")),
             ObjectList(seo_panels, heading="SEO"),
-            ObjectList(Page.settings_panels, heading=_("Settings")),
+            ObjectList(settings_panels, heading=_("Settings")),
         ]
     )
 
