@@ -1,11 +1,11 @@
 from django import forms
 
-from shop.models import ServiceOrder, BillingAddress
+from shop.models import BillingAddress, Order
 
 
-class ServiceOrderForm(forms.ModelForm):
+class OrderForm(forms.ModelForm):
     class Meta:
-        model = ServiceOrder
+        model = Order
         exclude = [
             "billing_address",
             "shipping_address",
