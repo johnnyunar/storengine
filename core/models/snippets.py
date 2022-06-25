@@ -19,6 +19,7 @@ from wagtail_color_panel.fields import ColorField
 
 from core.models import FrequentlyAskedQuestion, Testimonial, Counter
 from core.utils import user_directory_path
+from shop.forms import BillingAddressForm
 from shop.models import Product
 
 
@@ -83,6 +84,7 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
         PRODUCT_CAROUSEL = "product_carousel_section", _("Product Carousel Section")
         PRODUCT_LIST_SQUARE = "product_list_square", _("Product List (Square Cards)")
         PRODUCT_LIST_TALL = "product_list_tall", _("Product List (Tall Cards)")
+        CHECKOUT = "checkout_section", _("Checkout Section")
 
     created_by = CurrentUserField()
 
@@ -175,6 +177,10 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
     def counters(self):
         return Counter.objects.filter(is_active=True)
 
+    @property
+    def billing_form(self):
+        return BillingAddressForm()
+
     def get_template_name(self):
         obj_content_type = ContentType.objects.get_for_model(self)
         app_label = obj_content_type.app_label
@@ -243,6 +249,8 @@ class HeroSection(index.Indexed, TranslatableMixin):
         ],
     )
 
+    enable_particles = models.BooleanField(_("Enable Particles"), default=False)
+
     class Meta:
         unique_together = [("translation_key", "locale")]
 
@@ -252,6 +260,7 @@ class HeroSection(index.Indexed, TranslatableMixin):
         FieldPanel("subheading"),
         FieldPanel("image"),
         FieldPanel("video"),
+        FieldPanel("enable_particles"),
     ]
 
     search_fields = [
