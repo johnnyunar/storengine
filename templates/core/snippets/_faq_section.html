@@ -11,6 +11,6 @@
         <h2 class="text-center">{% trans "Come back later!" %}</h2>
     {% endfor %}
     {% if section.button %}
-        <a href="{{ section.button.link }}" class="cta center">{{ section.button.text }}</a>
+       {{ section.button.render }}
     {% endif %}
 {% endblock %}

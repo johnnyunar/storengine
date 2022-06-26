@@ -21,7 +21,7 @@
         </div>
     {% endif %}
     {% if section.button %}
-        <a href="{{ section.button.link }}" class="cta center">{{ section.button.text }}</a>
+       {{ section.button.render }}
     {% endif %}
     {% if section.iframe %}
         {{ section.iframe | safe }}
