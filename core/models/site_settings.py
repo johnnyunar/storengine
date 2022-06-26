@@ -138,15 +138,18 @@ class BrandSettings(BaseSetting):
         on_delete=models.SET(fonts.get_default_font),
         default=fonts.get_default_font_id,
     )
-    primary_color = ColorField(_("Primary Color"), default="#4E8397")
-    accent_color = ColorField(_("Accent Color"), default="#4E8397")
+    primary_color = ColorField(_("Primary Color"), default="#1D2228")
+    accent_color = ColorField(_("Accent Color"), default="#FB8122")
 
     text_color = ColorField(_("Text Color"), default="#FFFFFF")
     error_color = ColorField(
         _("Error Color"),
-        default="#761C19",
+        default="#FF7B76",
         help_text=_("The color of error messages in forms."),
     )
+
+    cart_color = ColorField(_("Cart Color"), default="#1D2938")
+    cart_text_color = ColorField(_("Cart Text Color"), default="#FFFFFF")
 
     show_footer_waves = models.BooleanField(_("Show Footer Waves"), default=False)
 
@@ -169,6 +172,8 @@ class BrandSettings(BaseSetting):
                 FieldPanel("accent_color"),
                 FieldPanel("text_color"),
                 FieldPanel("error_color"),
+                FieldPanel("cart_color"),
+                FieldPanel("cart_text_color"),
             ),
             heading=_("Colors"),
         ),

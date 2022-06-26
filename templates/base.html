@@ -79,11 +79,16 @@
         }
 
         .errorlist {
-            color: {{ settings.core.BrandSettings.error_color }}
+            color: {{ settings.core.BrandSettings.error_color }};
         }
 
         #cart {
-            background: {{ settings.core.BrandSettings.primary_color }};
+            background: {{ settings.core.BrandSettings.cart_color }};
+            color: {{ settings.core.BrandSettings.cart_text_color }};
+        }
+
+        .cart-item {
+            border-color: {{ settings.core.BrandSettings.cart_text_color }};
         }
 
         .cta {
