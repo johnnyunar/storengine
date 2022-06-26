@@ -18,6 +18,10 @@ $(document).ready(function () {
         $(this).parent().parent().fadeOut("fast");
     });
 
+    $("#nav-link-cart, #cart-close, #cart-close-text").on("click", function () {
+        $("#cart").toggle("slide", {direction: "right"}, 300);
+    });
+
     $("#accept-important-cookies, #accept-all-cookies").on("click", function () {
         $(this).parent().parent().fadeOut("fast");
     });

@@ -119,4 +119,23 @@
     margin-left: 40px;
   }
 
+  #nav-link-cart {
+    position: absolute;
+    right: 50px;
+  }
+
+  #cart-counter {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    top: -5px;
+    right: -10px;
+    border-radius: 100%;
+    background: #b61924;
+    opacity: .8;
+    cursor: pointer;
+  }
+
 }

@@ -3,7 +3,13 @@ from django.db.models import ImageField
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.admin.panels import FieldPanel, ObjectList, TabbedInterface, InlinePanel
+from wagtail.admin.panels import (
+    FieldPanel,
+    ObjectList,
+    TabbedInterface,
+    InlinePanel,
+    MultiFieldPanel,
+)
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.models import Orderable
 from wagtail_color_panel.fields import ColorField
@@ -136,6 +142,11 @@ class BrandSettings(BaseSetting):
     accent_color = ColorField(_("Accent Color"), default="#4E8397")
 
     text_color = ColorField(_("Text Color"), default="#FFFFFF")
+    error_color = ColorField(
+        _("Error Color"),
+        default="#761C19",
+        help_text=_("The color of error messages in forms."),
+    )
 
     show_footer_waves = models.BooleanField(_("Show Footer Waves"), default=False)
 
@@ -152,9 +163,15 @@ class BrandSettings(BaseSetting):
     general_panels = [
         FieldPanel("logo"),
         FieldPanel("google_font"),
-        FieldPanel("primary_color"),
-        FieldPanel("accent_color"),
-        FieldPanel("text_color"),
+        MultiFieldPanel(
+            (
+                FieldPanel("primary_color"),
+                FieldPanel("accent_color"),
+                FieldPanel("text_color"),
+                FieldPanel("error_color"),
+            ),
+            heading=_("Colors"),
+        ),
     ]
 
     footer_panels = [

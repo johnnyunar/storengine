@@ -16,9 +16,11 @@ from shop.models import (
     BillingAddress,
     BillingType,
     GopayPayment,
-    Category, Order, Invoice, OrderItem,
+    Category, Order, Invoice, OrderItem, Cart, CartItem,
 )
 
+admin.site.register(Cart)
+admin.site.register(CartItem)
 
 @admin.register(GopayPayment)
 class GopayPaymentAdmin(admin.ModelAdmin):
@@ -105,8 +107,8 @@ class BillingAddressAdmin(admin.ModelAdmin):
 
 @admin.register(BillingType)
 class BillingTypeAdmin(admin.ModelAdmin):
-    list_display = ("image_tag", "display_name", "is_active")
-    list_display_links = ("image_tag", "display_name")
+    list_display = ("display_name", "is_active")
+    list_display_links = ("display_name",)
     list_filter = ("is_active",)
 
     readonly_fields = ("created_at", "updated_at")

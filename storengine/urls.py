@@ -25,6 +25,7 @@ from wagtail.images.views.serve import ServeView
 from core.views import (
     SetCookiesPreferencesView,
 )
+from shop.views import CheckoutView
 
 urlpatterns = [
     re_path(r'^images/([^/]*)/(\d*)/([^/]*)/[^/]*$', ServeView.as_view(), name='wagtailimages_serve'),
@@ -38,6 +39,7 @@ urlpatterns = [
         name="set_cookies_preferences",
     ),
     path("sitemap.xml", sitemap),
+    path("", include("shop.urls")),
     path("", include(wagtail_urls)),
     # Left here for compatibility reasons before references are removed
     # path("", HomePageView.as_view(), name="home"),
@@ -51,7 +53,7 @@ urlpatterns = [
     #    TermsAndConditionsView.as_view(),
     #    name="terms_and_conditions",
     # ),
-    # path("", include("shop.urls")),
+
 ]
 
 try:

@@ -7,10 +7,7 @@ app_name = "shop"
 
 urlpatterns = [
     path("add-to-cart/", views.AddToCartView.as_view(), name="add_to_cart"),
-    path("services/", views.ServicesView.as_view(), name="services"),
-    path("services/<int:pk>/enter/1/", views.OrderStep1.as_view(), name="service_order_step_1"),
-    path("services/<int:pk>/enter/2/", views.OrderStep2.as_view(), name="service_order_step_2"),
-    path("products/", views.ProductsView.as_view(), name="products"),
+    path("checkout/", views.CheckoutView.as_view(), name="checkout"),
     path("order/<str:order_number>/callback/", views.PaymentCallbackView.as_view(), name="order_payment_callback"),
     path("thank-you/", views.ThankYouView.as_view(), name="thank_you"),
     path("thank-you/paid/",

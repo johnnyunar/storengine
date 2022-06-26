@@ -1,11 +1,14 @@
 import logging
 
+from django import forms
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse, HttpResponseRedirect, HttpResponseNotFound, Http404
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponseNotFound, Http404, HttpResponse
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, CreateView, DetailView
 
+from shop.forms import BillingAddressForm
 from shop.gopay_api import (
     create_gopay_order,
     get_gopay_payment_details,
@@ -91,13 +94,15 @@ class OrderStep1(CreateView):
         return super().form_valid(form)
 
 
-class OrderStep2(CreateView):
-    template_name = "shop/service_order_step_2.html"
+class CheckoutView(CreateView):
+    template_name = "shop/checkout.html"
     model = BillingAddress
-    fields = "__all__"
+    form_class = BillingAddressForm
 
     def get_initial(self):
         """Returns the initial data to use for forms on this view."""
+        print(self.request.session["cart"])
+
         initial = super().get_initial()
 
         existing_billing_address = self.request.session.get("billing_address")
@@ -112,54 +117,27 @@ class OrderStep2(CreateView):
         return initial
 
     def get_success_url(self):
-        self.request.session["billing_address"] = self.object.pk
-        service_order = Order.objects.get(
-            pk=self.request.session["service_order"]
-        )
-        service_order.billing_address = self.object
-        user = self.request.user if self.request.user.is_authenticated else None
-        service_order.created_by = user
-        service_order.save()
-
-        clear_service_order_session(self.request)
-
-        if service_order.billing_type.name == "card-online":
-            return create_gopay_order(service_order)
+        try:
+            Cart.objects.get(pk=self.request.session.get("cart")).delete()
+        except Cart.DoesNotExist:
+            pass
+        if self.order.billing_type.name == "card-online":
+            return create_gopay_order(self.order)
 
         return reverse_lazy("shop:thank_you")
 
     def form_valid(self, form):
-        service_order = Order.objects.get(
-            pk=self.request.session["service_order"]
-        )
-        service = Product.objects.get(pk=self.kwargs["pk"])
-
-        existing_billing_address = self.request.session.get("billing_address")
-        if existing_billing_address:
-            try:
-                existing_billing_address = BillingAddress.objects.get(
-                    pk=existing_billing_address
-                )
-                form.instance = existing_billing_address
-            except BillingAddress.DoesNotExist:
-                del self.request.session["billing_address"]
-
+        user = self.request.user if self.request.user.is_authenticated else None
         self.object = form.save()
-        self.request.session["billing_address"] = self.object
-
-        if (
-                not service_order.items.exists()
-        ):  # Prevent adding more order items on multiple validations
-            OrderItem.objects.create(
-                order=service_order, product=service, quantity=1
-            )
+        new_order = Order.objects.create(created_by=user, billing_address=self.object)
+        self.order = new_order
 
         if self.request.POST.get("pay_now"):
-            service_order.billing_type = BillingType.objects.get(name="card-online")
-            service_order.save()
+            new_order.billing_type = BillingType.objects.get(name="card-online")
         elif self.request.POST.get("pay_later"):
-            service_order.billing_type = BillingType.objects.get(name="cash")
-            service_order.save()
+            new_order.billing_type = BillingType.objects.get(name="cash")
+
+        new_order.save()
 
         return super().form_valid(form)
 
@@ -197,23 +175,19 @@ class ErrorView(TemplateView):
 
 class AddToCartView(View):
     def post(self, request, *args, **kwargs):
-        if request.is_ajax():
-            user = request.user if request.user.is_authenticated else None
-            cart = request.session.get("cart")
-            item = request.POST.get("item")
-            amount = request.POST.get("amount", 1)
+        user = request.user if request.user.is_authenticated else None
+        cart_pk = request.session.get("cart")
+        item_pk = int(request.POST.get("item"))
+        amount = int(request.POST.get("amount", 1))
 
-            if not cart:  # Create a new cart if there is no cart in session
-                cart = Cart.objects.create(user=user)
-                request.session["cart"] = cart
+        cart = Cart.objects.filter(pk=cart_pk).first()
+        if not cart:  # Create a new cart if there is no cart in session
+            cart = Cart.objects.create(created_by=user)
+            request.session["cart"] = cart.pk
 
-            cart.add(item, amount)
-            return JsonResponse({"success": True})
-
-        return JsonResponse(
-            status=400,
-            data={"success": False, "message": "Invalid request. AJAX required."},
-        )
+        item = Product.objects.get(pk=item_pk)
+        cart.add(item, amount)
+        return render(request, "storengine/includes/_cart.html")
 
 
 class InvoiceDetailView(LoginRequiredMixin, DetailView):

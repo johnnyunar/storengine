@@ -72,45 +72,6 @@
 
 /* END PARTICLES*/
 
-/* QUIZ */
-#quiz {
-  padding-top: 30px;
-  padding-bottom: 30px;
-
-  h3, small {
-    text-align: center;
-  }
-}
-
-#quiz h1 {
-  font-size: 40px;
-}
-
-#quiz h2 {
-  font-size: 22px;
-}
-
-@media screen and (max-width: 600px) {
-  #quiz h1 {
-    font-size: 30px;
-  }
-
-  #quiz h2 {
-    font-size: 12px;
-  }
-
-  .hero-logo {
-    width: 60%;
-  }
-
-  .hero {
-    background-position: 50%;
-    height: 100vh;
-  }
-}
-
-/* END QUIZ */
-
 /* SERVICES */
 #product-cards-sm {
   flex-direction: row !important;

@@ -1,0 +1,79 @@
+#checkout {
+  .order-items {
+    li {
+      display: flex;
+      justify-content: space-between;
+      margin: 5px 0;
+    }
+  }
+
+  #billing-address {
+    max-width: 500px;
+  }
+
+  #order-summary {
+    width: 500px;
+  }
+
+  #billing-address-form {
+    input {
+      height: 50px;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: none;
+    }
+  }
+
+  hr {
+    margin-bottom: 20px;
+  }
+
+  #id_first_name {
+    width: 50%;
+  }
+
+  #id_last_name {
+    width: calc(98% / 2);
+  }
+
+  #id_city {
+    width: 60%;
+  }
+
+  #id_zip_code {
+    width: 39%;
+  }
+
+  .errorlist + input {
+    border: 2px solid #de4141;
+  }
+
+}
+
+@media screen and (max-width: 1032px) {
+  #billing-address {
+    width: 100% !important;
+  }
+
+  #order-summary {
+    max-width: 500px !important;
+    width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 675px) {
+
+  #id_last_name {
+    width: calc(97% / 2) !important;
+  }
+
+  #id_zip_code {
+    width: 38.5% !important;
+  }
+
+  #order-summary {
+    width: auto;
+  }
+}

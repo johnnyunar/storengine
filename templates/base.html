@@ -73,12 +73,29 @@
         main {
             background: {{ settings.core.BrandSettings.primary_color }};
         }
+
+        hr {
+            background: {{ settings.core.BrandSettings.text_color }};
+        }
+
+        .errorlist {
+            color: {{ settings.core.BrandSettings.error_color }}
+        }
+
+        #cart {
+            background: {{ settings.core.BrandSettings.primary_color }};
+        }
+
+        .cta {
+            background: {{ settings.core.BrandSettings.accent_color }};
+        }
     </style>
     {% block extrahead %}
     {% endblock %}
 </head>
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
 {% wagtailuserbar %}
+{% cart as cart %}
 <div class="holder" id="holder">
     {% if content_settings.notification_bar_show %}
         <div class="notification" id="notification">
@@ -118,6 +135,12 @@
                     </select>
                 </form>
             {% endif %}
+            <li id="nav-link-cart" title="{% trans 'Cart' %}">
+                {% if cart %}
+                    <div id="cart-counter">{{ cart.items.count }}</div>
+                {% endif %}
+                <i class="fas fa-shopping-cart nav-links"></i>
+            </li>
             {% comment %}
                 <li><a href="{% url 'profile' %}" class="nav-links" title="{% trans 'Account' %}"><i
                         class="fas fa-user"></i></a></li>
@@ -171,6 +194,9 @@
 {% endif %}
 <div class="svgs">
     {% include "storengine/includes/_svgs.html" %}
+</div>
+<div id="cart">
+    {% include "storengine/includes/_cart.html" %}
 </div>
 </body>
 </html>

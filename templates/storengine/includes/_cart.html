@@ -1,0 +1,33 @@
+{% load i18n l10n djmoney static wagtailimages_tags storengine %}
+<i id="cart-close" class="fa fa-times"></i>
+{% cart as cart %}
+{% if cart %}
+    {% for item in cart.items.all %}
+        <div class="cart-item">
+            {% image item.product.image fill-100x100-c100 %}
+            <div class="cart-item-name col-3">{{ item.product.name }}</div>
+            <div class="cart-item-quantity-control col-3">
+                <i hx-post="{% url 'shop:add_to_cart' %}" hx-target='#cart'
+                   hx-vals='{"item": {{ item.product.pk }}, "amount": -1}' class="fa fa-minus">&nbsp;</i>
+                <input class="cart-item-quantity" type="text" value="{{ item.amount }}" readonly>&nbsp;
+                <i hx-post="{% url 'shop:add_to_cart' %}" hx-target='#cart'
+                   hx-vals='{"item": {{ item.product.pk }}}' class="fa fa-plus"></i>
+            </div>
+            <span class="cart-item-price col-4">
+                   {% money_localize item.price %}
+            </span>
+        </div>
+    {% endfor %}
+    <div class="cart-item total">
+        <div class="cart-item-name">{% trans "TOTAL" %}</div>
+        <span>{% money_localize cart.total_price %}</span>
+    </div>
+    <div class="cart-control text-center">
+        <a href="{% url 'shop:checkout' %}" class="cta center">{% trans "CHECKOUT" %} <i
+                class="fa fa-arrow-right"></i></a>
+        <span id="cart-close-text">{% trans "Close cart" %}</span>
+    </div>
+{% else %}
+    <h2 class="text-center"><i class="fas fa-shopping-cart"></i></h2>
+    <h3 class="text-center">{% trans "It's so empty here!" %}</h3>
+{% endif %}

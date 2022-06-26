@@ -15,9 +15,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
-from wagtail.models import TranslatableMixin
+from wagtail.models import TranslatableMixin, Site
 
-from core.models import SiteConfiguration
 from shop.gopay_api import is_gopay_payment_paid
 from shop.utils import generate_order_number
 from users.models import ShopUser
@@ -71,43 +70,58 @@ class CartItem(models.Model):
 
     product = models.ForeignKey("Product", on_delete=models.CASCADE)
 
+    created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
+
     def save(self, **kwargs):
+        if not self.price:
+            self.price = Money(0, self.product.price.currency)
         self.price.amount = self.product.price.amount * self.amount
         super(CartItem, self).save()
 
     def __str__(self):
         return f"{self.amount}x {self.product.name}"
 
+    class Meta:
+        ordering = ("created_at",)
+
 
 class Cart(models.Model):
     created_by = models.ForeignKey(
         get_user_model(), null=True, blank=True, on_delete=models.CASCADE
-    )
-    cart_items = models.ManyToManyField("Product", through=CartItem)
-
-    total_price = MoneyField(
-        _("Price"),
-        max_digits=14,
-        decimal_places=2,
-        default_currency="CZK",
-        null=True,
-        blank=True,
     )
 
     created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
 
     def add(self, item, amount=1):
-        CartItem.objects.create(cart=self, product=item, amount=amount)
+        try:
+            cart_item = CartItem.objects.get(cart=self, product=item)
+            new_amount = cart_item.amount + amount
+            if new_amount == 0:
+                cart_item.delete()
+                if not self.items.exists():
+                    self.delete()
+            else:
+                cart_item.amount = new_amount
+                cart_item.save()
+        except CartItem.DoesNotExist:
+            CartItem.objects.create(cart=self, product=item, amount=amount)
 
-    def save(self, **kwargs):
-        self.total_price.amount = sum(
-            [item.price.amount for item in self.cart_items.all()]
-        )
-        super(Cart, self).save()
+    @property
+    def total_price(self):
+        items = self.items.all()
+        if items:
+            return Money(sum([item.price.amount for item in items]), currency=items.first().price.currency)
+
+        return Money(0)
+
+    @property
+    def items(self):
+        return self.cartitem_set
 
     def __str__(self):
-        return f"{self.created_by.username} from {self.created_at}"
+        return f"{self.created_by.email} from {self.created_at}"
 
 
 class Category(TranslatableMixin):
@@ -212,15 +226,8 @@ class Address(models.Model):
     company = models.CharField(_("Company"), max_length=200, blank=True, null=True)
 
     address1 = models.CharField(
-        _("Address line 1"),
+        _("Street Address"),
         max_length=1024,
-    )
-
-    address2 = models.CharField(
-        _("Address line 2"),
-        max_length=1024,
-        blank=True,
-        null=True,
     )
 
     zip_code = models.CharField(
@@ -271,7 +278,7 @@ class BillingType(TranslatableMixin):
         max_length=255,
         help_text=_("Should be human readable, this will be displayed on checkout."),
     )
-    name = models.SlugField(_("Slug"), max_length=255, unique=True)
+    name = models.SlugField(_("Code"), max_length=255, unique=True)
 
     image = models.ForeignKey(
         "wagtailimages.Image",
@@ -287,15 +294,10 @@ class BillingType(TranslatableMixin):
     created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
 
-    ordering = models.PositiveIntegerField(
-        _("Order"), default=0, blank=False, null=False
-    )
-
     def __str__(self):
         return self.display_name
 
     class Meta:
-        ordering = ("ordering",)
         verbose_name = _("Billing Type")
         verbose_name_plural = _("Billing Types")
         unique_together = [("translation_key", "locale")]
@@ -469,8 +471,9 @@ class Invoice(models.Model):
         )
 
     def save(self, **kwargs):
+        from core.models import ContactSettings
         # Generate automatic Due Date
-        config = SiteConfiguration.get_solo()
+        config = ContactSettings.for_site(site=Site.objects.first())
         if not self.due_date:
             self.due_date = self.order.created_at + timedelta(
                 days=config.invoices_due_in_days

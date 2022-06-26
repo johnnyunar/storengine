@@ -6,26 +6,34 @@
 {% block section_content %}
     {% for product in section.products.all %}
         {% with product.product as product %}
-            {% image product.image width-500 as image %}
-            <div class="product-card-square" data-id="{{ product.id }}"
-                 {% if product.image %}style="background-image: url('{{ image.full_url }}'); box-shadow: inset 0 0 0 200px rgba(33, 33, 33, 0.7), 0px 7px 9px -1px rgba(0, 0, 0, 0.55);"{% endif %}>
-                <div class="card-text no-select">
-                    <div class="product-name">
-                        <h3>{{ product.name }}</h3>
-                        <h4>{{ product.amount }}</h4>
+            {% if product.is_active %}
+                {% image_url product.image "width-500" as image_url %}
+                <div class="product-card-square" data-id="{{ product.id }}"
+                     {% if product.image %}style="background-image: url('{{ image_url }}'); box-shadow: inset 0 0 0 200px rgba(33, 33, 33, 0.7), 0px 7px 9px -1px rgba(0, 0, 0, 0.55);"{% endif %}>
+                    <div class="card-text no-select">
+                        <div class="product-name">
+                            <h3>{{ product.name }}</h3>
+                            <h4>{{ product.amount }}</h4>
+                        </div>
+                        {{ product.short_description | safe }}
                     </div>
-                    {{ product.short_description | safe }}
+                    <span class="price">{% money_localize product.price %}</span>
+                    <br/><br/>
+                    {% if product.external_url %}
+                        <a href="{{ product.external_url }}" target="_blank" rel="noopener"
+                           class="card-cta">{% trans "Buy Now" %}</a>
+                    {% else %}
+                        <button hx-post="{% url 'shop:add_to_cart' %}" hx-target='#cart'
+                                hx-vals='{"item": {{ product.pk }}}'
+                                class="card-cta add-to-cart">{% trans "Add To Cart" %}</button>
+                    {% endif %}
                 </div>
-                <span class="price">{% money_localize product.price %}</span>
-                <br/><br/>
-                <a href="{{ product.external_url }}" target="_blank" rel="noopener"
-                   class="card-cta">{% trans "Buy Now" %}</a>
-            </div>
+            {% endif %}
         {% endwith %}
     {% empty %}
         <h2 class="text-center">{% trans "Come back later!" %}</h2>
     {% endfor %}
-    <div class="overlay">
+    <div class="overlay" id="product-overlay">
         {% for product in section.products.all %}
             {% with product.product as product %}
                 <div class="product-modal" data-id="{{ product.id }}">
@@ -34,15 +42,21 @@
                     <h4>{{ product.amount }}</h4>
                     <div class="image-description">
                         {% if product.image %}
-                            <img class="product-image" src="{{ product.image.url }}">
+                            {% image product.image width-300 %}
                         {% endif %}
                         <div class="product-description">
                             {{ product.description | safe }}
                         </div>
                     </div>
                     <span class="price">{% money_localize product.price %}</span>
-                    <a href="{{ product.external_url }}" target="_blank" rel="noopener"
-                       class="card-cta">{% trans "Buy Now" %}</a>
+                    {% if product.external_url %}
+                        <a href="{{ product.external_url }}" target="_blank" rel="noopener"
+                           class="card-cta">{% trans "Buy Now" %}</a>
+                    {% else %}
+                        <button hx-post="{% url 'shop:add_to_cart' %}" hx-target='#cart'
+                                hx-vals='{"item": {{ product.pk }}}'
+                                class="card-cta add-to-cart">{% trans "Add To Cart" %}</button>
+                    {% endif %}
                 </div>
             {% endwith %}
         {% endfor %}
