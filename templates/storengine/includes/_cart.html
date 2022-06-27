@@ -2,6 +2,7 @@
 <i id="cart-close" class="fa fa-times"></i>
 {% cart as cart %}
 {% if cart %}
+    <div class="text-center w-100 mb-3 h3"><i class="htmx-indicator fa fa-circle-o-notch fa-spin"></i></div>
     {% for item in cart.items.all %}
         <div class="cart-item">
             {% image item.product.image fill-100x100-c100 %}

@@ -19,6 +19,8 @@
     {% elif settings.shop.ShopSettings.shop_enabled %}
         <button hx-post="{% url 'shop:add_to_cart' %}" hx-target='#cart'
                 hx-vals='{"item": {{ product.pk }}}'
-                class="card-cta add-to-cart">{% trans "Add To Cart" %}</button>
+                class="card-cta add-to-cart">{% trans "Add To Cart" %}
+            <i class="htmx-indicator fa fa-circle-o-notch fa-spin position-absolute ms-2"></i>
+        </button>
     {% endif %}
 </div>
