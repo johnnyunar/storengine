@@ -177,10 +177,12 @@ class PaymentCallbackView(View):
         payment_id = request.GET.get("id")
         if order and payment_id:
             payment_details = get_gopay_payment_details(payment_id)
-            gopay_payment = GopayPayment.objects.create(
+            gopay_payment = GopayPayment.objects.update_or_create(
                 payment_id=payment_id,
-                payment_status=payment_details["state"],
-                payment_data=payment_details,
+                defaults={
+                    "payment_status": payment_details["state"],
+                    "payment_data": payment_details,
+                },
             )
             order.gopay_payment = gopay_payment
             order.save()
