@@ -17,7 +17,11 @@ from shop.models import (
     BillingAddress,
     Cart,
     BillingType,
-    GopayPayment, Invoice, Order, ShopSettings,
+    GopayPayment,
+    Invoice,
+    Order,
+    ShopSettings,
+    OrderItem,
 )
 
 logger = logging.getLogger("django")
@@ -138,7 +142,23 @@ class CheckoutView(ShopRequiredMixin, CreateView):
         user = self.request.user if self.request.user.is_authenticated else None
         self.object = form.save()
         new_order = Order.objects.create(created_by=user, billing_address=self.object)
+        OrderItem.objects.bulk_create(
+            [
+                OrderItem(
+                    quantity=item.amount,
+                    product=item.product,
+                    order=new_order,
+                    total_price=item.price,
+                )
+                for item in Cart.objects.get(
+                    pk=self.request.session.get(
+                        "cart",
+                    )
+                ).cartitem_set.all()
+            ]
+        )
         self.order = new_order
+        self.order.update_total_price()
 
         if self.request.POST.get("pay_now"):
             new_order.billing_type = BillingType.objects.get(name="card-online")

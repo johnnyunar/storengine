@@ -109,7 +109,10 @@ class Cart(models.Model):
     def total_price(self):
         items = self.items.all()
         if items:
-            return Money(sum([item.price.amount for item in items]), currency=items.first().price.currency)
+            return Money(
+                sum([item.price.amount for item in items]),
+                currency=items.first().price.currency,
+            )
 
         return Money(0)
 
@@ -309,7 +312,7 @@ class BillingAddressBlock(blocks.StructBlock):
     last_name = blocks.CharBlock()
 
     class Meta:
-        icon = 'address'
+        icon = "address"
 
 
 class Order(models.Model):
@@ -384,6 +387,17 @@ class Order(models.Model):
         FieldPanel("billing_address"),
     ]
 
+    def update_total_price(self):
+        if self.items:
+            self.total_price = Money(
+                sum([item.price.amount for item in self.items.all()]),
+                currency=self.items.first().price.currency,
+            )
+        else:
+            self.total_price = Money(0)
+
+        self.save()
+
     def save(self, *args, **kwargs):
         if self.gopay_payment:
             self.is_paid = self.gopay_payment.is_paid
@@ -443,13 +457,7 @@ class OrderItem(models.Model):
         self.total_price = Money(
             self.product.price.amount * self.quantity, self.product.price.currency
         )
-        if self.order.total_price:
-            self.order.total_price.amount += self.total_price.amount
-        else:
-            self.order.total_price = Money(
-                self.total_price.amount, self.product.price.currency
-            )
-        self.order.save()
+        self.order.update_total_price()
         super(OrderItem, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -473,6 +481,7 @@ class Invoice(models.Model):
 
     def save(self, **kwargs):
         from core.models import ContactSettings
+
         # Generate automatic Due Date
         config = ContactSettings.for_site(site=Site.objects.first())
         if not self.due_date:
