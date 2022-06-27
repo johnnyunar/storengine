@@ -39,7 +39,15 @@ class SimplePage(Page):
         ),
     )
 
-    content_panels = Page.content_panels + [
+    content_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("title", classname="title"),
+                FieldPanel("slug"),
+
+            ],
+            heading=_("Navigation"),
+        ),
         InlinePanel("page_sections", label="Sections"),
     ]
 
@@ -59,8 +67,8 @@ class SimplePage(Page):
     ]
 
     settings_panels = [
-        MultiFieldPanel([FieldPanel("show_in_menus")], heading=_("For site menus"))
-    ] + Page.settings_panels
+                          MultiFieldPanel([FieldPanel("show_in_menus")], heading=_("For site menus")),
+                      ] + Page.settings_panels
 
     edit_handler = TabbedInterface(
         [
