@@ -1,8 +1,7 @@
 import logging
 
-from django import forms
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse, HttpResponseRedirect, HttpResponseNotFound, Http404, HttpResponse
+from django.http import JsonResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
@@ -18,11 +17,20 @@ from shop.models import (
     BillingAddress,
     Cart,
     BillingType,
-    GopayPayment, Invoice, Order, OrderItem,
+    GopayPayment, Invoice, Order, ShopSettings,
 )
-from shop.utils import clear_service_order_session
 
 logger = logging.getLogger("django")
+
+
+class ShopRequiredMixin(View):
+    def dispatch(self, request, *args, **kwargs):
+        shop_enabled = ShopSettings.for_request(request).shop_enabled
+
+        if not shop_enabled:
+            raise Http404
+
+        return super().dispatch(request, args, kwargs)
 
 
 class ProductsView(TemplateView):
@@ -94,7 +102,7 @@ class OrderStep1(CreateView):
         return super().form_valid(form)
 
 
-class CheckoutView(CreateView):
+class CheckoutView(ShopRequiredMixin, CreateView):
     template_name = "shop/checkout.html"
     model = BillingAddress
     form_class = BillingAddressForm
@@ -173,7 +181,7 @@ class ErrorView(TemplateView):
     template_name = "shop/error.html"
 
 
-class AddToCartView(View):
+class AddToCartView(ShopRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         user = request.user if request.user.is_authenticated else None
         cart_pk = request.session.get("cart")
@@ -190,7 +198,7 @@ class AddToCartView(View):
         return render(request, "storengine/includes/_cart.html")
 
 
-class InvoiceDetailView(LoginRequiredMixin, DetailView):
+class InvoiceDetailView(ShopRequiredMixin, LoginRequiredMixin, DetailView):
     model = Invoice
     slug_url_kwarg = "order_number"
     slug_field = "order__order_number"

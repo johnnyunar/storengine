@@ -91,8 +91,12 @@
             border-color: {{ settings.core.BrandSettings.cart_text_color }};
         }
 
-        .cta {
+        .cta, .card-cta {
             background: {{ settings.core.BrandSettings.accent_color }};
+        }
+
+        a:hover {
+            color: {{ settings.core.BrandSettings.accent_color }} ;
         }
     </style>
     {% block extrahead %}
@@ -140,12 +144,14 @@
                     </select>
                 </form>
             {% endif %}
-            <li id="nav-link-cart" title="{% trans 'Cart' %}">
-                {% if cart %}
-                    <div id="cart-counter">{{ cart.items.count }}</div>
-                {% endif %}
-                <i class="fas fa-shopping-cart nav-links"></i>
-            </li>
+            {% if settings.shop.ShopSettings.shop_enabled %}
+                <li id="nav-link-cart" title="{% trans 'Cart' %}">
+                    {% if cart %}
+                        <div id="cart-counter">{{ cart.items.count }}</div>
+                    {% endif %}
+                    <i class="fas fa-shopping-cart nav-links"></i>
+                </li>
+            {% endif %}
             {% comment %}
                 <li><a href="{% url 'profile' %}" class="nav-links" title="{% trans 'Account' %}"><i
                         class="fas fa-user"></i></a></li>
@@ -200,8 +206,10 @@
 <div class="svgs">
     {% include "storengine/includes/_svgs.html" %}
 </div>
-<div id="cart">
-    {% include "storengine/includes/_cart.html" %}
-</div>
+{% if settings.shop.ShopSettings.shop_enabled %}
+    <div id="cart">
+        {% include "storengine/includes/_cart.html" %}
+    </div>
+{% endif %}
 </body>
 </html>
