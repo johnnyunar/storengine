@@ -14,11 +14,11 @@ $(document).ready(function () {
         $("#notification").slideUp();
     });
 
-    $(".modal-close").on("click", function () {
-        $(this).parent().parent().fadeOut("fast");
+    $("#nav-link-cart, #cart-close-text").on("click", function () {
+        $("#cart").toggle("slide", {direction: "right"}, 300);
     });
 
-    $("#nav-link-cart, #cart-close, #cart-close-text").on("click", function () {
+    $("#cart").on("click", "#cart-close", function () {
         $("#cart").toggle("slide", {direction: "right"}, 300);
     });
 

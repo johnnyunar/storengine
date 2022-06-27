@@ -20,7 +20,7 @@ from wagtail_color_panel.fields import ColorField
 from core.models import FrequentlyAskedQuestion, Testimonial, Counter
 from core.utils import user_directory_path
 from shop.forms import BillingAddressForm
-from shop.models import Product
+from shop.models import Product, ProductType
 
 
 @register_snippet
@@ -151,10 +151,15 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
         ),
         MultiFieldPanel(
             [
+                InlinePanel("product_types", label=_("Product Types")),
                 InlinePanel("products", label=_("Products")),
             ],
             heading=_("Products"),
             classname="collapsible collapsed",
+            help_text=_(
+                "Product types have higher priority. If you define both product types AND single products, "
+                "only product types will be taken into account."
+            ),
         ),
     ]
 
@@ -208,6 +213,29 @@ class ProductPlacement(Orderable, models.Model):
 
     def __str__(self):
         return self.section.title + " -> " + self.product.name
+
+
+class ProductTypePlacement(Orderable, models.Model):
+    section = ParentalKey(
+        PageSection, on_delete=models.CASCADE, related_name="product_types"
+    )
+    product_type = models.ForeignKey(
+        ProductType, on_delete=models.CASCADE, related_name="+"
+    )
+    split_into_categories = models.BooleanField(
+        _("Split Into Categories"),
+        default=True,
+        help_text=_("Split the displayed products into categories."),
+    )
+
+    class Meta(Orderable.Meta):
+        verbose_name = "Product Types"
+        verbose_name_plural = "Product Types"
+
+    panels = [FieldPanel("product_type"), FieldPanel("split_into_categories")]
+
+    def __str__(self):
+        return self.section.name + " -> " + self.product_type.name
 
 
 @register_snippet

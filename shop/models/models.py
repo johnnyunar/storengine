@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models import F
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -138,6 +139,10 @@ class ProductType(TranslatableMixin):
     name = models.CharField(_("Name"), max_length=128)
 
     is_active = models.BooleanField(_("Available"), default=True)
+
+    @property
+    def products(self):
+        return Product.objects.filter(is_active=True, product_type=self)
 
     def __str__(self):
         return self.name

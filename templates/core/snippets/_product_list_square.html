@@ -1,65 +1,54 @@
 {% extends 'core/snippets/_base_section.html' %}
 {% load static i18n l10n djmoney wagtailimages_tags %}
-{% block extra_attrs %}
-    class="d-flex";
-{% endblock %}
 {% block section_content %}
-    {% for product in section.products.all %}
-        {% with product.product as product %}
-            {% if product.is_active %}
-                {% image_url product.image "width-500" as image_url %}
-                <div class="product-card-square" data-id="{{ product.id }}"
-                     {% if product.image %}style="background-image: url('{{ image_url }}'); box-shadow: inset 0 0 0 200px rgba(33, 33, 33, 0.7), 0px 7px 9px -1px rgba(0, 0, 0, 0.55);"{% endif %}>
-                    <div class="card-text no-select">
-                        <div class="product-name">
-                            <h3>{{ product.name }}</h3>
-                            <h4>{{ product.amount }}</h4>
+    {% if section.product_types.exists %}
+        {% for product_type in section.product_types.all %}
+            {% if product_type.split_into_categories %}
+                {% regroup product_type.product_type.product_set.all by category as category_list %}
+                {% for category in category_list %}
+                    {% if category.grouper.is_active %}
+                        <h2 class="mt-5">{{ category.grouper }}</h2>
+                        <div class="d-flex">
+                            {% for product in category.list %}
+                                {% include "shop/includes/_product_card_square.html" %}
+                            {% endfor %}
                         </div>
-                        {{ product.short_description | safe }}
-                    </div>
-                    <span class="price">{% money_localize product.price %}</span>
-                    <br/><br/>
-                    {% if product.external_url %}
-                        <a href="{{ product.external_url }}" target="_blank" rel="noopener"
-                           class="card-cta">{% trans "Buy Now" %}</a>
-                    {% elif settings.shop.ShopSettings.shop_enabled %}
-                        <button hx-post="{% url 'shop:add_to_cart' %}" hx-target='#cart'
-                                hx-vals='{"item": {{ product.pk }}}'
-                                class="card-cta add-to-cart">{% trans "Add To Cart" %}</button>
+                        <hr class="mt-5">
                     {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="d-flex">
+                    {% for product in product_type.product_type.product_set.all %}
+                        {% include "shop/includes/_product_card_square.html" %}
+                    {% endfor %}
                 </div>
             {% endif %}
-        {% endwith %}
-    {% empty %}
-        <h2 class="text-center">{% trans "Come back later!" %}</h2>
-    {% endfor %}
-    <div class="overlay" id="product-overlay">
+        {% endfor %}
+    {% else %}
         {% for product in section.products.all %}
             {% with product.product as product %}
-                <div class="product-modal" data-id="{{ product.id }}">
-                    <i class="fas fa-times close"></i>
-                    <h2>{{ product.name }}</h2>
-                    <h4>{{ product.amount }}</h4>
-                    <div class="image-description">
-                        {% if product.image %}
-                            {% image product.image width-300 %}
-                        {% endif %}
-                        <div class="product-description">
-                            {{ product.description | safe }}
-                        </div>
-                    </div>
-                    <span class="price">{% money_localize product.price %}</span>
-                    {% if product.external_url %}
-                        <a href="{{ product.external_url }}" target="_blank" rel="noopener"
-                           class="card-cta">{% trans "Buy Now" %}</a>
-                    {% elif settings.shop.ShopSettings.shop_enabled %}
-                        <button hx-post="{% url 'shop:add_to_cart' %}" hx-target='#cart'
-                                hx-vals='{"item": {{ product.pk }}}'
-                                class="card-cta add-to-cart">{% trans "Add To Cart" %}</button>
-                    {% endif %}
-                </div>
+                {% if product.is_active %}
+                    {% include "shop/includes/_product_card_square.html" %}
+                {% endif %}
             {% endwith %}
+        {% empty %}
+            <h2 class="text-center">{% trans "Come back later!" %}</h2>
         {% endfor %}
+    {% endif %}
+    <div class="overlay" id="product-overlay">
+        {% if section.product_types.exists %}
+            {% for product_type in section.product_types.all %}
+                {% for product in product_type.product_type.product_set.all %}
+                    {% include "shop/includes/_product_modal.html" %}
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            {% for product in section.products.all %}
+                {% with product.product as product %}
+                    {% include "shop/includes/_product_modal.html" %}
+                {% endwith %}
+            {% endfor %}
+        {% endif %}
     </div>
     <script src="{% static 'shop/js/shop.js' %}"></script>
 {% endblock %}
