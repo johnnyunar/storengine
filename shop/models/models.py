@@ -40,14 +40,10 @@ class GopayPayment(models.Model):
 
     def save(self, *args, **kwargs):
         self.is_paid = self.payment_status == "PAID"
-        product_order = self.productorder_set.first()
-        service_order = self.productorder_set.first()
-        if product_order:
-            product_order.is_paid = self.is_paid
-            product_order.save()
-        if service_order:
-            service_order.is_paid = self.is_paid
-            service_order.save()
+        order = self.order_set.first()
+        if order:
+            order.is_paid = self.is_paid
+            order.save()
         super(GopayPayment, self).save()
 
     class Meta:
