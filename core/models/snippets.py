@@ -38,7 +38,8 @@ class Button(TranslatableMixin):
     )
     open_in_new_tab = models.BooleanField(default=True)
 
-    color = ColorField(default="#0e0e0e")
+    color = ColorField(_("Color"), null=True, blank=True)
+    text_color = ColorField(_("Text Color"), null=True, blank=True)
 
     panels = [
         FieldPanel("name"),
@@ -47,6 +48,7 @@ class Button(TranslatableMixin):
         FieldPanel("custom_html"),
         FieldPanel("open_in_new_tab"),
         NativeColorPanel("color"),
+        NativeColorPanel("text_color"),
     ]
 
     def __str__(self):
@@ -59,8 +61,11 @@ class Button(TranslatableMixin):
 
     def render(self):
         target = "_blank" if self.open_in_new_tab else "_self"
+        background_color = f"background-color: {self.color}" if self.color else ""
+        text_color = f"color: {self.text_color}" if self.text_color else ""
         return format_html(
-            f'<a href="{self.link}" target="{target}" class="cta center mb-5" style="background-color: {self.color}">{self.text}</a>'
+            f'<a href="{self.link}" target="{target}" class="cta center mb-5" '
+            f'style="{background_color}; {text_color}">{self.text}</a>'
         )
 
     def clean(self):
