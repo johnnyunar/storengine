@@ -8,18 +8,22 @@
                 {% for category in category_list %}
                     {% if category.grouper.is_active %}
                         <h2 class="mt-5">{{ category.grouper }}</h2>
-                        <div class="d-flex">
+                        <div class="d-flex justify-content-around flex-wrap">
                             {% for product in category.list %}
-                                {% include "shop/includes/_product_card_tall.html" %}
+                                {% if product.is_active %}
+                                    {% include "shop/includes/_product_card_tall.html" %}
+                                {% endif %}
                             {% endfor %}
                         </div>
                         <hr class="mt-5">
                     {% endif %}
                 {% endfor %}
             {% else %}
-                <div class="d-flex">
+                <div class="d-flex justify-content-center flex-wrap">
                     {% for product in product_type.product_type.product_set.all %}
-                        {% include "shop/includes/_product_card_tall.html" %}
+                        {% if product.is_active %}
+                            {% include "shop/includes/_product_card_tall.html" %}
+                        {% endif %}
                     {% endfor %}
                 </div>
             {% endif %}
