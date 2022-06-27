@@ -1,7 +1,9 @@
 {% load i18n djmoney wagtailimages_tags %}
-{% image_url product.image "fill-300x500-c100" as image_url %}
+{% if product.image %}
+    {% image_url product.image "fill-300x500-c100" as image_url %}
+{% endif %}
 <div class="product-card-tall" id="product-{{ product.pk }}"
-     style="background-image: url('{{ image_url }}'); box-shadow: inset 0 0 0 200px rgba(33, 33, 33, 0.7), 0px 7px 9px -1px rgba(0, 0, 0, 0.55);">
+     {% if product.image %}style="background-image: url('{{ image_url }}'); box-shadow: inset 0 0 0 200px rgba(33, 33, 33, 0.7), 0px 7px 9px -1px rgba(0, 0, 0, 0.55);" {% endif %}>
     <div class="card-text no-select">
         <h3>{{ product.name }}</h3>
         {{ product.description | safe }}
