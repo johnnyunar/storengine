@@ -4,26 +4,74 @@ from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import (
-    FieldPanel,
-    ObjectList,
-    TabbedInterface,
     InlinePanel,
     MultiFieldPanel,
 )
-from wagtail.contrib.settings.models import BaseSetting, register_setting
+from wagtail.admin.panels import ObjectList, TabbedInterface, FieldPanel
+from wagtail.contrib.settings.models import BaseSetting
+from wagtail.contrib.settings.registry import register_setting
 from wagtail.models import Orderable
 from wagtail_color_panel.fields import ColorField
 
 from core.models import fonts
 
 
+@register_setting(icon="fa-cogs")
+class ControlCenter(BaseSetting):
+    shop_enabled = models.BooleanField(
+        _("Shop Enabled"),
+        default=False,
+        help_text=_("Enable or disable shop features, like checkout or cart."),
+    )
+
+    notification_bar_show = models.BooleanField(
+        _("Show Notification Bar"),
+        default=False,
+    )
+
+    notification_bar_text = models.CharField(
+        _("Notification Text"),
+        max_length=512,
+        blank=True,
+        null=True
+    )
+
+    notifications_panels = [
+        FieldPanel("notification_bar_show"),
+        FieldPanel("notification_bar_text"),
+    ]
+
+    shop_panels = [
+        FieldPanel("shop_enabled")
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(notifications_panels, heading=_("Notifications")),
+            ObjectList(shop_panels, heading=_("Shop")),
+        ]
+    )
+
+    class Meta:
+        verbose_name = _("Control Center")
+
+
 @register_setting(icon="fa-hashtag")
 class ContactSettings(BaseSetting, ClusterableModel):
     full_name = models.CharField(
         _("Full Name"),
-        max_length=64,
+        max_length=128,
         blank=True,
         default="Store Engine",
+    )
+
+    business_title = models.CharField(
+        _("Business Title"),
+        max_length=64,
+        blank=True,
+        null=True,
+        default="Eshop Platform",
+        help_text=_("E.g. \"Personal Coach\"")
     )
 
     vat_id = models.CharField(
@@ -66,6 +114,7 @@ class ContactSettings(BaseSetting, ClusterableModel):
 
     contact_panels = [
         FieldPanel("full_name"),
+        FieldPanel("business_title"),
         FieldPanel("phone_number"),
         FieldPanel("email"),
     ]
@@ -132,12 +181,22 @@ class SocialLink(Orderable, models.Model):
 
 @register_setting(icon="fa-tint")
 class BrandSettings(BaseSetting):
-    logo = ImageField(_("Logo"), null=True, blank=True)
+    logo = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Logo"),
+    )
+
     google_font = models.ForeignKey(
         "GoogleFont",
         on_delete=models.SET(fonts.get_default_font),
         default=fonts.get_default_font_id,
     )
+
+    # Colors
     primary_color = ColorField(_("Primary Color"), default="#1D2228")
     accent_color = ColorField(_("Accent Color"), default="#FB8122")
 
@@ -150,6 +209,9 @@ class BrandSettings(BaseSetting):
 
     cart_color = ColorField(_("Cart Color"), default="#1D2938")
     cart_text_color = ColorField(_("Cart Text Color"), default="#FFFFFF")
+
+    notification_bar_color = ColorField(_("Notification Bar Color"), default="#C26F5E")
+    notification_bar_text_color = ColorField(_("Notification Bar Text Color"), default="#FFFFFF")
 
     show_footer_waves = models.BooleanField(_("Show Footer Waves"), default=False)
 
@@ -174,6 +236,8 @@ class BrandSettings(BaseSetting):
                 FieldPanel("error_color"),
                 FieldPanel("cart_color"),
                 FieldPanel("cart_text_color"),
+                FieldPanel("notification_bar_color"),
+                FieldPanel("notification_bar_text_color"),
             ),
             heading=_("Colors"),
         ),

@@ -6,7 +6,8 @@
 }
 
 .notification {
-  background: $red-color;
+  background: var(--color-notification-background);
+  color: var(--color-notification-text);
   width: 100%;
   text-align: center;
   padding: 10px;

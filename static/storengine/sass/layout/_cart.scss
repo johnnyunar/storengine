@@ -9,6 +9,8 @@
   padding: 80px 50px 50px;
   overflow-y: auto;
   z-index: 15000;
+  background: var(--color-cart-background);
+  color: var(--color-cart-text);
 }
 
 #cart-close {
@@ -31,8 +33,8 @@
 
 .cart-item {
   display: flex;
-  border-top: 1px solid white;
-  border-bottom: 1px solid white;
+  border-top: 1px solid var(--color-cart-text);
+  border-bottom: 1px solid var(--color-cart-text);
   height: 150px;
   align-items: center;
   justify-content: space-between;

@@ -1,16 +1,16 @@
 {% extends 'core/snippets/_base_section.html' %}
-{% load i18n %}
+{% load i18n storengine %}
 {% block section_content %}
     <h1>FAQ</h1>
-    {% for faq in section.faqs %}
+    {% for faq in section.faqs.all|filter_active %}
         <div class="faq">
-            <div class="question">{{ faq.question | safe }}</div>
+            <h3 class="question">{{ faq.question | safe }}</h3>
             <div class="answer">{{ faq.answer | safe }}</div>
         </div>
     {% empty %}
         <h2 class="text-center">{% trans "Come back later!" %}</h2>
     {% endfor %}
     {% if section.button %}
-       {{ section.button.render }}
+        {{ section.button.render }}
     {% endif %}
 {% endblock %}

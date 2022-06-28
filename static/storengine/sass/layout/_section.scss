@@ -1,11 +1,12 @@
 main {
   min-height: 90vh;
+  background: var(--color-primary)
 }
 
 section {
   padding: 100px 120px 120px;
 
-  &:first-of-type:not(.hero){
+  &:first-of-type:not(.hero) {
     padding-top: 200px;
   }
 }

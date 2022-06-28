@@ -6,8 +6,13 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ current_site.site_name }}{% endblock %}</title>
-    <link href="{% static 'storengine/images/rocket-earth.png' %}" rel="shortcut icon" type="image/x-icon">
-    <link href="{% static 'storengine/images/rocket-earth.png' %}" rel="apple-touch-icon">
+    {% if settings.core.BrandSettings.logo %}
+        <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" rel="shortcut icon" type="image/x-icon">
+        <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" rel="apple-touch-icon">
+    {% else %}
+        <link href="{% static 'storengine/images/rocket-earth.png' %}" rel="shortcut icon" type="image/x-icon">
+        <link href="{% static 'storengine/images/rocket-earth.png' %}" rel="apple-touch-icon">
+    {% endif %}
 
     <meta property="og:title" content="{% block og_title %}{{ current_site.site_name }}{% endblock %}">
     <meta property="og:image" content="{% block og_image %}{% endblock %}">
@@ -28,7 +33,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="{{ settings.core.BrandSettings.google_font.url }}|Oswald" rel="stylesheet">
 
-
+    {% include "storengine/includes/_theme_vars.html" %}
     <link rel="stylesheet" href="{% static 'storengine/css/style.css' %}" type="text/css">
 
     <script src="https://unpkg.com/htmx.org@1.7.0"
@@ -44,11 +49,6 @@
     <script src="{% static 'storengine/js/splide.min.js' %}"></script>
 
     <style>
-        * {
-            font-family: '{{ settings.core.BrandSettings.google_font.family }}',{{ settings.core.BrandSettings.google_font.category }};
-            text-align: left;
-        }
-
         {% if settings.core.BrandSettings.footer_image %}
             footer {
                 background: url("{% image_url settings.core.BrandSettings.footer_image "fill-1920x1080-c100" %}") center;
@@ -57,7 +57,6 @@
         {% endif %}
 
         footer::after {
-            background: {{ settings.core.BrandSettings.primary_color }};
         {% if settings.core.BrandSettings.show_footer_waves %}
             position: absolute;
             content: '';
@@ -69,36 +68,8 @@
             clip-path: url(#waveDown3);
         {% endif %}
         }
-
-        main {
-            background: {{ settings.core.BrandSettings.primary_color }};
-        }
-
-        hr {
-            background: {{ settings.core.BrandSettings.text_color }};
-        }
-
-        .errorlist {
-            color: {{ settings.core.BrandSettings.error_color }};
-        }
-
-        #cart {
-            background: {{ settings.core.BrandSettings.cart_color }};
-            color: {{ settings.core.BrandSettings.cart_text_color }};
-        }
-
-        .cart-item {
-            border-color: {{ settings.core.BrandSettings.cart_text_color }};
-        }
-
-        .cta, .card-cta {
-            background: {{ settings.core.BrandSettings.accent_color }};
-        }
-
-        a:hover {
-            color: {{ settings.core.BrandSettings.accent_color }};
-        }
     </style>
+
     {% block extrahead %}
     {% endblock %}
 </head>
@@ -106,9 +77,9 @@
 {% wagtailuserbar %}
 {% cart as cart %}
 <div class="holder" id="holder">
-    {% if content_settings.notification_bar_show %}
+    {% if settings.core.ControlCenter.notification_bar_show %}
         <div class="notification" id="notification">
-            <span class="notification-text">{{ content_settings.notification_bar_text }}</span>
+            <span class="notification-text">{{ settings.core.ControlCenter.notification_bar_text|default:"" }}</span>
             <span class="icon" id="closeNotification">
             <i class="fa fa-times"></i>
         </span>
@@ -120,7 +91,7 @@
         </span>
         <a href="/">
             {% if settings.core.BrandSettings.logo %}
-                <img class="logo" src="{{ settings.core.BrandSettings.logo.url }}" alt="Logo">
+                {% image settings.core.BrandSettings.logo max-300x100 class="logo" title="logo" %}
             {% else %}
                 <img class="logo" src="{% static 'storengine/images/rocket-earth.png' %}" alt="Logo">
             {% endif %}
@@ -160,7 +131,6 @@
                             class="fas fa-sign-out-alt"></i></a></li>
                 {% endif %}
             {% endcomment %}
-
         </ul>
     </nav>
 </div>
@@ -170,20 +140,20 @@
 </main>
 <footer>
     <div class="footer-section">
-        Store Engine<br/>
-        Eshop solution
+        {{ settings.core.ContactSettings.full_name|default:"" }}<br/>
+        {{ settings.core.ContactSettings.business_title|default:"" }}
     </div>
     <div class="footer-section">
-        <p>
-            <a href="mailto:{{ settings.core.ContactSettings.email }}">{{ settings.core.ContactSettings.email }}</a>
-        </p>
+        {% if settings.core.ContactSettings.email %}
+            <p>
+                <a href="mailto:{{ settings.core.ContactSettings.email }}">{{ settings.core.ContactSettings.email }}</a>
+            </p>
+        {% endif %}
         <div class="social-footer">
-            {% for link in settings.core.ContactSettings.social_links.all %}
-                {% if link.is_active %}
-                    <a href="{{ link.url }}" target="_blank">
-                        {% image link.icon fill-30x30-c100 %}
-                    </a>
-                {% endif %}
+            {% for link in settings.core.ContactSettings.social_links.all|filter_active %}
+                <a href="{{ link.url }}" target="_blank">
+                    {% image link.icon fill-30x30-c100 %}
+                </a>
             {% endfor %}
         </div>
         © {{ settings.core.ContactSettings.full_name }} {% now "Y" %}
@@ -195,10 +165,7 @@
             </a>
         {% endfor %}
     </div>
-    <a href="https://storengine.org" target="_blank" title="Store Engine Powered" class="footer-lottie">
-        <lottie-player src="{% static 'storengine/images/rocket-ship.json' %}" background="transparent" speed="1"
-                       style="width: 60px;" loop autoplay></lottie-player>
-    </a>
+    {% include "storengine/includes/_footer_lottie.html" %}
 </footer>
 {% if not request.session.cookies_preferences_set %}
     {% include "storengine/includes/_cookie_bar.html" %}

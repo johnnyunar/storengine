@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, CreateView, DetailView
 
+from core.models import ControlCenter
 from shop.forms import BillingAddressForm
 from shop.gopay_api import (
     create_gopay_order,
@@ -20,7 +21,6 @@ from shop.models import (
     GopayPayment,
     Invoice,
     Order,
-    ShopSettings,
     OrderItem,
 )
 
@@ -29,7 +29,7 @@ logger = logging.getLogger("django")
 
 class ShopRequiredMixin(View):
     def dispatch(self, request, *args, **kwargs):
-        shop_enabled = ShopSettings.for_request(request).shop_enabled
+        shop_enabled = ControlCenter.for_request(request).shop_enabled
 
         if not shop_enabled:
             raise Http404
@@ -151,10 +151,10 @@ class CheckoutView(ShopRequiredMixin, CreateView):
                     total_price=item.price,
                 )
                 for item in Cart.objects.get(
-                    pk=self.request.session.get(
-                        "cart",
-                    )
-                ).cartitem_set.all()
+                pk=self.request.session.get(
+                    "cart",
+                )
+            ).cartitem_set.all()
             ]
         )
         self.order = new_order

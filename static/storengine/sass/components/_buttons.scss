@@ -1,43 +1,47 @@
 .cta {
-    display: block;
-    box-sizing: border-box;
-    color: white;
-    width: 300px;
-    height: 50px;
-    font-size: 18px;
-    border: none;
-    border-radius: 30px;
-    background: $cta-background-color;
-    cursor: pointer;
-    transition: 0.3s;
-    text-decoration: none;
-    text-align: center;
-    -webkit-box-shadow: 0 7px 9px -1px rgba(0, 0, 0, 0.55);
-    box-shadow: 0 7px 9px -1px rgba(0, 0, 0, 0.55);
-    padding: 12px;
+  display: block;
+  box-sizing: border-box;
+  color: white;
+  width: 300px;
+  height: 50px;
+  font-size: 18px;
+  border: none;
+  border-radius: 30px;
+  background: $cta-background-color;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
+  text-align: center;
+  -webkit-box-shadow: 0 7px 9px -1px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 7px 9px -1px rgba(0, 0, 0, 0.55);
+  padding: 12px;
 }
 
 .cta:hover {
-    background: #f1f1f1 !important;
-    color: black;
+  background: #f1f1f1 !important;
+  color: black;
 }
 
 .cta p {
-    font-size: inherit;
+  font-size: inherit;
+}
+
+.cta, .card-cta {
+  background: var(--color-accent);
 }
 
 .cta.center {
-    margin: 50px auto 0 auto;
+  margin: 50px auto 0 auto;
 }
 
 .secondary {
-    background: transparent !important;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    margin-top: 0 !important;
+  background: transparent !important;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  margin-top: 0 !important;
 }
 
 .secondary:hover {
-    background: none !important;
-    color: $green-color;
+  background: none !important;
+  color: $green-color;
 }

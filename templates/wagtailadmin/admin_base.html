@@ -1,12 +1,15 @@
 {% extends "wagtailadmin/admin_base.html" %}
-{% load static %}
+{% load static wagtailimages_tags %}
 
 <title>{% block branding_title %}CMS{% endblock %} - {% block titletag %}{% endblock %}</title>
 
 {% block branding_favicon %}
     {% if settings.core.BrandSettings.logo %}
-        <link rel="shortcut icon" href="{{ settings.core.BrandSettings.logo.url }}"/>
+        <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" rel="shortcut icon"
+              type="image/x-icon">
+        <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" rel="apple-touch-icon">
     {% else %}
-        <link rel="shortcut icon" href="{% static 'storengine/images/rocket-earth.png' %}"/>
+        <link href="{% static 'storengine/images/rocket-earth.png' %}" rel="shortcut icon" type="image/x-icon">
+        <link href="{% static 'storengine/images/rocket-earth.png' %}" rel="apple-touch-icon">
     {% endif %}
 {% endblock %}

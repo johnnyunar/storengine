@@ -8,7 +8,6 @@ from solo.admin import SingletonModelAdmin
 from core.models import (
     SiteConfiguration,
     Button,
-    FrequentlyAskedQuestion
 )
 from core.models.fonts import GoogleFontVariant, GoogleFontSubset, GoogleFont
 
@@ -25,23 +24,3 @@ class ButtonAdmin(admin.ModelAdmin):
 @admin.register(SiteConfiguration)
 class SiteConfigurationAdmin(SingletonModelAdmin, admin.ModelAdmin):
     pass
-
-
-@admin.register(FrequentlyAskedQuestion)
-class FAQAdmin(admin.ModelAdmin):
-    list_display = ("question_tag", "answer_tag", "is_active")
-    list_editable = ("is_active",)
-    search_fields = ("question", "answer")
-    list_display_link = ("question_tag", "answer_tag")
-    list_filter = ("created_at",)
-
-    readonly_fields = ("created_at", "updated_at")
-
-    def question_tag(self, obj):
-        return unescape(strip_tags(obj.question))
-
-    def answer_tag(self, obj):
-        return unescape(strip_tags(obj.answer))
-
-    question_tag.short_description = _("Question")
-    answer_tag.short_description = _("Answer")

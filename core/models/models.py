@@ -1,34 +1,12 @@
 from functools import partial
-from html import unescape
 
 from django.core.validators import FileExtensionValidator
 from django.db import models
-from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy as _
 from django_currentuser.db.models import CurrentUserField
 from solo.models import SingletonModel
-from wagtail.fields import RichTextField
-from wagtail.models import TranslatableMixin
 
 from core.utils import user_directory_path
-
-
-class FrequentlyAskedQuestion(TranslatableMixin):
-    question = RichTextField(_("Question"))
-    answer = RichTextField(_("Answer"))
-
-    is_active = models.BooleanField(_("Available"), default=True)
-
-    created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
-    updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
-
-    class Meta:
-        verbose_name = _("Frequently Asked Question")
-        verbose_name_plural = _("Frequently Asked Questions")
-        unique_together = [("translation_key", "locale")]
-
-    def __str__(self):
-        return unescape(strip_tags(self.question))
 
 
 class QuizRecord(models.Model):
@@ -67,39 +45,6 @@ class SiteConfiguration(SingletonModel):
     """
 
     created_by = CurrentUserField()
-    # Notification Bar
-    notification_bar_show = models.BooleanField(
-        _("Show notification bar"),
-        blank=True,
-        default=0,
-    )
-    notification_bar_text = models.CharField(
-        _("Notification text"),
-        max_length=512,
-        blank=True,
-        default="",
-    )
-
-    hero_video = models.FileField(
-        _("Hero Video"),
-        upload_to=partial(user_directory_path, subdir="hero_videos"),
-        null=True,
-        blank=True,
-        validators=[
-            FileExtensionValidator(
-                allowed_extensions=["MOV", "avi", "mp4", "webm", "mkv"]
-            )
-        ],
-    )
-
-    footer_image = models.ForeignKey(
-        "wagtailimages.Image",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        verbose_name=_("Footer Image"),
-    )
 
     gdpr_file = models.FileField(
         _("GDPR Document"),

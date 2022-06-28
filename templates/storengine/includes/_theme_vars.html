@@ -1,0 +1,15 @@
+{% load wagtailimages_tags %}
+
+<style>
+    :root {
+        --color-primary: {{ settings.core.BrandSettings.primary_color }};
+        --color-text: {{ settings.core.BrandSettings.text_color }};
+        --color-error: {{ settings.core.BrandSettings.error_color }};
+        --color-cart-background: {{ settings.core.BrandSettings.cart_color }};
+        --color-cart-text: {{ settings.core.BrandSettings.cart_text_color }};
+        --color-accent: {{ settings.core.BrandSettings.accent_color }};
+        --font-family: '{{ settings.core.BrandSettings.google_font.family }}',{{ settings.core.BrandSettings.google_font.category }};
+        --color-notification-background: {{ settings.core.BrandSettings.notification_bar_color }};
+        --color-notification-text: {{ settings.core.BrandSettings.notification_bar_text_color }};
+    }
+</style>

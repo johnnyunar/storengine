@@ -13,5 +13,3 @@ from .models import (
     OrderItem,
     Invoice,
 )
-
-from .site_settings import ShopSettings

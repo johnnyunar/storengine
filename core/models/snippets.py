@@ -1,4 +1,5 @@
 from functools import partial
+from html import unescape
 
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
@@ -17,10 +18,11 @@ from wagtail.snippets.models import register_snippet
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 
-from core.models import FrequentlyAskedQuestion
 from core.utils import user_directory_path
 from shop.forms import BillingAddressForm
 from shop.models import Product, ProductType
+
+from django.utils.html import strip_tags
 
 
 @register_snippet
@@ -175,6 +177,13 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
             heading=_("Counters"),
             classname="collapsible collapsed",
         ),
+        MultiFieldPanel(
+            [
+                InlinePanel("faqs", label=_("FAQs")),
+            ],
+            heading=_("FAQs"),
+            classname="collapsible collapsed",
+        ),
     ]
 
     search_fields = [
@@ -261,6 +270,26 @@ class Counter(Orderable, models.Model):
     class Meta:
         verbose_name = _("Counter")
         verbose_name_plural = _("Counters")
+
+
+class FrequentlyAskedQuestion(Orderable, models.Model):
+    section = ParentalKey(
+        PageSection, on_delete=models.CASCADE, related_name="faqs"
+    )
+    question = RichTextField(_("Question"))
+    answer = RichTextField(_("Answer"))
+
+    is_active = models.BooleanField(_("Available"), default=True)
+
+    created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
+    updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
+
+    class Meta:
+        verbose_name = _("Frequently Asked Question")
+        verbose_name_plural = _("Frequently Asked Questions")
+
+    def __str__(self):
+        return self.section.title + " -> " + unescape(strip_tags(self.question))
 
 
 class ProductTypePlacement(Orderable, models.Model):
