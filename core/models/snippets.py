@@ -17,7 +17,7 @@ from wagtail.snippets.models import register_snippet
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 
-from core.models import FrequentlyAskedQuestion, Testimonial, Counter
+from core.models import FrequentlyAskedQuestion, Counter
 from core.utils import user_directory_path
 from shop.forms import BillingAddressForm
 from shop.models import Product, ProductType
@@ -161,6 +161,13 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
                 "only product types will be taken into account."
             ),
         ),
+        MultiFieldPanel(
+            [
+                InlinePanel("testimonials", label=_("Testimonials")),
+            ],
+            heading=_("Testimonials"),
+            classname="collapsible collapsed",
+        ),
     ]
 
     search_fields = [
@@ -178,10 +185,6 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
     @property
     def faqs(self):
         return FrequentlyAskedQuestion.objects.filter(is_active=True)
-
-    @property
-    def testimonials(self):
-        return Testimonial.objects.filter(is_active=True)
 
     @property
     def counters(self):
@@ -213,6 +216,29 @@ class ProductPlacement(Orderable, models.Model):
 
     def __str__(self):
         return self.section.title + " -> " + self.product.name
+
+
+class Testimonial(Orderable, models.Model):
+    section = ParentalKey(
+        PageSection, on_delete=models.CASCADE, related_name="testimonials"
+    )
+    text = models.TextField()
+    author = models.CharField(max_length=64, verbose_name=_("Author"))
+
+    is_active = models.BooleanField(_("Available"), default=True)
+
+    def __str__(self):
+        return self.section.title + " -> " + self.author
+
+    class Meta(Orderable.Meta):
+        verbose_name = "Testimonial"
+        verbose_name_plural = "Testimonials"
+
+    panels = [
+        FieldPanel("text"),
+        FieldPanel("author"),
+        FieldPanel("is_active"),
+    ]
 
 
 class ProductTypePlacement(Orderable, models.Model):

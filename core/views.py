@@ -4,20 +4,8 @@ from django.utils import timezone
 from django.views import View
 from django.views.generic import TemplateView, CreateView
 
-from core.models import Testimonial, FrequentlyAskedQuestion, Counter, QuizRecord
-from shop.models import Product
+from core.models import FrequentlyAskedQuestion, QuizRecord
 from users.models import CookiesPreferences
-
-
-class HomePageView(TemplateView):
-    template_name = "storengine/home.html"
-
-    def get_context_data(self, **kwargs):
-        context = super(HomePageView, self).get_context_data()
-        context["testimonials"] = Testimonial.objects.all()
-        context["services"] = Product.objects.filter(is_active=True)[:3]
-        context["counters"] = Counter.objects.filter(is_active=True)
-        return context
 
 
 class ContactView(TemplateView):

@@ -33,3 +33,16 @@ def cart(context):
         return Cart.objects.get(pk=cart_pk)
     except Cart.DoesNotExist:
         return Cart.objects.none()
+
+
+@register.filter
+def filter_active(queryset: QuerySet):
+    """
+    Return filtered queryset with values with is_active only
+    :param queryset: queryset to filter
+    :return: Filtered queryset
+    """
+    try:
+        return queryset.filter(is_active=True)
+    except:
+        return queryset

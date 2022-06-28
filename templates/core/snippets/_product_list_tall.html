@@ -1,33 +1,23 @@
 {% extends 'core/snippets/_base_section.html' %}
-{% load static i18n l10n djmoney wagtailimages_tags %}
+{% load static i18n l10n djmoney wagtailimages_tags storengine %}
 {% block section_content %}
-    {% if section.product_types.exists %}
-        {% for product_type in section.product_types.all %}
-            {% if product_type.split_into_categories %}
-                {% comment %} Show products WITH categories. {% endcomment %}
-                {% regroup product_type.product_type.product_set.all by category as category_list %}
-                {% for category in category_list %}
-                    {% if category.grouper.is_active %}
-                        <h2 class="mt-5">{{ category.grouper }}</h2>
-                        <div class="d-flex justify-content-around flex-wrap">
-                            {% for product in category.list %}
-                                {% if product.is_active %}
-                                    {% include "shop/includes/_product_card_tall.html" %}
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        <hr class="mt-5">
-                    {% endif %}
-                {% empty %} {% comment %} If there are no categories, show products WITHOUT them. {% endcomment %}
-                    <div class="d-flex justify-content-center flex-wrap">
-                        {% for product in product_type.product_type.product_set.all %}
+    {% for product_type in section.product_types.all|filter_active %}
+        {% if product_type.split_into_categories %}
+            {% comment %} Show products WITH categories. {% endcomment %}
+            {% regroup product_type.product_type.product_set.all by category as category_list %}
+            {% for category in category_list %}
+                {% if category.grouper.is_active %}
+                    <h2 class="mt-5">{{ category.grouper }}</h2>
+                    <div class="d-flex justify-content-around flex-wrap">
+                        {% for product in category.list %}
                             {% if product.is_active %}
                                 {% include "shop/includes/_product_card_tall.html" %}
                             {% endif %}
                         {% endfor %}
                     </div>
-                {% endfor %}
-            {% else %} {% comment %} Show products WITHOUT categories. {% endcomment %}
+                    <hr class="mt-5">
+                {% endif %}
+            {% empty %} {% comment %} If there are no categories, show products WITHOUT them. {% endcomment %}
                 <div class="d-flex justify-content-center flex-wrap">
                     {% for product in product_type.product_type.product_set.all %}
                         {% if product.is_active %}
@@ -35,19 +25,21 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-            {% endif %}
-        {% endfor %}
-    {% else %} {% comment %} Show assigned products only. {% endcomment %}
-        {% for product in section.products.all %}
-            {% with product.product as product %}
-                {% if product.is_active %}
+            {% endfor %}
+        {% else %} {% comment %} Show products WITHOUT categories. {% endcomment %}
+            <div class="d-flex justify-content-center flex-wrap">
+                {% for product in product_type.product_type.product_set|filter_active %}
                     {% include "shop/includes/_product_card_tall.html" %}
-                {% endif %}
-            {% endwith %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% empty %} {% comment %} Show assigned products only. {% endcomment %}
+        {% for product in section.products|filter_active %}
+            {% include "shop/includes/_product_card_tall.html" with product=product.product %}
         {% empty %}
             <h2 class="text-center">{% trans "Come back later!" %}</h2>
         {% endfor %}
-    {% endif %}
+    {% endfor %}
     <div class="overlay" id="product-overlay">
         {% if section.product_types.exists %} {% comment %} Generate modals for product types. {% endcomment %}
             {% for product_type in section.product_types.all %}

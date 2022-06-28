@@ -1,6 +1,4 @@
 from .models import (
-    Testimonial,
-    Ebook,
     Counter,
     FrequentlyAskedQuestion,
     QuizRecord,
