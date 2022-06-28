@@ -15,7 +15,7 @@
     {% if product.external_url %}
         <a href="{{ product.external_url }}" target="_blank" rel="noopener"
            class="card-cta">{% trans "Buy Now" %}</a>
-    {% elif settings.shop.ShopSettings.shop_enabled %}
+    {% elif settings.core.ControlCenter.shop_enabled %}
         <button hx-post="{% url 'shop:add_to_cart' %}" hx-target='#cart'
                 hx-vals='{"item": {{ product.pk }}}'
                 class="card-cta add-to-cart">{% trans "Add To Cart" %}</button>
