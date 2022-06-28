@@ -13,23 +13,6 @@ from wagtail.models import TranslatableMixin
 from core.utils import user_directory_path
 
 
-class Counter(TranslatableMixin):
-    number = models.CharField(_("Number"), max_length=8, help_text=_("E.g. 420 or 69+"))
-    text = models.CharField(
-        _("Text"), max_length=32, help_text=_("E.g. Clients or Lectures")
-    )
-
-    is_active = models.BooleanField(_("Available"), default=True)
-
-    def __str__(self):
-        return f"{self.number} {self.text}"
-
-    class Meta:
-        verbose_name = _("Counter")
-        verbose_name_plural = _("Counters")
-        unique_together = [("translation_key", "locale")]
-
-
 class FrequentlyAskedQuestion(TranslatableMixin):
     question = RichTextField(_("Question"))
     answer = RichTextField(_("Answer"))

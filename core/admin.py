@@ -8,7 +8,7 @@ from solo.admin import SingletonModelAdmin
 from core.models import (
     SiteConfiguration,
     Button,
-    FrequentlyAskedQuestion, Counter,
+    FrequentlyAskedQuestion
 )
 from core.models.fonts import GoogleFontVariant, GoogleFontSubset, GoogleFont
 
@@ -25,14 +25,6 @@ class ButtonAdmin(admin.ModelAdmin):
 @admin.register(SiteConfiguration)
 class SiteConfigurationAdmin(SingletonModelAdmin, admin.ModelAdmin):
     pass
-
-
-@admin.register(Counter)
-class CounterAdmin(admin.ModelAdmin):
-    save_on_top = True
-    list_display = ("number", "text", "is_active")
-    list_display_links = ("number", "text")
-    list_editable = ("is_active",)
 
 
 @admin.register(FrequentlyAskedQuestion)

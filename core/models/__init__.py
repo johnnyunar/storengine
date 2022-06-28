@@ -1,5 +1,4 @@
 from .models import (
-    Counter,
     FrequentlyAskedQuestion,
     QuizRecord,
     SiteConfiguration,

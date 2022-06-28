@@ -1,6 +1,11 @@
 {% extends 'core/snippets/_base_section.html' %}
+{% load storengine %}
+
+{% block extra_attrs %}
+    class="d-flex justify-content-around flex-wrap"
+{% endblock %}
 {% block section_content %}
-    {% for counter in section.counters %}
+    {% for counter in section.counters.all|filter_active %}
         <div class="number-counter">
             <span class="count">{{ counter.number }}</span>
             <br/>
@@ -8,6 +13,6 @@
         </div>
     {% endfor %}
     {% if section.button %}
-       {{ section.button.render }}
+        {{ section.button.render }}
     {% endif %}
 {% endblock %}

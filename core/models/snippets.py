@@ -17,7 +17,7 @@ from wagtail.snippets.models import register_snippet
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 
-from core.models import FrequentlyAskedQuestion, Counter
+from core.models import FrequentlyAskedQuestion
 from core.utils import user_directory_path
 from shop.forms import BillingAddressForm
 from shop.models import Product, ProductType
@@ -168,6 +168,13 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
             heading=_("Testimonials"),
             classname="collapsible collapsed",
         ),
+        MultiFieldPanel(
+            [
+                InlinePanel("counters", label=_("Counters")),
+            ],
+            heading=_("Counters"),
+            classname="collapsible collapsed",
+        ),
     ]
 
     search_fields = [
@@ -185,10 +192,6 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
     @property
     def faqs(self):
         return FrequentlyAskedQuestion.objects.filter(is_active=True)
-
-    @property
-    def counters(self):
-        return Counter.objects.filter(is_active=True)
 
     @property
     def billing_form(self):
@@ -239,6 +242,25 @@ class Testimonial(Orderable, models.Model):
         FieldPanel("author"),
         FieldPanel("is_active"),
     ]
+
+
+class Counter(Orderable, models.Model):
+    section = ParentalKey(
+        PageSection, on_delete=models.CASCADE, related_name="counters"
+    )
+    number = models.CharField(_("Number"), max_length=8, help_text=_("E.g. 420 or 69+"))
+    text = models.CharField(
+        _("Text"), max_length=32, help_text=_("E.g. Clients or Lectures")
+    )
+
+    is_active = models.BooleanField(_("Available"), default=True)
+
+    def __str__(self):
+        return self.section.title + " -> " + self.text
+
+    class Meta:
+        verbose_name = _("Counter")
+        verbose_name_plural = _("Counters")
 
 
 class ProductTypePlacement(Orderable, models.Model):

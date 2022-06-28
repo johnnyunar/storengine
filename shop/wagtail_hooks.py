@@ -9,7 +9,7 @@ from wagtail.contrib.modeladmin.options import (
 from wagtail_localize.modeladmin.options import TranslatableModelAdmin
 
 from core import admin as core_admin
-from core.models import FrequentlyAskedQuestion, Counter
+from core.models import FrequentlyAskedQuestion
 from shop import admin
 from shop.models import (
     Product,
@@ -121,19 +121,6 @@ class FAQAdmin(TranslatableModelAdmin):
         return unescape(strip_tags(obj.answer))
 
 
-class CounterAdmin(TranslatableModelAdmin):
-    model = Counter
-    menu_icon = "fa-plus-circle"  # change as required
-    menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
-    add_to_settings_menu = True  # or True to add your model to the Settings sub-menu
-    exclude_from_explorer = (
-        False  # or True to exclude pages of this type from Wagtail's explorer view
-    )
-    inspect_view_enabled = True
-    list_display = core_admin.CounterAdmin.list_display
-    search_fields = core_admin.CounterAdmin.search_fields
-
-
 class BillingTypeAdmin(TranslatableModelAdmin):
     model = BillingType
     menu_icon = "fa-credit-card"  # change as required
@@ -164,5 +151,4 @@ class ShopGroup(ModelAdminGroup):
     )
 
 
-modeladmin_register(CounterAdmin)
 modeladmin_register(ShopGroup)
