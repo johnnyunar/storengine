@@ -115,7 +115,7 @@
                     </select>
                 </form>
             {% endif %}
-            {% if settings.shop.ShopSettings.shop_enabled %}
+            {% if settings.core.ControlCenter.shop_enabled %}
                 <li id="nav-link-cart" title="{% trans 'Cart' %}">
                     {% if cart %}
                         <div id="cart-counter">{{ cart.items.count }}</div>
@@ -173,7 +173,7 @@
 <div class="svgs">
     {% include "storengine/includes/_svgs.html" %}
 </div>
-{% if settings.shop.ShopSettings.shop_enabled %}
+{% if settings.core.ControlCenter.shop_enabled %}
     <div id="cart">
         {% include "storengine/includes/_cart.html" %}
     </div>
