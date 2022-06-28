@@ -1,6 +1,5 @@
 $(document).ready(function () {
-    $(".product-card-square").on("click", function (event) {
-        console.log(event.target.tagName);
+    $(".product-card-square, .product-card-sm").on("click", function (event) {
         if (event.target.tagName !== "BUTTON") {
             let id = $(this).data("id");
             $("#product-overlay").attr("style", "display: flex");

@@ -1,0 +1,8 @@
+{% load i18n wagtailimages_tags %}
+{% if product.image %}
+    {% image_url product.image "fill-250x250-c100" as image_url %}
+{% endif %}
+<div id="product-{{ product.pk }}" data-id="{{ product.pk }}" class="product-card-sm no-select"
+     style="background-image: url('{{ image_url }}'); box-shadow: inset 0 0 0 200px rgba(33, 33, 33, 0.7), 0px 7px 9px -1px rgba(0, 0, 0, 0.55);">
+    <h2 class="product-name">{{ product.name }}</h2>
+</div>

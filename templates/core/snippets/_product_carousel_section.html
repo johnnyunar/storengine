@@ -1,4 +1,85 @@
 {% extends 'core/snippets/_base_section.html' %}
+{% load static i18n l10n djmoney wagtailimages_tags %}
+{% block section_content %}
+    {% if section.product_types.exists %}
+        {% for product_type in section.product_types.all %}
+            {% if product_type.split_into_categories %}
+                {% comment %} Show products WITH categories. {% endcomment %}
+                {% regroup product_type.product_type.product_set.all by category as category_list %}
+                <h2 class="mb-4">{{ product_type.product_type }}</h2>
+                {% for category in category_list %}
+                    {% if category.grouper.is_active %}
+                        <div class="d-flex mb-4 overflow-x-auto gap-4 p-3">
+                            <div class="product-card-sm no-select pe-none">
+                                <h2 class="product-name">{{ category.grouper }}</h2>
+                            </div>
+                            {% for product in category.list %}
+                                {% if product.is_active %}
+                                    {% include "shop/includes/_product_carousel_card.html" %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% empty %} {% comment %} If there are no categories, show products WITHOUT them. {% endcomment %}
+                    <div class="d-flex mb-4 overflow-x-auto gap-4 p-3">
+                        <div class="product-card-sm no-select pe-none">
+                            <h2 class="product-name">{{ product_type.product_type }}</h2>
+                        </div>
+                        {% for product in product_type.product_type.product_set.all %}
+                            {% if product.is_active %}
+                                {% include "shop/includes/_product_carousel_card.html" %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            {% else %} {% comment %} Show products WITHOUT categories. {% endcomment %}
+                <div class="d-flex mb-4 overflow-x-auto gap-4 p-3">
+                    <div class="product-card-sm no-select pe-none">
+                        <h2 class="product-name">{{ product_type.product_type }}</h2>
+                    </div>
+                    {% for product in product_type.product_type.product_set.all %}
+                        {% if product.is_active %}
+                            {% include "shop/includes/_product_carousel_card.html" %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %} {% comment %} Show assigned products only. {% endcomment %}
+        {% for product in section.products.all %}
+            {% with product.product as product %}
+                {% if product.is_active %}
+                    {% include "shop/includes/_product_carousel_card.html" %}
+                {% endif %}
+            {% endwith %}
+        {% empty %}
+            <h2 class="text-center">{% trans "Come back later!" %}</h2>
+        {% endfor %}
+    {% endif %}
+    {% if section.button %}
+        <a href="{{ section.button.link }}" class="cta center">{{ section.button.text }}</a>
+    {% endif %}
+    <div class="overlay" id="product-overlay">
+        {% if section.product_types.exists %} {% comment %} Generate modals for product types. {% endcomment %}
+            {% for product_type in section.product_types.all %}
+                {% for product in product_type.product_type.product_set.all %}
+                    {% include "shop/includes/_product_modal.html" %}
+                {% endfor %}
+            {% endfor %}
+        {% else %} {% comment %} Generate modals for assigned products only. {% endcomment %}
+            {% for product in section.products.all %}
+                {% with product.product as product %}
+                    {% include "shop/includes/_product_modal.html" %}
+                {% endwith %}
+            {% endfor %}
+        {% endif %}
+    </div>
+    <script src="{% static 'shop/js/shop.js' %}"></script>
+{% endblock %}
+
+
+{% comment %}
+{% extends 'core/snippets/_base_section.html' %}
 {% load i18n %}
 {% block section_content %}
     <div class="flex-section" id="product-cards-sm">
@@ -7,10 +88,7 @@
         </a>
         {% for product in section.products.all %}
             {% with product.product as product %}
-                <a href="#product-{{ product.pk }}" class="product-card-sm no-select"
-                   style="background-image: url('{{ product.image.url }}'); box-shadow: inset 0 0 0 200px rgba(33, 33, 33, 0.7), 0px 7px 9px -1px rgba(0, 0, 0, 0.55);">
-                    <h2 class="product-name">{{ product.name }}</h2>
-                </a>
+                {% include "shop/includes/_product_carousel_card.html" %}
             {% endwith %}
         {% endfor %}
     </div>
@@ -18,3 +96,4 @@
         <a href="{{ section.button.link }}" class="cta center">{{ section.button.text }}</a>
     {% endif %}
 {% endblock %}
+{% endcomment %}
