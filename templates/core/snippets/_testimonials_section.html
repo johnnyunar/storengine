@@ -1,6 +1,9 @@
 {% extends 'core/snippets/_base_section.html' %}
-{% load i18n storengine %}
+{% load i18n storengine wagtailcore_tags %}
 {% block section_content %}
+    <div class="mb-5">
+        {{ section.text|richtext }}
+    </div>
     {% with section.testimonials|filter_active as testimonials %}
         {% if testimonials.exists %}
             <div class="splide">
@@ -22,4 +25,7 @@
             </div>
         {% endif %}
     {% endwith %}
+    {% if section.button %}
+        {{ section.button.render }}
+    {% endif %}
 {% endblock %}
