@@ -7,21 +7,6 @@
 {% block og_image %}{{ page.og_image.url|default:"" }}{% endblock %}
 {% block keywords %}{{ page.seo_keywords|default:"" }}{% endblock %}
 
-{% block extrahead %}
-    <style>
-        .hero {
-        {% if page.hero_image %}
-            background: url('{{ page.hero_image.url }}');
-            background-size: cover;
-            background-position-x: center;
-            box-shadow: inset 0 0 0 2000px rgba(33, 33, 33, 0.4);
-            padding: 0;
-        {% elif page.hero_video %}
-            background: #243630;
-        {% endif %}
-        }
-    </style>
-{% endblock %}
 {% block content %}
     {% if page.hero_section %}
         {% include 'core/snippets/_hero_section.html' with hero=page.hero_section %}
