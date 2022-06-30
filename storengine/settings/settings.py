@@ -227,8 +227,8 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 MEDIA_URL = "/media/"
 
-THUMBNAIL_QUALITY = 75
-THUMBNAIL_PRESERVE_FORMAT = True
+WAGTAILIMAGES_JPEG_QUALITY = int(os.environ.get("JPEG_QUALITY", 60))
+WAGTAILIMAGES_WEBP_QUALITY = int(os.environ.get("WEBP_QUALITY", 65))
 
 # USE AWS S3 to serve media files on production
 if ENV != "LOCAL":
@@ -247,9 +247,9 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": (
-                "%(asctime)s [%(process)d] [%(levelname)s] "
-                + "pathname=%(pathname)s lineno=%(lineno)s "
-                + "funcname=%(funcName)s %(message)s"
+                    "%(asctime)s [%(process)d] [%(levelname)s] "
+                    + "pathname=%(pathname)s lineno=%(lineno)s "
+                    + "funcname=%(funcName)s %(message)s"
             ),
             "datefmt": "%Y-%m-%d %H:%M:%S",
         },
