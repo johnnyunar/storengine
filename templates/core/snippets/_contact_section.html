@@ -4,16 +4,24 @@
     <div class="flex-section mb-5 justify-content-around">
         <h1>{% trans 'Contact' %}</h1>
         <p>
-            {{ settings.core.ContactSettings.full_name|default:"" }}<br/>
+            {% if settings.core.ContactSettings.full_name %}
+                <b>{{ settings.core.ContactSettings.full_name }}</b><br/>
+            {% endif %}
+
+            {% if settings.core.ContactSettings.billing_address %}
+                {{ settings.core.ContactSettings.billing_address }}<br/>
+            {% endif %}
 
             {% if settings.core.ContactSettings.vat_id %}
                 {% trans "VAT ID" %}: {{ settings.core.ContactSettings.vat_id }}<br/>
             {% endif %}
 
-            {{ settings.core.ContactSettings.phone_number|default:"" }}
+            {% if settings.core.ContactSettings.phone_number %}
+                {{ settings.core.ContactSettings.phone_number }}<br/>
+            {% endif %}
 
             {% if settings.core.ContactSettings.email %}
-                <br/><br/>
+                <br/>
                 <a href="mailto:{{ settings.core.ContactSettings.email }}"
                    target="_blank">{{ settings.core.ContactSettings.email }}</a>
             {% endif %}
