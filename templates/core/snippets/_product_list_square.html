@@ -1,8 +1,8 @@
 {% extends 'core/snippets/_base_section.html' %}
-{% load static i18n l10n djmoney wagtailimages_tags %}
+{% load static i18n l10n djmoney wagtailimages_tags storengine %}
 {% block section_content %}
     {% if section.product_types.exists %}
-        {% for product_type in section.product_types.all %}
+        {% for product_type in section.product_types.all|filter_active %}
             {% if product_type.split_into_categories %}
                 {% comment %} Show products WITH categories. {% endcomment %}
                 {% regroup product_type.product_type.product_set.all by category as category_list %}
@@ -20,29 +20,23 @@
                     {% endif %}
                 {% empty %} {% comment %} If there are no categories, show products WITHOUT them. {% endcomment %}
                     <div class="d-flex justify-content-start flex-wrap">
-                        {% for product in product_type.product_type.product_set.all %}
-                            {% if product.is_active %}
+                        {% for product in product_type.product_type.product_set.all|filter_active %}
                                 {% include "shop/includes/_product_card_tall.html" %}
-                            {% endif %}
                         {% endfor %}
                     </div>
                 {% endfor %}
             {% else %} {% comment %} Show products WITHOUT categories. {% endcomment %}
                 <div class="d-flex justify-content-start flex-wrap">
-                    {% for product in product_type.product_type.product_set.all %}
-                        {% if product.is_active %}
+                    {% for product in product_type.product_type.product_set.all|filter_active %}
                             {% include "shop/includes/_product_card_square.html" %}
-                        {% endif %}
                     {% endfor %}
                 </div>
             {% endif %}
         {% endfor %}
     {% else %} {% comment %} Show assigned products only. {% endcomment %}
-        {% for product in section.products.all %}
+        {% for product in section.products.all|filter_active %}
             {% with product.product as product %}
-                {% if product.is_active %}
                     {% include "shop/includes/_product_card_square.html" %}
-                {% endif %}
             {% endwith %}
         {% empty %}
             <h2 class="text-center">{% trans "Come back later!" %}</h2>
@@ -50,13 +44,13 @@
     {% endif %}
     <div class="overlay" id="product-overlay">
         {% if section.product_types.exists %} {% comment %} Generate modals for product types. {% endcomment %}
-            {% for product_type in section.product_types.all %}
-                {% for product in product_type.product_type.product_set.all %}
+            {% for product_type in section.product_types.all|filter_active %}
+                {% for product in product_type.product_type.product_set.all|filter_active %}
                     {% include "shop/includes/_product_modal.html" %}
                 {% endfor %}
             {% endfor %}
         {% else %} {% comment %} Generate modals for assigned products only. {% endcomment %}
-            {% for product in section.products.all %}
+            {% for product in section.products.all|filter_active %}
                 {% with product.product as product %}
                     {% include "shop/includes/_product_modal.html" %}
                 {% endwith %}
