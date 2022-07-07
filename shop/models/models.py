@@ -253,8 +253,21 @@ class Address(models.Model):
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
+    def find_duplicate(self):
+        return type(self).objects.filter(
+            first_name__iexact=self.first_name,
+            last_name__iexact=self.last_name,
+            email__iexact=self.email,
+            phone__exact=self.phone,
+            company__iexact=self.company,
+            address1__iexact=self.address1,
+            zip_code__exact=self.zip_code,
+            city__iexact=self.city,
+            country__exact=self.country,
+        ).exclude(pk=self.pk).first()
+
     def __str__(self):
-        return f"{self.address1}, {self.zip_code} {self.city}"
+        return f"{self.full_name} ({self.email}) - {self.address1}, {self.zip_code} {self.city}"
 
     class Meta:
         verbose_name = _("Address")
@@ -382,6 +395,8 @@ class Order(models.Model):
 
     items = models.ManyToManyField(Product, through="OrderItem")
 
+    post_save_triggered = models.BooleanField(default=False)
+
     panels = [
         FieldPanel("order_number", classname="readonly"),
         FieldPanel("billing_address"),
@@ -401,6 +416,10 @@ class Order(models.Model):
     def save(self, *args, **kwargs):
         if self.gopay_payment:
             self.is_paid = self.gopay_payment.is_paid
+        billing_address_duplicate = self.billing_address.find_duplicate()
+        if billing_address_duplicate:
+            self.billing_address.delete()
+            self.billing_address = billing_address_duplicate
         super(Order, self).save()
 
     created_at = models.DateTimeField(_("Created At"), auto_now_add=True)

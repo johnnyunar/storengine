@@ -1,6 +1,4 @@
-from html import unescape
-
-from django.utils.html import strip_tags, format_html
+from django.utils.html import format_html
 from wagtail.contrib.modeladmin.options import (
     ModelAdmin,
     modeladmin_register,
@@ -8,7 +6,6 @@ from wagtail.contrib.modeladmin.options import (
 )
 from wagtail_localize.modeladmin.options import TranslatableModelAdmin
 
-from core import admin as core_admin
 from shop import admin
 from shop.models import (
     Product,

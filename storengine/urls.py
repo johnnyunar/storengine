@@ -28,7 +28,12 @@ from core.views import (
 from shop.views import CheckoutView
 
 urlpatterns = [
-    re_path(r'^images/([^/]*)/(\d*)/([^/]*)/[^/]*$', ServeView.as_view(), name='wagtailimages_serve'),
+    re_path(
+        r"^images/([^/]*)/(\d*)/([^/]*)/[^/]*$",
+        ServeView.as_view(),
+        name="wagtailimages_serve",
+    ),
+    path("djrichtextfield/", include("djrichtextfield.urls")),
     path("cms/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("i18n/", include("django.conf.urls.i18n")),
@@ -40,10 +45,10 @@ urlpatterns = [
     ),
     path("sitemap.xml", sitemap),
     path("", include("shop.urls")),
+    path("", include("users.urls")),
     path("", include(wagtail_urls)),
     # Left here for compatibility reasons before references are removed
     # path("", HomePageView.as_view(), name="home"),
-    # path("", include("users.urls")),
     # path("contact/", ContactView.as_view(), name="contact"),
     # path("faq/", FAQView.as_view(), name="faq"),
     # path("quiz/", QuizView.as_view(), name="quiz"),
@@ -53,7 +58,6 @@ urlpatterns = [
     #    TermsAndConditionsView.as_view(),
     #    name="terms_and_conditions",
     # ),
-
 ]
 
 try:

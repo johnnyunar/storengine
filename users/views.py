@@ -65,7 +65,7 @@ class AccountOrdersView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AccountOrdersView, self).get_context_data()
-        context["service_orders"] = Order.objects.filter(user=self.request.user)
+        context["service_orders"] = Order.objects.filter(created_by=self.request.user)
         return context
 
 

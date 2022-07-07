@@ -24,6 +24,12 @@ class ControlCenter(BaseSetting):
         help_text=_("Enable or disable shop features, like checkout or cart."),
     )
 
+    accounts_enabled = models.BooleanField(
+        _("Account Features Enabled"),
+        default=False,
+        help_text=_("Enable or disable account features, like login, signup, or profile page."),
+    )
+
     notification_bar_show = models.BooleanField(
         _("Show Notification Bar"),
         default=False,
@@ -45,10 +51,15 @@ class ControlCenter(BaseSetting):
         FieldPanel("shop_enabled")
     ]
 
+    accounts_panels = [
+        FieldPanel("accounts_enabled")
+    ]
+
     edit_handler = TabbedInterface(
         [
             ObjectList(notifications_panels, heading=_("Notifications")),
             ObjectList(shop_panels, heading=_("Shop")),
+            ObjectList(accounts_panels, heading=_("Accounts")),
         ]
     )
 

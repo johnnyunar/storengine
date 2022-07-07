@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ current_site.site_name }}{% endblock %}</title>
     {% if settings.core.BrandSettings.logo %}
-        <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" rel="shortcut icon" type="image/x-icon">
+        <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" rel="shortcut icon"
+              type="image/x-icon">
         <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" rel="apple-touch-icon">
     {% else %}
         <link href="{% static 'storengine/images/rocket-earth.png' %}" rel="shortcut icon" type="image/x-icon">
@@ -123,14 +124,14 @@
                     <i class="fas fa-shopping-cart nav-links"></i>
                 </li>
             {% endif %}
-            {% comment %}
+            {% if settings.core.ControlCenter.accounts_enabled %}
                 <li><a href="{% url 'profile' %}" class="nav-links" title="{% trans 'Account' %}"><i
                         class="fas fa-user"></i></a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}" class="nav-links" title="{% trans 'Log Out' %}"><i
                             class="fas fa-sign-out-alt"></i></a></li>
                 {% endif %}
-            {% endcomment %}
+            {% endif %}
         </ul>
     </nav>
 </div>

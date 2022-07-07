@@ -23,29 +23,30 @@ def send_notification(
 ):
     if type(recipients) is str:
         recipients = [recipients]  # Convert to list for Django Emails
-    if email:
-        text_body = textify_html(email.body)
-        msg = EmailMultiAlternatives(
-            email.subject,
-            text_body,
-            settings.ADMIN_EMAIL,
-            bcc=recipients,
-            reply_to=["no-reply@adambuzek.cz"],
-            attachments=[
-                (attachment.file_name, attachment.file.read(), mimetypes.guess_type(attachment.file.name)[0])
-                for attachment in email.attachments.all()
-            ],
-        )
-        msg.attach_alternative(email.body, "text/html")
-        msg.send()
-    elif subject and body:
-        EmailMultiAlternatives(
-            subject,
-            body,
-            settings.ADMIN_EMAIL,
-            bcc=recipients,
-            reply_to=["no-reply@adambuzek.cz"],
-        ).send()
+    for recipient in recipients:
+        if email:
+            text_body = textify_html(email.body)
+            msg = EmailMultiAlternatives(
+                email.subject,
+                text_body,
+                settings.ADMIN_EMAIL,
+                to=[recipient],
+                reply_to=[settings.SUPPORT_EMAIL],
+                attachments=[
+                    (attachment.file_name, attachment.file.read(), mimetypes.guess_type(attachment.file.name)[0])
+                    for attachment in email.email_attachments.all()
+                ],
+            )
+            msg.attach_alternative(email.body, "text/html")
+            msg.send()
+        elif subject and body:
+            EmailMultiAlternatives(
+                subject,
+                body,
+                settings.ADMIN_EMAIL,
+                to=[recipient],
+                reply_to=[settings.SUPPORT_EMAIL],
+            ).send()
 
     return True  # TODO: return message status
 

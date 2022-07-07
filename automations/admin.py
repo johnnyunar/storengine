@@ -11,7 +11,7 @@ class TriggerAdmin(admin.ModelAdmin):
 
 @admin.register(Action)
 class ActionAdmin(PolymorphicParentModelAdmin):
-    list_display = ("name", "action_id", "is_active")
+    list_display = ("name", "is_active")
     search_fields = ("name", "action_id")
     base_model = Action
     child_models = (EmailAction,)

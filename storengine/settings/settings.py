@@ -47,6 +47,12 @@ SITE_ID = 1
 WAGTAIL_SITE_NAME = "Store Engine"
 WAGTAILADMIN_BASE_URL = "/cms/"
 
+WAGTAIL_USER_CUSTOM_FIELDS = [
+    "avatar",
+    "send_internal_notifications",
+    "newsletter_subscribe",
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -295,8 +301,13 @@ WAGTAILADMIN_RICH_TEXT_EDITORS = {
                 "image",
                 "embed",
                 "code",
+                "snippet-link",
+                "snippet-embed",
             ]
         },
+    },
+    "tinymce": {
+        "WIDGET": "djrichtextfield.widgets.RichTextWidget",
     },
 }
 
@@ -327,14 +338,36 @@ GOPAY_CLIENT_SECRET = os.environ.get("GOPAY_CLIENT_SECRET")
 GOPAY_IS_PRODUCTION = ENV == "PROD"
 
 # EMAIL
-EMAIL_HOST = "smtp.titan.email"
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.titan.email")
 EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
 EMAIL_PORT = 465
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_SSL = True
 
-ADMIN_EMAIL = "info@adambuzek.cz"
-SUPPORT_EMAIL = "info@adambuzek.cz"
+ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")
+SUPPORT_EMAIL = os.environ.get("SUPPORT_EMAIL")
 DEFAULT_FROM_EMAIL = ADMIN_EMAIL
 SERVER_EMAIL = ADMIN_EMAIL
+
+DJRICHTEXTFIELD_CONFIG = {
+    "js": [
+        "//cdn.tiny.cloud/1/9wpw1tnoa3rxh8vjhnq3a2nk1mzgx35pklzripp4nzzoqhpj/tinymce/5/tinymce.min.js"
+    ],
+    "init_template": "djrichtextfield/init/tinymce.js",
+    "settings": {  # TinyMCE
+        "menubar": False,
+        "plugins": [
+            "advlist autolink lists link image charmap print preview anchor",
+            "searchreplace visualblocks code codesample fullscreen template",
+            "insertdatetime media table paste code help wordcount paste autosave",
+        ],
+        "toolbar": "undo redo | formatselect | "
+                   + "bold italic backcolor | alignleft aligncenter "
+                   + "alignright alignjustify | bullist numlist outdent indent | codesample | link image anchor | "
+                   + "removeformat | template |code help",
+        "width": "100%",
+        "height": 350,
+        "image_caption": True,
+    },
+}

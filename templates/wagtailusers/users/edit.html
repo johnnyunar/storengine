@@ -1,1 +1,10 @@
 {% extends "wagtailusers/users/edit.html" %}
+
+{% block extra_fields %}
+    {% include "wagtailadmin/shared/field_as_li.html" with field=form.avatar %}
+    {% include "wagtailadmin/shared/field_as_li.html" with field=form.send_internal_notifications %}
+    {% include "wagtailadmin/shared/field_as_li.html" with field=form.newsletter_subscribe %}
+    {% include "wagtailusers/users/includes/_custom_field.html" with label="Important Cookies Accepted" value=user.cookies_preferences.important_cookies_accepted %}
+    {% include "wagtailusers/users/includes/_custom_field.html" with label="Analytic Cookies Accepted" value=user.cookies_preferences.analytic_cookies_accepted %}
+    {% include "wagtailusers/users/includes/_custom_field.html" with label="Marketing Cookies Accepted" value=user.cookies_preferences.marketing_cookies_accepted %}
+{% endblock extra_fields %}

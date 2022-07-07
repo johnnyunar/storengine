@@ -113,8 +113,6 @@ class CheckoutView(ShopRequiredMixin, CreateView):
 
     def get_initial(self):
         """Returns the initial data to use for forms on this view."""
-        print(self.request.session["cart"])
-
         initial = super().get_initial()
 
         existing_billing_address = self.request.session.get("billing_address")
@@ -151,10 +149,10 @@ class CheckoutView(ShopRequiredMixin, CreateView):
                     total_price=item.price,
                 )
                 for item in Cart.objects.get(
-                pk=self.request.session.get(
-                    "cart",
-                )
-            ).cartitem_set.all()
+                    pk=self.request.session.get(
+                        "cart",
+                    )
+                ).cartitem_set.all()
             ]
         )
         self.order = new_order
@@ -167,7 +165,7 @@ class CheckoutView(ShopRequiredMixin, CreateView):
 
         new_order.save()
 
-        return super().form_valid(form)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class PaymentCallbackView(View):
@@ -227,7 +225,10 @@ class InvoiceDetailView(ShopRequiredMixin, LoginRequiredMixin, DetailView):
     slug_field = "order__order_number"
 
     def get(self, request, *args, **kwargs):
-        if request.user != self.get_object().order.user and not request.user.is_staff:
+        if (
+            request.user != self.get_object().order.created_by
+            and not request.user.is_staff
+        ):
             raise Http404
 
         return super(InvoiceDetailView, self).get(request, args, kwargs)

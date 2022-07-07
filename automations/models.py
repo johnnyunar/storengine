@@ -24,8 +24,7 @@ class Trigger(models.Model):
 
 
 class Action(PolymorphicModel):
-    action_id = models.CharField(_("Action ID"), max_length=32)
-    name = models.CharField(_("Name"), max_length=32)
+    name = models.CharField(_("Name"), max_length=64)
     is_active = models.BooleanField(_("Is Active"), default=True)
 
     def __str__(self):

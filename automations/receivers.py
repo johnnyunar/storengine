@@ -19,21 +19,18 @@ def new_user_created(sender, instance, created, **kwargs):
                 action.run(trigger_data={"user": instance, "recipients": [instance.email]})
 
 
-@receiver(pre_save, sender=Order)
-def new_order_created(sender, instance, **kwargs):
-    if instance.billing_address:
-        current_instance = sender.objects.filter(id=instance.id).first()
-        current_billing_address = None
-        if current_instance:
-            current_billing_address = current_instance.billing_address
+@receiver(post_save, sender=Order)
+def new_order_created(sender, instance, created, **kwargs):
+    # We have to assure there are some items already in order to have data to use
+    if instance.items.exists() and not instance.post_save_triggered:
+        new_order_automations = Automation.objects.filter(
+            trigger__trigger_type=TriggerType.NEW_ORDER
+        )
+        for automation in new_order_automations:
+            for action in automation.actions.filter(is_active=True):
+                action.run(trigger_data={"order": instance, "recipients": [instance.billing_address.email]})
 
-        if not current_billing_address:
-            new_order_automations = Automation.objects.filter(
-                trigger__trigger_type=TriggerType.NEW_ORDER
-            )
-            for automation in new_order_automations:
-                for action in automation.actions.filter(is_active=True):
-                    action.run(trigger_data={"order": instance, "recipients": [instance.billing_address.email]})
+        instance.post_save_triggered = True
 
 
 @receiver(post_save, sender=QuizRecord)

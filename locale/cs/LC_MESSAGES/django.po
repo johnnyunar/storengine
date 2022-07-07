@@ -62,7 +62,7 @@ msgstr "Akce"
 
 #: automations/models.py:36 automations/models.py:77
 msgid "Actions"
-msgstr "Všechny Akce"
+msgstr "Akce"
 
 #: automations/models.py:45
 msgid "Recipients"

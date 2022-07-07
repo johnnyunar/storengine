@@ -14,9 +14,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald&family=Space+Grotesk:wght@400;500;600&display=swap"
-          rel="stylesheet">
+    <link href="{{ settings.core.BrandSettings.google_font.url }}|Oswald" rel="stylesheet">
 
+    {% include "storengine/includes/_theme_vars.html" %}
     <link rel="stylesheet" href="{% static 'storengine/css/style.css' %}" type="text/css">
 
     <script src="https://unpkg.com/htmx.org@1.7.0"
@@ -43,15 +43,15 @@
                 <div class="webinvoice-contact">
                     <h2>{% trans "Supplier" %}</h2>
                     <div class="webinvoice-contact-info">
-                        <h3>{{ content_settings.full_name }}</h3>
+                        <h3>{{ settings.core.ContactSettings.full_name }}</h3>
                         <address>
-                            {{ content_settings.billing_address }}<br>
-                            {{ content_settings.billing_address_zip }}&nbsp;{{ content_settings.billing_address_city }}
+                            {{ settings.core.ContactSettings.billing_address }}<br>
+                            {{ settings.core.ContactSettings.billing_address_zip }}&nbsp;{{ settings.core.ContactSettings.billing_address_city }}
                         </address>
 
                         <p>
                             <span>{% trans "VAT ID" %}</span>
-                            <span>{{ content_settings.vat_id }}</span>
+                            <span>{{ settings.core.ContactSettings.vat_id }}</span>
                         </p>
                         <p class="">{{ content.settings.vat_payer|yesno:_("VAT Payer, Not a VAT Payer") }}</p>
                     </div>
@@ -59,7 +59,7 @@
                     <div class="webinvoice-contact-payment-info">
                         <p>
                             <span>{% trans "Bank Account" %}</span>
-                            <span>{{ content_settings.bank_account }}</span>
+                            <span>{{ settings.core.ContactSettings.bank_account|default:"" }}</span>
                         </p>
 
 
