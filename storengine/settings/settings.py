@@ -341,7 +341,7 @@ GOPAY_IS_PRODUCTION = ENV == "PROD"
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.titan.email")
 EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
-EMAIL_PORT = 465
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 465))
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_SSL = True
 
