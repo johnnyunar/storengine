@@ -1,6 +1,9 @@
 {% extends 'core/snippets/_base_section.html' %}
-{% load static i18n l10n djmoney wagtailimages_tags storengine %}
+{% load static i18n l10n djmoney wagtailimages_tags wagtailcore_tags storengine %}
 {% block section_content %}
+    <div>
+        {{ section.text|richtext }}
+    </div>
     {% for product_type in section.product_types.all|filter_active %}
         {% if product_type.split_into_categories %}
             {% comment %} Show products WITH categories. {% endcomment %}
@@ -38,6 +41,11 @@
             <h2 class="text-center">{% trans "Come back later!" %}</h2>
         {% endfor %}
     {% endfor %}
+
+    {% if section.button %}
+        {{ section.button.render }}
+    {% endif %}
+
     <div class="overlay" id="product-overlay">
         {% if section.product_types.exists %} {% comment %} Generate modals for product types. {% endcomment %}
             {% for product_type in section.product_types.all|filter_active %}
