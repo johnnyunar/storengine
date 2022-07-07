@@ -350,9 +350,10 @@ SUPPORT_EMAIL = os.environ.get("SUPPORT_EMAIL")
 DEFAULT_FROM_EMAIL = ADMIN_EMAIL
 SERVER_EMAIL = ADMIN_EMAIL
 
+TINYMCE_API_KEY = os.environ.get("TINYMCE_API_KEY")
 DJRICHTEXTFIELD_CONFIG = {
     "js": [
-        "//cdn.tiny.cloud/1/9wpw1tnoa3rxh8vjhnq3a2nk1mzgx35pklzripp4nzzoqhpj/tinymce/5/tinymce.min.js"
+        f"//cdn.tiny.cloud/1/{TINYMCE_API_KEY}/tinymce/5/tinymce.min.js"
     ],
     "init_template": "djrichtextfield/init/tinymce.js",
     "settings": {  # TinyMCE
