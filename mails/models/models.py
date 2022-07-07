@@ -1,10 +1,9 @@
 import mimetypes
-from functools import partial
 
 from django.conf import settings
 from django.db import models
-from django.template import Template, Context, TemplateDoesNotExist
-from django.template.loader import render_to_string
+from django.template import Template, Context
+from django.utils.safestring import SafeString
 from django.utils.translation import gettext_lazy as _
 from django_currentuser.db.models import CurrentUserField
 from djrichtextfield.models import RichTextField
@@ -63,7 +62,13 @@ class Email(ClusterableModel):
         blank=True,
     )
 
-    def insert_trigger_data(self, trigger_data):
+    def insert_trigger_data(self, trigger_data: dict) -> SafeString:
+        """
+        Inserts context to email templates
+        :param trigger_data: Data from trigger, e.g. order data
+        :return: Rendered HTML Email
+        """
+        trigger_data.update({"base_url": settings.BASE_URL})  # Additional context data
         template = Template(self.body)
         trigger_data = Context(trigger_data)
         return template.render(trigger_data)

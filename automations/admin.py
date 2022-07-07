@@ -20,7 +20,7 @@ class ActionAdmin(PolymorphicParentModelAdmin):
 
 @admin.register(EmailAction)
 class EmailActionAdmin(PolymorphicChildModelAdmin):
-    list_display = ("email", "recipients", "is_internal_notification", "is_trigger_notification")
+    list_display = ("name", "email", "recipients", "is_internal_notification", "is_trigger_notification")
     search_fields = ("email__name",)
 
 
