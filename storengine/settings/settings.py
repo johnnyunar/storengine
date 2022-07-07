@@ -220,7 +220,7 @@ WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
 
 LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
 
-CURRENCIES = ("CZK", "EUR")
+CURRENCIES = os.environ.get("CURRENCIES", "CZK,EUR,USD").split(",")
 
 WAGTAIL_I18N_ENABLED = True
 
