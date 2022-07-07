@@ -21,26 +21,28 @@
                 {% empty %} {% comment %} If there are no categories, show products WITHOUT them. {% endcomment %}
                     <div class="d-flex justify-content-start flex-wrap">
                         {% for product in product_type.product_type.product_set.all|filter_active %}
-                                {% include "shop/includes/_product_card_tall.html" %}
+                            {% include "shop/includes/_product_card_tall.html" %}
                         {% endfor %}
                     </div>
                 {% endfor %}
             {% else %} {% comment %} Show products WITHOUT categories. {% endcomment %}
                 <div class="d-flex justify-content-start flex-wrap">
                     {% for product in product_type.product_type.product_set.all|filter_active %}
-                            {% include "shop/includes/_product_card_square.html" %}
+                        {% include "shop/includes/_product_card_square.html" %}
                     {% endfor %}
                 </div>
             {% endif %}
         {% endfor %}
     {% else %} {% comment %} Show assigned products only. {% endcomment %}
-        {% for product in section.products.all|filter_active %}
-            {% with product.product as product %}
+        <div class="d-flex justify-content-start flex-wrap">
+            {% for product in section.products.all|filter_active %}
+                {% with product.product as product %}
                     {% include "shop/includes/_product_card_square.html" %}
-            {% endwith %}
-        {% empty %}
-            <h2 class="text-center">{% trans "Come back later!" %}</h2>
-        {% endfor %}
+                {% endwith %}
+            {% empty %}
+                <h2 class="text-center">{% trans "Come back later!" %}</h2>
+            {% endfor %}
+        </div>
     {% endif %}
     <div class="overlay" id="product-overlay">
         {% if section.product_types.exists %} {% comment %} Generate modals for product types. {% endcomment %}

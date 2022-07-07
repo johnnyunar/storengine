@@ -20,7 +20,7 @@
             {% empty %} {% comment %} If there are no categories, show products WITHOUT them. {% endcomment %}
                 <div class="d-flex justify-content-center flex-wrap">
                     {% for product in product_type.product_type.product_set.all|filter_active %}
-                            {% include "shop/includes/_product_card_tall.html" %}
+                        {% include "shop/includes/_product_card_tall.html" %}
                     {% endfor %}
                 </div>
             {% endfor %}
@@ -46,11 +46,15 @@
                 {% endfor %}
             {% endfor %}
         {% else %} {% comment %} Generate modals for assigned products only. {% endcomment %}
-            {% for product in section.products.all|filter_active %}
-                {% with product.product as product %}
-                    {% include "shop/includes/_product_modal.html" %}
-                {% endwith %}
-            {% endfor %}
+            <div class="d-flex justify-content-start flex-wrap">
+                {% for product in section.products.all|filter_active %}
+                    {% with product.product as product %}
+                        {% include "shop/includes/_product_modal.html" %}
+                    {% endwith %}
+                {% empty %}
+                    <h2 class="text-center">{% trans "Come back later!" %}</h2>
+                {% endfor %}
+            </div>
         {% endif %}
     </div>
     <script src="{% static 'shop/js/shop.js' %}"></script>

@@ -13,6 +13,10 @@ a {
   }
 }
 
+ul, ol {
+  list-style-type: initial;
+}
+
 p {
   font-size: 18px;
   max-width: 800px;
@@ -20,7 +24,7 @@ p {
 
 h1 {
   font-size: 35px;
-  text-align: center;
+  text-align: left;
 }
 
 h2 {
