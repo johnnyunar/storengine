@@ -84,6 +84,12 @@
   .card-text {
     height: 200px;
   }
+
+  .price {
+    color: $green-color;
+    font-size: 20px;
+    font-weight: bolder;
+  }
 }
 
 .card-cta {

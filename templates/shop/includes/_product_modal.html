@@ -11,7 +11,10 @@
             {{ product.description | safe }}
         </div>
     </div>
-    <span class="price">{% money_localize product.price %}</span>
+    <span class="price">{% money_localize product.price %}
+       {% if product.payment_recurrence %}
+            / {{ product.get_payment_recurrence_display }}
+        {% endif %}</span>
     {% if product.external_url %}
         <a href="{{ product.external_url }}" target="_blank" rel="noopener"
            class="card-cta">{% trans "Buy Now" %}</a>

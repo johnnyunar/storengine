@@ -157,6 +157,12 @@ class ProductType(TranslatableMixin):
 
 
 class Product(TranslatableMixin):
+    class RecurrenceTypes(models.TextChoices):
+        DAILY = "daily", _("Day")
+        WEEKLY = "weekly", _("Week")
+        MONTHLY = "monthly", _("Month")
+        YEARLY = "yearly", _("Year")
+
     created_by = CurrentUserField()
     name = models.CharField(_("Name"), max_length=128)
 
@@ -194,6 +200,14 @@ class Product(TranslatableMixin):
 
     price = MoneyField(
         _("Price"), max_digits=14, decimal_places=2, default_currency="CZK", null=True
+    )
+
+    payment_recurrence = models.CharField(
+        _("Payment Recurrence"),
+        choices=RecurrenceTypes.choices,
+        max_length=64,
+        null=True,
+        blank=True,
     )
 
     is_active = models.BooleanField(_("Available"), default=True)
@@ -254,17 +268,22 @@ class Address(models.Model):
         return f"{self.first_name} {self.last_name}"
 
     def find_duplicate(self):
-        return type(self).objects.filter(
-            first_name__iexact=self.first_name,
-            last_name__iexact=self.last_name,
-            email__iexact=self.email,
-            phone__exact=self.phone,
-            company__iexact=self.company,
-            address1__iexact=self.address1,
-            zip_code__exact=self.zip_code,
-            city__iexact=self.city,
-            country__exact=self.country,
-        ).exclude(pk=self.pk).first()
+        return (
+            type(self)
+            .objects.filter(
+                first_name__iexact=self.first_name,
+                last_name__iexact=self.last_name,
+                email__iexact=self.email,
+                phone__exact=self.phone,
+                company__iexact=self.company,
+                address1__iexact=self.address1,
+                zip_code__exact=self.zip_code,
+                city__iexact=self.city,
+                country__exact=self.country,
+            )
+            .exclude(pk=self.pk)
+            .first()
+        )
 
     def __str__(self):
         return f"{self.full_name} ({self.email}) - {self.address1}, {self.zip_code} {self.city}"
