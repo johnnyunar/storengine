@@ -1,0 +1,20 @@
+[
+{
+    "model": "automations.trigger",
+    "pk": 1,
+    "fields": {
+        "trigger_type": "new_order",
+        "name": "New Order Trigger",
+        "is_active": true
+    }
+},
+{
+    "model": "automations.trigger",
+    "pk": 2,
+    "fields": {
+        "trigger_type": "new_user",
+        "name": "New User Trigger",
+        "is_active": true
+    }
+}
+]

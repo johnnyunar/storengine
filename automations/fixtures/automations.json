@@ -1,0 +1,17 @@
+[
+{
+    "model": "automations.automation",
+    "pk": 1,
+    "fields": {
+        "name": "New Order Created Flow",
+        "trigger": 1,
+        "is_active": true,
+        "created_at": "2022-07-07T12:50:07.951Z",
+        "updated_at": "2022-07-07T16:24:19.225Z",
+        "actions": [
+            1,
+            2
+        ]
+    }
+}
+]

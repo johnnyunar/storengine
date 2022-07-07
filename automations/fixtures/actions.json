@@ -1,0 +1,26 @@
+[
+{
+    "model": "automations.action",
+    "pk": 1,
+    "fields": {
+        "polymorphic_ctype": [
+            "automations",
+            "emailaction"
+        ],
+        "name": "Send New Order Internal Notification",
+        "is_active": true
+    }
+},
+{
+    "model": "automations.action",
+    "pk": 2,
+    "fields": {
+        "polymorphic_ctype": [
+            "automations",
+            "emailaction"
+        ],
+        "name": "Send Order Confirmation",
+        "is_active": true
+    }
+}
+]

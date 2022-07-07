@@ -1,0 +1,22 @@
+[
+{
+    "model": "automations.emailaction",
+    "pk": 1,
+    "fields": {
+        "email": 1,
+        "recipients": "[]",
+        "is_trigger_notification": true,
+        "is_internal_notification": true
+    }
+},
+{
+    "model": "automations.emailaction",
+    "pk": 2,
+    "fields": {
+        "email": 2,
+        "recipients": "[]",
+        "is_trigger_notification": true,
+        "is_internal_notification": false
+    }
+}
+]
