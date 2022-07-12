@@ -1275,7 +1275,7 @@ msgstr "Zavřít košík"
 
 #: templates/storengine/includes/_cart.html:33
 msgid "It's so empty here!"
-msgstr "Tak prázdné!"
+msgstr "Košík je prázdný."
 
 #: templates/storengine/includes/_cookie_bar.html:74
 #: templates/users/account_index.html:32
