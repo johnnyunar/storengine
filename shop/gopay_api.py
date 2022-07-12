@@ -49,7 +49,7 @@ def create_gopay_order(order=None):
             "amount": json.dumps(
                 round(order.total_price.amount * 100), cls=JSONEncoder
             ),
-            "currency": order.total_price.currency,
+            "currency": str(order.total_price.currency),
             "order_number": order.order_number,
             "order_description": "",
             "items": [
