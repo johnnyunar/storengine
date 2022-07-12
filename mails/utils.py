@@ -1,4 +1,6 @@
+import logging
 import mimetypes
+from smtplib import SMTPSenderRefused
 
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
@@ -7,6 +9,8 @@ from django.db import ProgrammingError
 from core.utils import textify_html
 from mails.models import Email
 from users.models import ShopUser
+
+logger = logging.getLogger("django")
 
 try:
     INTERNAL_NOTIFICATIONS_MAILING_LIST = list(
@@ -38,15 +42,21 @@ def send_notification(
                 ],
             )
             msg.attach_alternative(email.body, "text/html")
-            msg.send()
+            try:
+                msg.send()
+            except SMTPSenderRefused:
+                logger.warning("SMTP Error while sending notification.", exc_info=True)
         elif subject and body:
-            EmailMultiAlternatives(
-                subject,
-                body,
-                settings.ADMIN_EMAIL,
-                to=[recipient],
-                reply_to=[settings.SUPPORT_EMAIL],
-            ).send()
+            try:
+                EmailMultiAlternatives(
+                    subject,
+                    body,
+                    settings.ADMIN_EMAIL,
+                    to=[recipient],
+                    reply_to=[settings.SUPPORT_EMAIL],
+                ).send()
+            except SMTPSenderRefused:
+                logger.warning("SMTP Error while sending notification.", exc_info=True)
 
     return True  # TODO: return message status
 
