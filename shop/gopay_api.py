@@ -1,5 +1,5 @@
 import json
-from datetime import datetime, timedelta
+from datetime import timedelta
 from decimal import Decimal
 from typing import Union
 
@@ -8,7 +8,6 @@ from django.conf import settings
 from django.urls import reverse_lazy
 from django.utils import timezone
 from gopay import Language
-from gopay.enums import Currency
 
 
 class JSONEncoder(json.JSONEncoder):
@@ -19,7 +18,6 @@ class JSONEncoder(json.JSONEncoder):
 
 
 def authenticate_api():
-    # TODO: Move to env
     return gopay.payments(
         {
             "goid": settings.GOPAY_GOID,
@@ -51,7 +49,7 @@ def create_gopay_order(order=None):
             "amount": json.dumps(
                 round(order.total_price.amount * 100), cls=JSONEncoder
             ),
-            "currency": Currency.CZECH_CROWNS,
+            "currency": order.total_price.currency,
             "order_number": order.order_number,
             "order_description": "",
             "items": [
