@@ -9,8 +9,6 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from gopay import Language, Payments
 
-from shop.models import Order
-
 
 class JSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -36,7 +34,7 @@ def authenticate_api() -> Payments:
     )
 
 
-def create_gopay_order(order: Order = None) -> str:
+def create_gopay_order(order=None) -> str:
     """
     Creates a new GoPay order based on the given Order instance.
 
