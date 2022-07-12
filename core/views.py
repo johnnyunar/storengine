@@ -2,22 +2,17 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import View
-from django.views.generic import TemplateView
 
 from users.models import CookiesPreferences
 
 
-class GDPRView(TemplateView):
-    template_name = "storengine/gdpr.html"
-
-
-class TermsAndConditionsView(TemplateView):
-    template_name = "storengine/terms_and_conditions.html"
-
-
 class SetCookiesPreferencesView(View):
+    """
+    View that accepts a post request with cookies data. The consents are later saved in session
+    and in case a user is logged-in, they are also saved in database and connected to the user.
+    """
+
     def post(self, request, *args, **kwargs):
-        print(request.POST)
         user = request.user if request.user.is_authenticated else None
         important_cookies = request.POST.get("important", False) == "on"
         analytic_cookies = request.POST.get("analytic", False) == "on"

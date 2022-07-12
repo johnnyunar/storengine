@@ -24,7 +24,15 @@ except ProgrammingError:
 
 def send_notification(
         email: Email = None, recipients: list = None, subject: str = None, body: str = None
-):
+) -> bool:
+    """
+    Sends a notification email.
+
+    :param email: Email object that already includes all email data.
+    :param recipients: List of recipients
+    :param subject: Provide when used without the Email instance
+    :param body: Provide when used without the Email instance
+    """
     if type(recipients) is str:
         recipients = [recipients]  # Convert to list for Django Emails
     for recipient in recipients:
@@ -63,7 +71,8 @@ def send_notification(
 
 def send_internal_notification(
         email: Email = None, subject: str = None, body: str = None
-):
+) -> bool:
+    """Same as send_notification(), but automatically sets the recipients to internal addresses."""
     return send_notification(
         email=email,
         recipients=INTERNAL_NOTIFICATIONS_MAILING_LIST,

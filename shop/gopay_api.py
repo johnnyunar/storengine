@@ -7,7 +7,9 @@ import gopay
 from django.conf import settings
 from django.urls import reverse_lazy
 from django.utils import timezone
-from gopay import Language
+from gopay import Language, Payments
+
+from shop.models import Order
 
 
 class JSONEncoder(json.JSONEncoder):
@@ -17,7 +19,12 @@ class JSONEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-def authenticate_api():
+def authenticate_api() -> Payments:
+    """
+    Creates GoPay Payment instance with credentials from settings.
+
+    :return: Payments instance that is capable of communicating with the GoPay API.
+    """
     return gopay.payments(
         {
             "goid": settings.GOPAY_GOID,
@@ -29,7 +36,13 @@ def authenticate_api():
     )
 
 
-def create_gopay_order(order=None):
+def create_gopay_order(order: Order = None) -> str:
+    """
+    Creates a new GoPay order based on the given Order instance.
+
+    :param order: Order instance containing all essential data.
+    :return: On success: GoPay gateway URL | on failure: Internal error page URL.
+    """
     api = authenticate_api()
 
     response = api.create_payment(
@@ -74,7 +87,6 @@ def create_gopay_order(order=None):
     if response.has_succeed():
         return response.json["gw_url"]
 
-    print(response)
     return reverse_lazy("shop:error")
 
 

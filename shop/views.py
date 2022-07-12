@@ -28,6 +28,11 @@ logger = logging.getLogger("django")
 
 
 class ShopRequiredMixin(View):
+    """
+    Mixin that takes care controlling access to Shop-related views.
+    Shop features can be disabled/enabled via the ControlCenter setting.
+    """
+
     def dispatch(self, request, *args, **kwargs):
         shop_enabled = ControlCenter.for_request(request).shop_enabled
 
@@ -47,6 +52,8 @@ class ProductsView(TemplateView):
 
 
 class GopayNotifyView(View):
+    """View listening for GoPay notifications and updating appropriate GopayPayment objects."""
+
     def get(self, request):
         logger.info(f"Gopay notification received: {str(request.GET)}")
         payment_id = request.GET.get("id")
@@ -62,48 +69,6 @@ class GopayNotifyView(View):
             return JsonResponse({"success": True})
 
         return JsonResponse({"success": False, "message": "Missing Payment ID."})
-
-
-class ServicesView(TemplateView):
-    template_name = "shop/services.html"
-
-    def get_context_data(self, **kwargs):
-        context = super(ServicesView, self).get_context_data()
-        context["services"] = Product.objects.filter(is_active=True)
-        return context
-
-
-class OrderStep1(CreateView):
-    template_name = "shop/service_order_step_1.html"
-    model = Order
-    fields = ["age", "gender", "goal", "newsletter_subscribe"]
-
-    def get_success_url(self):
-        service_pk = self.kwargs["pk"]
-        self.request.session["service_order"] = self.object.pk
-        return reverse_lazy("shop:service_order_step_2", args=[service_pk])
-
-    def get_initial(self):
-        initial = super().get_initial()
-        existing_order = self.request.session.get("service_order")
-        if existing_order:
-            try:
-                existing_order = Order.objects.get(pk=existing_order)
-                initial.update(existing_order.__dict__)
-            except Order.DoesNotExist:
-                del self.request.session["service_order"]
-
-        return initial
-
-    def form_valid(self, form):
-        existing_order = self.request.session.get("service_order")
-        if existing_order:
-            existing_order = Order.objects.get(pk=existing_order)
-            form.instance = existing_order
-            self.object = form.save()
-            self.request.session["service_order"] = self.object
-
-        return super().form_valid(form)
 
 
 class CheckoutView(ShopRequiredMixin, CreateView):
@@ -169,6 +134,13 @@ class CheckoutView(ShopRequiredMixin, CreateView):
 
 
 class PaymentCallbackView(View):
+    """
+    This view's URL is passed to GoPay payments as a callback url.
+    This is the View that users come back to after GoPay payments.
+    GoPay includes payment ID in the URL. Using the ID we can check
+    the payment status and redirect to appropriate View.
+    """
+
     def get(self, request, *args, **kwargs):
         order_number = self.kwargs["order_number"]
         order = Order.objects.get(order_number=order_number)
@@ -202,6 +174,15 @@ class ErrorView(TemplateView):
 
 
 class AddToCartView(ShopRequiredMixin, View):
+    """
+    View accepting POST requests with Product PK and amount in body,
+    adds the items to session's cart instance and returns rendered HTML cart.
+
+    Amount defaults to 1 if not specified.
+
+    The cart is created if there is no existing one.
+    """
+
     def post(self, request, *args, **kwargs):
         user = request.user if request.user.is_authenticated else None
         cart_pk = request.session.get("cart")

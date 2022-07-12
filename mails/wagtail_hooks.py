@@ -4,8 +4,6 @@ from wagtail.contrib.modeladmin.options import (
     ModelAdmin,
 )
 
-from automations import admin
-from automations.models import Trigger, Automation, EmailAction
 from mails import admin as mails_admin
 from mails.models import Email
 from mails.models.models import EmailTemplate

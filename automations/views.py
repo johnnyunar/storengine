@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.core import serializers
 from django.http import Http404, HttpResponse
-from django.shortcuts import render
 
 
 @login_required
