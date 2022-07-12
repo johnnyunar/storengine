@@ -175,16 +175,15 @@ class PaymentCallbackView(View):
         payment_id = request.GET.get("id")
         if order and payment_id:
             payment_details = get_gopay_payment_details(payment_id)
-            gopay_payment, created = GopayPayment.objects.update_or_create(
+            gopay_payment, _created = GopayPayment.objects.update_or_create(
                 payment_id=payment_id,
                 defaults={
                     "payment_status": payment_details["state"],
                     "payment_data": payment_details,
                 },
             )
-            if created:
-                order.gopay_payment = gopay_payment
-                order.save()
+            order.gopay_payment = gopay_payment
+            order.save()
             if order.is_paid:
                 return HttpResponseRedirect(reverse_lazy("shop:thank_you_paid"))
             else:
