@@ -7,7 +7,7 @@
         <div class="cart-item">
             {% image item.product.image fill-100x100-c100 %}
             <div class="cart-item-name col-3">{{ item.product.name }}</div>
-            <div class="cart-item-quantity-control col-3">
+            <div class="cart-item-quantity-control">
                 <i hx-post="{% url 'shop:add_to_cart' %}" hx-target='#cart'
                    hx-vals='{"item": {{ item.product.pk }}, "amount": -1}' class="fa fa-minus">&nbsp;</i>
                 <input class="cart-item-quantity" type="text" value="{{ item.amount }}" readonly>&nbsp;
