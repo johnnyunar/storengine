@@ -14,7 +14,7 @@ $(document).ready(function () {
         $("#notification").slideUp();
     });
 
-    $("#nav-link-cart, #cart-close-text").on("click", function () {
+    $("#nav-link-cart, #cart-close-text, .cart-close").on("click", function () {
         $("#cart").toggle("slide", {direction: "right"}, 300);
     });
 
