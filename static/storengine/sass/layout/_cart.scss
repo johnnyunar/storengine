@@ -72,3 +72,10 @@
 .cart-item.total {
   height: 50px;
 }
+
+@media screen and (max-width: 600px) {
+  #cart{
+    width: 100%;
+  }
+
+}
