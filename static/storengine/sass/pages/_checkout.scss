@@ -53,27 +53,30 @@
 }
 
 @media screen and (max-width: 1032px) {
-  #billing-address {
-    width: 100% !important;
-  }
+  #checkout {
+    #billing-address {
+      width: 100% !important;
+    }
 
-  #order-summary {
-    max-width: 500px !important;
-    width: 100% !important;
+    #order-summary {
+      max-width: 500px !important;
+      width: 100% !important;
+    }
   }
 }
 
 @media screen and (max-width: 675px) {
+  #checkout {
+    #id_last_name {
+      width: calc(97% / 2) !important;
+    }
 
-  #id_last_name {
-    width: calc(97% / 2) !important;
-  }
+    #id_zip_code {
+      width: 38.5% !important;
+    }
 
-  #id_zip_code {
-    width: 38.5% !important;
-  }
-
-  #order-summary {
-    width: auto;
+    #order-summary {
+      width: auto;
+    }
   }
 }
