@@ -10,7 +10,8 @@
         "link": "https://example.com",
         "custom_html": "",
         "open_in_new_tab": true,
-        "color": "#770a7a"
+        "color": null,
+        "text_color": null
     }
 },
 {
@@ -19,9 +20,7 @@
     "fields": {
         "translation_key": "c2afcb24-16f0-4a1d-a4eb-cb361af1f39b",
         "locale": 1,
-        "created_by": [
-            "johnny@unar.dev"
-        ],
+        "created_by": 1,
         "section_type": "contact_section",
         "name": "Contact Section",
         "text_color": null,
@@ -38,9 +37,7 @@
     "fields": {
         "translation_key": "afe8da37-0bcd-4e59-9d1d-13cd73c9f231",
         "locale": 1,
-        "created_by": [
-            "johnny@unar.dev"
-        ],
+        "created_by": 1,
         "name": "Main Hero Section",
         "title": "Store Engine",
         "subheading": "Welcome!",
