@@ -13,10 +13,10 @@
 
 #cookie-modal-content {
   width: 800px;
-  background: #f1f1f1;
   border-radius: 30px;
   padding: 25px;
-  color: $cta-background-color;
+  background: #f1f1f1;
+  color: #121212;
 }
 
 .modal-close {
@@ -33,7 +33,7 @@
   }
 
   label {
-    color: $cta-background-color;
+    color: #121212;
 
     span {
       color: white;

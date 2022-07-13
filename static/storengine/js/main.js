@@ -22,7 +22,7 @@ $(document).ready(function () {
         $("#cart").toggle("slide", {direction: "right"}, 300);
     });
 
-    $("#accept-important-cookies, #accept-all-cookies").on("click", function () {
+    $("#accept-important-cookies, #accept-all-cookies, #cookie-modal-content > .modal-close").on("click", function () {
         $(this).parent().parent().fadeOut("fast");
     });
 
