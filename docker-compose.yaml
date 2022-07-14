@@ -14,11 +14,12 @@ services:
     depends_on:
       - db
     environment:
-      DJANGO_SETTINGS_MODULE: storengine.settings.settings
+      DJANGO_SETTINGS_MODULE: storengine.settings.local_settings
       DJANGO_DEBUG: "True"
       DEBUG: "True"
       ENV: "LOCAL"
       BASE_URL: "http://localhost:8000"
+      STORENGINE_SECRET_KEY: "dev_7xpg#83-k9w82mm%bu3*)g8qqvp(_-6mrsu$nc3)*iujvcgo2&_elop"
     privileged: true
 
   db:

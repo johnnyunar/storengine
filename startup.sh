@@ -23,4 +23,4 @@ fi
 #fi
 
 # Kick off Django dev server.
-./manage.py runserver 0.0.0.0:8888
+./manage.py runserver 0.0.0.0:8000
