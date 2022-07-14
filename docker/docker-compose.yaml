@@ -15,7 +15,10 @@ services:
       - db
     environment:
       DJANGO_SETTINGS_MODULE: storengine.settings.settings
-      DJANGO_DEBUG: "true"
+      DJANGO_DEBUG: "True"
+      DEBUG: "True"
+      ENV: "LOCAL"
+      BASE_URL: "http://localhost:8000"
     privileged: true
 
   db:
