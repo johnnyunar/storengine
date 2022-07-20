@@ -6,7 +6,7 @@ NC="\033[0m" # No Color
 
 # ./manage.py makemigrations --merge --noinput
 
-Run migrations.
+# Run migrations.
 if ./manage.py migrate; then
     echo -e "${GREEN}Database migrated.${NC}"
 else
