@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 
 RUN apt update && \
     pip install --upgrade pip && \
-    apt-get install -y git libgdal-dev g++ --no-install-recommends && \
+    apt-get install -y git libgdal-dev g++ gettext --no-install-recommends && \
     apt-get clean -y
 
 RUN pip install -r requirements.txt
