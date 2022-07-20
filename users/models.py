@@ -5,6 +5,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel
+from wagtail.admin.widgets import SwitchInput
 from wagtail.users.models import UserProfile
 
 from core.utils import user_directory_path
@@ -70,10 +71,10 @@ class ShopUser(AbstractBaseUser, PermissionsMixin):
         FieldPanel("first_name"),
         FieldPanel("last_name"),
         FieldPanel("avatar"),
-        FieldPanel("newsletter_subscribe"),
-        FieldPanel("send_internal_notifications"),
-        FieldPanel("is_staff"),
-        FieldPanel("is_active"),
+        FieldPanel("newsletter_subscribe", widget=SwitchInput),
+        FieldPanel("send_internal_notifications", widget=SwitchInput),
+        FieldPanel("is_staff", widget=SwitchInput),
+        FieldPanel("is_active", widget=SwitchInput),
         FieldPanel("date_joined", classname="readonly")
     )
 

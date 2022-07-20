@@ -8,6 +8,7 @@ from wagtail.admin.panels import (
     MultiFieldPanel,
 )
 from wagtail.admin.panels import ObjectList, TabbedInterface, FieldPanel
+from wagtail.admin.widgets import SwitchInput
 from wagtail.contrib.settings.models import BaseSetting
 from wagtail.contrib.settings.registry import register_setting
 from wagtail.models import Orderable
@@ -43,16 +44,16 @@ class ControlCenter(BaseSetting):
     )
 
     notifications_panels = [
-        FieldPanel("notification_bar_show"),
+        FieldPanel("notification_bar_show", widget=SwitchInput),
         FieldPanel("notification_bar_text"),
     ]
 
     shop_panels = [
-        FieldPanel("shop_enabled")
+        FieldPanel("shop_enabled", widget=SwitchInput)
     ]
 
     accounts_panels = [
-        FieldPanel("accounts_enabled")
+        FieldPanel("accounts_enabled", widget=SwitchInput)
     ]
 
     edit_handler = TabbedInterface(
@@ -139,7 +140,7 @@ class ContactSettings(BaseSetting, ClusterableModel):
         FieldPanel("billing_address_city"),
         FieldPanel("invoices_due_in_days"),
         FieldPanel("bank_account"),
-        FieldPanel("vat_payer"),
+        FieldPanel("vat_payer", widget=SwitchInput),
     ]
 
     edit_handler = TabbedInterface(
@@ -183,7 +184,7 @@ class SocialLink(Orderable, models.Model):
         FieldPanel("name"),
         FieldPanel("url"),
         FieldPanel("icon"),
-        FieldPanel("is_active"),
+        FieldPanel("is_active", widget=SwitchInput),
     ]
 
     def __str__(self):
@@ -255,7 +256,7 @@ class BrandSettings(BaseSetting):
     ]
 
     footer_panels = [
-        FieldPanel("show_footer_waves"),
+        FieldPanel("show_footer_waves", widget=SwitchInput),
         FieldPanel("footer_image"),
     ]
 

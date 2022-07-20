@@ -14,7 +14,8 @@ from djmoney.models.fields import MoneyField
 from djmoney.money import Money
 from phonenumber_field.modelfields import PhoneNumberField
 from wagtail import blocks
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.admin.widgets import SwitchInput
 from wagtail.fields import RichTextField
 from wagtail.models import TranslatableMixin, Site
 
@@ -129,6 +130,8 @@ class Category(TranslatableMixin):
 
     is_active = models.BooleanField(_("Available"), default=True)
 
+    panels = [FieldPanel("name"), FieldPanel("is_active", widget=SwitchInput)]
+
     def __str__(self):
         return self.name
 
@@ -149,6 +152,8 @@ class ProductType(TranslatableMixin):
 
     def __str__(self):
         return self.name
+
+    panels = [FieldPanel("name"), FieldPanel("is_active", widget=SwitchInput)]
 
     class Meta:
         verbose_name = _("Product Type")
@@ -182,12 +187,25 @@ class Product(TranslatableMixin):
         verbose_name=_("Category"),
     )
 
-    amount = models.CharField(_("Amount"), max_length=32, blank=True, default="")
+    amount = models.CharField(
+        _("Amount"),
+        max_length=32,
+        blank=True,
+        default="",
+        help_text=_("Just an orientation text, if applicable. E.g. 500g"),
+    )
     description = RichTextField(_("Description"), blank=True, default="")
     short_description = RichTextField(
         _("Short Description"), max_length=125, blank=True, default=""
     )
-    external_url = models.URLField(_("External URL"), blank=True, default="")
+    external_url = models.URLField(
+        _("External URL"),
+        blank=True,
+        default="",
+        help_text=_(
+            "Is the product for sale on another site? Just paste the product's link right here!"
+        ),
+    )
 
     image = models.ForeignKey(
         "wagtailimages.Image",
@@ -211,6 +229,29 @@ class Product(TranslatableMixin):
     )
 
     is_active = models.BooleanField(_("Available"), default=True)
+    panels = [
+        FieldPanel("is_active", widget=SwitchInput),
+        FieldPanel("name"),
+        MultiFieldPanel(
+            [
+                FieldPanel("price"),
+                FieldPanel("payment_recurrence"),
+            ],
+            heading=_("Price"),
+        ),
+        FieldPanel("image"),
+        FieldPanel("product_type"),
+        FieldPanel("category"),
+        FieldPanel("amount"),
+        MultiFieldPanel(
+            [
+                FieldPanel("description", classname="mb-5"),
+                FieldPanel("short_description"),
+            ],
+            heading=_("Description"),
+        ),
+        FieldPanel("external_url"),
+    ]
 
     def __str__(self):
         return self.name

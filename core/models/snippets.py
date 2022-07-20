@@ -11,6 +11,7 @@ from django_currentuser.db.models import CurrentUserField
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.admin.widgets import SwitchInput
 from wagtail.fields import RichTextField
 from wagtail.models import TranslatableMixin, Orderable, Page
 from wagtail.search import index
@@ -249,7 +250,7 @@ class Testimonial(Orderable, models.Model):
     panels = [
         FieldPanel("text"),
         FieldPanel("author"),
-        FieldPanel("is_active"),
+        FieldPanel("is_active", widget=SwitchInput),
     ]
 
 

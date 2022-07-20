@@ -9,6 +9,7 @@ from wagtail.admin.panels import (
     TabbedInterface,
     ObjectList,
 )
+from wagtail.admin.widgets import SwitchInput
 from wagtail.models import Page, Orderable
 from wagtail_meta_preview.panels import (
     FacebookPreviewPanel,
@@ -44,7 +45,6 @@ class SimplePage(Page):
             [
                 FieldPanel("title", classname="title"),
                 FieldPanel("slug"),
-
             ],
             heading=_("Navigation"),
         ),
@@ -67,8 +67,11 @@ class SimplePage(Page):
     ]
 
     settings_panels = [
-                          MultiFieldPanel([FieldPanel("show_in_menus")], heading=_("For site menus")),
-                      ] + Page.settings_panels
+        MultiFieldPanel(
+            [FieldPanel("show_in_menus", widget=SwitchInput)],
+            heading=_("For site menus"),
+        ),
+    ] + Page.settings_panels
 
     edit_handler = TabbedInterface(
         [
