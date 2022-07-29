@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-20 14:49+0200\n"
+"POT-Creation-Date: 2022-07-29 16:33+0200\n"
 "PO-Revision-Date: 2021-09-28 01:26:39\n"
 "Last-Translator: Server <johnny@unar.dev>\n"
 "Language-Team: English <johnny@unar.devt>\n"
@@ -119,10 +119,8 @@ msgid "Font Style"
 msgstr ""
 
 #: core/models/fonts.py:17
-#, fuzzy
-#| msgid "Payment ID"
 msgid "Variant ID"
-msgstr "ID Platby"
+msgstr "ID Varianty"
 
 #: core/models/fonts.py:36
 msgid "Font Family"
@@ -244,20 +242,22 @@ msgstr "Hero Sekce"
 
 #: core/models/site_settings.py:23
 msgid "Shop Enabled"
-msgstr ""
+msgstr "Povolit Obchod"
 
 #: core/models/site_settings.py:25
 msgid "Enable or disable shop features, like checkout or cart."
-msgstr ""
+msgstr "Povolit nebo zakázat funkce obchodu, jako objednávky nebo košík."
 
 #: core/models/site_settings.py:29
 msgid "Account Features Enabled"
-msgstr ""
+msgstr "Povolit Uživatelské Účty"
 
 #: core/models/site_settings.py:31
 msgid ""
 "Enable or disable account features, like login, signup, or profile page."
 msgstr ""
+"Povolit nebo zakízat fukce uživatelských účtů, jako přihlášení, registraci "
+"nebo osobní profil."
 
 #: core/models/site_settings.py:35
 msgid "Show Notification Bar"
@@ -289,11 +289,11 @@ msgstr "Celé Jméno"
 
 #: core/models/site_settings.py:81
 msgid "Business Title"
-msgstr ""
+msgstr "Byznys Titul."
 
 #: core/models/site_settings.py:86
 msgid "E.g. \"Personal Coach\""
-msgstr ""
+msgstr "Např. \"Osobní Kouč\""
 
 #: core/models/site_settings.py:90
 #: templates/core/snippets/_contact_section.html:16
@@ -338,10 +338,8 @@ msgid "VAT Payer"
 msgstr "Plátce DPH"
 
 #: core/models/site_settings.py:134
-#, fuzzy
-#| msgid "Social Media"
 msgid "Social Links"
-msgstr "Sociální Sítě"
+msgstr "Odkazy na sociální sítě"
 
 #: core/models/site_settings.py:155
 #: templates/core/snippets/_contact_section.html:5
@@ -398,42 +396,30 @@ msgid "The color of error messages in forms."
 msgstr "Barva chybových zpráv ve formulářích."
 
 #: core/models/site_settings.py:222
-#, fuzzy
-#| msgid "Text Color"
 msgid "Cart Color"
-msgstr "Barva Textu"
+msgstr "Barva Košíku"
 
 #: core/models/site_settings.py:223
-#, fuzzy
-#| msgid "Text Color"
 msgid "Cart Text Color"
-msgstr "Barva Textu"
+msgstr "Barva Textu v Košíku"
 
 #: core/models/site_settings.py:225
-#, fuzzy
-#| msgid "Notifications"
 msgid "Notification Bar Color"
-msgstr "Notifikace"
+msgstr "Barva Notifikační Lišty"
 
 #: core/models/site_settings.py:226
-#, fuzzy
-#| msgid "Notification text"
 msgid "Notification Bar Text Color"
-msgstr "Text Notifikace"
+msgstr "Barva Textu Notifikační Lišty"
 
 #: core/models/site_settings.py:228
 msgid "Show Footer Waves"
 msgstr "Zobrazit vlny ve Footer sekci."
 
 #: core/models/site_settings.py:236
-#, fuzzy
-#| msgid "This is the big title that shows up in the hero section."
 msgid "This image shows up in the footer section."
-msgstr "Tento nadpis se ukazuje jako největší v Hero sekci."
+msgstr "Tento obrázek se ukazuje v patičce."
 
 #: core/models/site_settings.py:237
-#, fuzzy
-#| msgid "Footer Section Image"
 msgid "Footer Image"
 msgstr "Obrázek v Patičce"
 
@@ -450,10 +436,8 @@ msgid "This name shows up in admin only."
 msgstr "Toto jméno se ukazuje pouze v cms."
 
 #: core/models/snippets.py:44
-#, fuzzy
-#| msgid "Colors"
 msgid "Color"
-msgstr "Barvy"
+msgstr "Barva"
 
 #: core/models/snippets.py:61 core/models/snippets.py:126
 msgid "Button"
@@ -472,34 +456,24 @@ msgid "Link must be specified with text."
 msgstr "Link i text musí být vyplněny."
 
 #: core/models/snippets.py:87
-#, fuzzy
-#| msgid "Hero Section"
 msgid "Default Section"
-msgstr "Hero Sekce"
+msgstr "Výchozí Sekce"
 
 #: core/models/snippets.py:88
-#, fuzzy
-#| msgid "Action"
 msgid "FAQ Section"
-msgstr "Akce"
+msgstr "FAQ Sekce"
 
 #: core/models/snippets.py:89
-#, fuzzy
-#| msgid "Content Settings"
 msgid "Contact Section"
-msgstr "Správa Obsahu"
+msgstr "Kontakt Sekce"
 
 #: core/models/snippets.py:90
-#, fuzzy
-#| msgid "Hero Section"
 msgid "Counters Section"
-msgstr "Hero Sekce"
+msgstr "Sekce s Čísly"
 
 #: core/models/snippets.py:91
-#, fuzzy
-#| msgid "Testimonials"
 msgid "Testimonials Section"
-msgstr "Řekli o mně"
+msgstr "Sekce s Recenzemi"
 
 #: core/models/snippets.py:92
 msgid "Product Carousel Section"
@@ -552,13 +526,11 @@ msgstr ""
 
 #: core/models/snippets.py:152
 msgid "General"
-msgstr ""
+msgstr "Obecné"
 
 #: core/models/snippets.py:157 shop/models/models.py:160
-#, fuzzy
-#| msgid "Products"
 msgid "Product Types"
-msgstr "Produkty"
+msgstr "Typy Produktů"
 
 #: core/models/snippets.py:158 core/models/snippets.py:160
 #: templates/shop/products.html:3 templates/shop/products.html:9
@@ -571,6 +543,8 @@ msgid ""
 "Product types have higher priority. If you define both product types AND "
 "single products, only product types will be taken into account."
 msgstr ""
+"Typy produktů mají vyšší prioritu. Pokud vybere nějaké typy produktů A "
+"ZÁROVEŇ jednotlivé produkty, zobrazí se pouze produkty podle vybraného typu."
 
 #: core/models/snippets.py:169 core/models/snippets.py:171
 #: templates/storengine/home.html:87
@@ -584,7 +558,7 @@ msgstr "Počítadla"
 
 #: core/models/snippets.py:183 core/models/snippets.py:185
 msgid "FAQs"
-msgstr ""
+msgstr "FAQ"
 
 #: core/models/snippets.py:239
 msgid "Author"
@@ -623,14 +597,12 @@ msgid "Frequently Asked Questions"
 msgstr "Často Kladené Otázky"
 
 #: core/models/snippets.py:304
-#, fuzzy
-#| msgid "Categories"
 msgid "Split Into Categories"
-msgstr "Kategorie"
+msgstr "Rozdělit do kategorií"
 
 #: core/models/snippets.py:306
 msgid "Split the displayed products into categories."
-msgstr ""
+msgstr "Rozdělit zobrazované produkty do kategorií."
 
 #: core/models/snippets.py:324
 msgid "Hero Title"
@@ -649,14 +621,10 @@ msgid "This is the text that shows up under the title in the hero section."
 msgstr "Tento podnadpis se ukazuje pod nadpisem v Hero sekci."
 
 #: core/models/snippets.py:347
-#, fuzzy
-#| msgid "This is the big title that shows up in the hero section."
 msgid "This image shows up in the hero section."
-msgstr "Tento nadpis se ukazuje jako největší v Hero sekci."
+msgstr "Tento obrázek se ukazuje v Hero sekci."
 
 #: core/models/snippets.py:348
-#, fuzzy
-#| msgid "Hero Section Image"
 msgid "Hero Image"
 msgstr "Obrázek v Hero Sekci"
 
@@ -683,7 +651,7 @@ msgstr "Popisek"
 
 #: mails/models/models.py:60
 msgid "Body"
-msgstr ""
+msgstr "Tělo zprávy"
 
 #: mails/models/models.py:82
 msgid "Attachments"
@@ -773,30 +741,28 @@ msgid "Categories"
 msgstr "Kategorie"
 
 #: shop/models/models.py:159 shop/models/models.py:179
-#, fuzzy
-#| msgid "Product"
 msgid "Product Type"
-msgstr "Produkt"
+msgstr "Typ Produktu"
 
 #: shop/models/models.py:166
 msgid "Day"
-msgstr ""
+msgstr "Den"
 
 #: shop/models/models.py:167
 msgid "Week"
-msgstr ""
+msgstr "Týden"
 
 #: shop/models/models.py:168
 msgid "Month"
-msgstr ""
+msgstr "Měsíc"
 
 #: shop/models/models.py:169
 msgid "Year"
-msgstr ""
+msgstr "Rok"
 
 #: shop/models/models.py:195
 msgid "Just an orientation text, if applicable. E.g. 500g"
-msgstr ""
+msgstr "Pouze orientační text, např. 500g"
 
 #: shop/models/models.py:199
 msgid "Short Description"
@@ -810,11 +776,11 @@ msgstr "Externí URL"
 msgid ""
 "Is the product for sale on another site? Just paste the product's link right "
 "here!"
-msgstr ""
+msgstr "Je tento produkt nabízený přes jinou stránku? Odkaz můžete vložit zde."
 
 #: shop/models/models.py:224
 msgid "Payment Recurrence"
-msgstr ""
+msgstr "Opakování platby"
 
 #: shop/models/models.py:270 shop/models/models.py:398 users/models.py:93
 msgid "User"
@@ -829,8 +795,6 @@ msgid "Company"
 msgstr "Společnost"
 
 #: shop/models/models.py:288
-#, fuzzy
-#| msgid "Address"
 msgid "Street Address"
 msgstr "Adresa"
 
@@ -860,7 +824,7 @@ msgstr "Zobrazí u platby."
 
 #: shop/models/models.py:358
 msgid "Code"
-msgstr ""
+msgstr "Kód"
 
 #: shop/models/models.py:378 shop/models/models.py:419
 msgid "Billing Type"
@@ -947,7 +911,7 @@ msgstr "Stránka Nenalezena"
 
 #: templates/base.html:119
 msgid "Cart"
-msgstr ""
+msgstr "Košík"
 
 #: templates/base.html:129 templates/users/account_base.html:3
 #: templates/users/account_base.html:6
@@ -974,13 +938,9 @@ msgid "Email Confirmation"
 msgstr "Potvrzení"
 
 #: templates/mails/internal_notification.html:231
-#, fuzzy
-#| msgid ""
-#| "You received this email because you are a staff member at adambuzek.cz."
 msgid "You received this email because you are a staff member at "
 msgstr ""
 "Obrdželi jste tento email, protože jste vedeni jako zaměstnanci na webu "
-"adambuzek.cz"
 
 #: templates/mails/order_confirmation.html:111
 #: templates/mails/order_confirmation.html:160
@@ -1123,14 +1083,12 @@ msgid "Submit and pay later"
 msgstr "Odeslat a zaplatit později"
 
 #: templates/shop/checkout.html:28
-#, fuzzy
-#| msgid "Order Summary"
 msgid "Summary"
-msgstr "Přehled Objednávky"
+msgstr "Souhrn"
 
 #: templates/shop/checkout.html:44 templates/storengine/includes/_cart.html:23
 msgid "TOTAL"
-msgstr ""
+msgstr "CELKEM"
 
 #: templates/shop/error.html:3
 msgid "Something went wrong"
@@ -1155,7 +1113,7 @@ msgstr "Koupit"
 #: templates/shop/includes/_product_card_tall.html:22
 #: templates/shop/includes/_product_modal.html:24
 msgid "Add To Cart"
-msgstr ""
+msgstr "Vložit do košíku"
 
 #: templates/shop/invoice_detail.html:33
 msgid "This Invoice has already been paid. Do not pay anything."
@@ -1276,7 +1234,82 @@ msgstr "Zavřít košík"
 msgid "It's so empty here!"
 msgstr "Košík je prázdný."
 
-#: templates/storengine/includes/_cookie_bar.html:74
+#: templates/storengine/includes/_cookie_bar.html:7
+msgid ""
+"By allowing cookies, you are helping us with improving the website and our "
+"services. You can find all the information in our Cookie Policy. You can "
+"modify your preferences later."
+msgstr ""
+"Pokud přijmete cookies, pomůžete mi s vylepšováním fungování webu a zároveň "
+"i se zlepšováním služeb.Více informací najdete v zásadách používání cookies. "
+"Své rozhodnutí můžete později změnit."
+
+#: templates/storengine/includes/_cookie_bar.html:12
+msgid "Configure"
+msgstr "Nastavit"
+
+#: templates/storengine/includes/_cookie_bar.html:16
+msgid "Allow essential cookies"
+msgstr "Povolit Nezbytné Cookies"
+
+#: templates/storengine/includes/_cookie_bar.html:21
+msgid "Allow all"
+msgstr "Přijmout vše"
+
+#: templates/storengine/includes/_cookie_bar.html:30
+msgid "Advanced Settings"
+msgstr "Pokročilá nastavení"
+
+#: templates/storengine/includes/_cookie_bar.html:33
+msgid ""
+"It is completely up to you which cookies you allow. If you ever change your "
+"mind, you can always modify your preferences."
+msgstr ""
+"Je pouze na vás, ke kterým cookies udělíte souhlas. A pokud svůj názor "
+"změníte, můžete se kdykoliv vrátit a nastavení změnit."
+
+#: templates/storengine/includes/_cookie_bar.html:46
+msgid "Essential Cookies"
+msgstr "Nezbytné Cookies"
+
+#: templates/storengine/includes/_cookie_bar.html:50
+msgid ""
+"We need these cookies for smooth functioning of the website. That's why they "
+"cannot be turned off. But don't worry, they don't contain any personal "
+"information."
+msgstr ""
+"Tyto soubory cookie potřebujeme pro správné fungování základních funkcí webu "
+"a aplikace. Bez nich by to bohužel opravdu nešlo, nelze je proto vypnout. "
+"Nemusíte se ale bát, neukládají žádné vaše osobní informace."
+
+#: templates/storengine/includes/_cookie_bar.html:61 users/admin.py:102
+msgid "Analytic Cookies"
+msgstr "Statistické Cookies"
+
+#: templates/storengine/includes/_cookie_bar.html:65
+msgid ""
+"Analytic cookies help us to understand how the visitors use the website. "
+"They anonymously collect information about, for example, which pages are the "
+"most popular and where visitors struggle to understand the user interface."
+msgstr ""
+"Statistické cookies nám pomáhají rozumět, jak návětěvníci používají tuto "
+"webovou stránku. Anonymně sbírají data například o tom, které stránky jsou "
+"nejnavštěvovanější nebo kde mají návštěvnící obtíže s používáním webu."
+
+#: templates/storengine/includes/_cookie_bar.html:77 users/admin.py:109
+msgid "Marketing Cookies"
+msgstr "Marketingové Cookies"
+
+#: templates/storengine/includes/_cookie_bar.html:81
+msgid ""
+"With the help of marketing cookies we are able to track the website traffic. "
+"That helps us create content that is for our visitors truly interesting."
+msgstr ""
+"Pomocí marketingových cookies můžeme měřit a analyzovat návštěvnost webu. Dokážeme díky tomu "
+"například zjistit, které stránky jsou oblíbené. To mi pomáhá tvořit takový obsah, který je pro "
+"návštěvníky skutečně zajímavý."
+
+#: templates/storengine/includes/_cookie_bar.html:88
 #: templates/users/account_index.html:32
 msgid "Save"
 msgstr "Uložit"
@@ -1381,6 +1414,7 @@ msgid ""
 "Your account doesn't have access to this page. To proceed, please log in "
 "with an account that has access."
 msgstr ""
+"Váš účet nemá přístup k této stránce. Pro pokračování se prosím přihlaste."
 
 #: templates/wagtailcore/login.html:40
 msgid "Enter your Email"
@@ -1409,14 +1443,6 @@ msgstr "Oprávnění"
 #: users/admin.py:95
 msgid "Important Cookies"
 msgstr "Důležité Cookies"
-
-#: users/admin.py:102
-msgid "Analytic Cookies"
-msgstr "Statistické Cookies"
-
-#: users/admin.py:109
-msgid "Marketing Cookies"
-msgstr "Marketingové Cookies"
 
 #: users/admin.py:116
 msgid "Cookies Updated"
@@ -1477,6 +1503,9 @@ msgstr "Zaměstnanec"
 #: users/models.py:62
 msgid "Date Joined"
 msgstr "Datum Přidání"
+
+#~ msgid "Allow important cookies"
+#~ msgstr "Přimout nezbytné"
 
 #~ msgid "Action ID"
 #~ msgstr "ID Akce"

@@ -3,19 +3,22 @@
     <div id="cookie-bar-content">
         <div>
             <h2>COOKIES</h2>
-            <p>Pokud přijmete cookies, pomůžete mi s vylepšováním fungování webu a zároveň i se zlepšováním služeb.
-                Více informací najdete v zásadách používání cookies. Své rozhodnutí můžete později změnit.
+            <p>
+                {% blocktrans trimmed %}
+                    By allowing cookies, you are helping us with improving the website and our services.
+                    You can find all the information in our Cookie Policy. You can modify your preferences later.
+                {% endblocktrans %}
             </p>
-            <button id="cookie-settings-button" class="cookie-button">Nastavit</button>
+            <button id="cookie-settings-button" class="cookie-button">{% trans 'Configure' %}</button>
             <button class="cookie-button" id="accept-important-cookies"
                     hx-post="{% url 'set_cookies_preferences' %}"
                     hx-vals='{"important": "on"}'>
-                Přijmout nezbytné
+                {% trans 'Allow essential cookies' %}
             </button>
             <button class="cookie-button accept-all" id="accept-all-cookies"
                     hx-post="{% url 'set_cookies_preferences' %}"
                     hx-vals='{"important": "on", "analytic": "on", "marketing": "on"}'>
-                Přijmout vše
+                {% trans 'Allow all' %}
             </button>
         </div>
         <img width="100px" src="{% static 'storengine/images/cookie.svg' %}">
@@ -24,11 +27,13 @@
 <div id="cookie-modal">
     <div id="cookie-modal-content">
         <i class="fa fa-times modal-close" aria-hidden="true"></i>
-        <h2>Pokročilá nastavení</h2>
+        <h2>{% trans 'Advanced Settings' %}</h2>
 
         <p>
-            Je pouze na vás, ke kterým cookies udělíte souhlas. A pokud svůj názor změníte, můžete se kdykoliv
-            vrátit a nastavení změnit.
+            {% blocktrans trimmed %}
+                It is completely up to you which cookies you allow. If you ever change your mind,
+                you can always modify your preferences.
+            {% endblocktrans %}
         </p>
         <hr>
         <br/>
@@ -38,37 +43,46 @@
                 <span class="toggle">
 		            <span class="switch"></span>
 	            </span>
-                &nbsp;Nezbytné Cookies
+                &nbsp;{% trans 'Essential Cookies' %}
             </label>
             <br/>
-            <small>Tyto soubory cookie potřebujeme pro správné fungování základních funkcí webu a aplikace. Bez nich
-                by to bohužel opravdu nešlo, nelze je proto vypnout. Nemusíte se ale bát, neukládají žádné vaše
-                osobní
-                informace.</small>
+            <small>
+                {% blocktrans trimmed %}
+                    We need these cookies for smooth functioning of the website. That's why they cannot be turned off.
+                    But don't worry, they don't contain any personal information.
+                {% endblocktrans %}
+            </small>
             <hr/>
             <label for="analytic" class="toggle-switchy" data-color="green">
                 <input type="checkbox" id="analytic" name="analytic">
                 <span class="toggle">
 		            <span class="switch"></span>
 	            </span>
-                &nbsp;Statistické Cookies
+                &nbsp;{% trans 'Analytic Cookies' %}
             </label>
             <br/>
-            <small>Statistické cookies pomáhají majitelům webových stránek, aby porozuměli, jak návštěvníci
-                používají
-                webové stránky. Anonymně sbírají a sdělují informace.</small>
+            <small>
+                {% blocktrans trimmed %}
+                    Analytic cookies help us to understand how the visitors use the website.
+                    They anonymously collect information about, for example, which pages are the most popular and
+                    where visitors struggle to understand the user interface.
+                {% endblocktrans %}
+            </small>
             <hr/>
             <label for="marketing" class="toggle-switchy" data-color="green">
                 <input type="checkbox" id="marketing" name="marketing">
                 <span class="toggle">
 		            <span class="switch"></span>
 	            </span>
-                &nbsp;Marketingové Cookies
+                &nbsp;{% trans 'Marketing Cookies' %}
             </label>
             <br/>
-            <small>Pomocí marketingových cookies můžeme měřit a analyzovat návštěvnost webu. Dokážeme díky tomu
-                například zjistit, které stránky jsou oblíbené. To mi pomáhá tvořit takový obsah, který je pro
-                návštěvníky skutečně zajímavý.</small>
+            <small>
+                {% blocktrans trimmed %}
+                    With the help of marketing cookies we are able to track the website traffic.
+                    That helps us create content that is for our visitors truly interesting.
+                {% endblocktrans %}
+            </small>
             <br/><br/>
             <button type="submit" hx-post="{% url 'set_cookies_preferences' %}"
                     class="cookie-modal-button accept-all">{% trans 'Save' %}
