@@ -1,4 +1,5 @@
 import json
+import logging
 from datetime import timedelta
 from decimal import Decimal
 from typing import Union
@@ -9,6 +10,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from gopay import Language, Payments
 
+logger = logging.getLogger("django")
 
 class JSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -85,6 +87,7 @@ def create_gopay_order(order=None) -> str:
     if response.has_succeed():
         return response.json["gw_url"]
 
+    logger.info(f"Failed to create GoPay Payment. Response: {json.dumps(response.json)}")
     return reverse_lazy("shop:error")
 
 
