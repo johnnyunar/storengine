@@ -161,7 +161,7 @@ class PaymentCallbackView(View):
             else:
                 return HttpResponseRedirect(reverse_lazy("shop:thank_you_not_paid"))
 
-        logger.info(f"Payment failed - Order: {order_number}, Payment ID: {payment_id}")
+        logger.info(f"Payment failed - Order: {order_number}, Payment ID: {payment_id if payment_id else None}")
         return HttpResponseRedirect(reverse_lazy("shop:error"))
 
 

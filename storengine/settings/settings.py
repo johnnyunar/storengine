@@ -249,9 +249,9 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": (
-                    "%(asctime)s [%(process)d] [%(levelname)s] "
-                    + "pathname=%(pathname)s lineno=%(lineno)s "
-                    + "funcname=%(funcName)s %(message)s"
+                "%(asctime)s [%(process)d] [%(levelname)s] "
+                + "pathname=%(pathname)s lineno=%(lineno)s "
+                + "funcname=%(funcName)s %(message)s"
             ),
             "datefmt": "%Y-%m-%d %H:%M:%S",
         },
@@ -272,7 +272,7 @@ LOGGING = {
         "django": {
             "handlers": ["console"],
             "level": "INFO",
-        },
+        }
     },
 }
 
@@ -348,9 +348,7 @@ SERVER_EMAIL = ADMIN_EMAIL
 
 TINYMCE_API_KEY = os.environ.get("TINYMCE_API_KEY")
 DJRICHTEXTFIELD_CONFIG = {
-    "js": [
-        f"//cdn.tiny.cloud/1/{TINYMCE_API_KEY}/tinymce/5/tinymce.min.js"
-    ],
+    "js": [f"//cdn.tiny.cloud/1/{TINYMCE_API_KEY}/tinymce/5/tinymce.min.js"],
     "init_template": "djrichtextfield/init/tinymce.js",
     "settings": {  # TinyMCE
         "menubar": False,
@@ -360,9 +358,9 @@ DJRICHTEXTFIELD_CONFIG = {
             "insertdatetime media table paste code help wordcount paste autosave",
         ],
         "toolbar": "undo redo | formatselect | "
-                   + "bold italic backcolor | alignleft aligncenter "
-                   + "alignright alignjustify | bullist numlist outdent indent | codesample | link image anchor | "
-                   + "removeformat | template |code help",
+        + "bold italic backcolor | alignleft aligncenter "
+        + "alignright alignjustify | bullist numlist outdent indent | codesample | link image anchor | "
+        + "removeformat | template |code help",
         "width": "100%",
         "height": 350,
         "image_caption": True,
