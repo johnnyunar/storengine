@@ -45,8 +45,7 @@ def create_gopay_order(order=None) -> str:
     """
     api = authenticate_api()
 
-    response = api.create_payment(
-        {
+    payment_data = {
             "payer": {
                 "contact": {
                     "first_name": order.billing_address.first_name,
@@ -83,11 +82,12 @@ def create_gopay_order(order=None) -> str:
             },
             "lang": Language.CZECH,  # if lang is not specified, then default lang is used
         }
-    )
+
+    response = api.create_payment(payment_data)
     if response.has_succeed():
         return response.json["gw_url"]
 
-    logger.info(f"Failed to create GoPay Payment. Response: {json.dumps(response.json)}")
+    logger.info(f"Failed to create GoPay Payment.\nData sent: {json.dumps(payment_data)}\nResponse: {json.dumps(response.json)}")
     return reverse_lazy("shop:error")
 
 
