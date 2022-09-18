@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-29 16:33+0200\n"
+"POT-Creation-Date: 2022-09-18 21:11+0200\n"
 "PO-Revision-Date: 2021-09-28 01:26:39\n"
 "Last-Translator: Server <johnny@unar.dev>\n"
 "Language-Team: English <johnny@unar.devt>\n"
@@ -202,41 +202,45 @@ msgstr "Obchodní Podmínky"
 msgid "Site Configuration"
 msgstr "Konfigurace Stránky"
 
-#: core/models/pages.py:30 core/models/pages.py:92
+#: core/models/pages.py:31 core/models/pages.py:111
 msgid "SEO image"
 msgstr "SEO Obrázek"
 
-#: core/models/pages.py:34 core/models/pages.py:96
+#: core/models/pages.py:35 core/models/pages.py:115
 msgid "Keywords"
 msgstr "Klíčová slova"
 
-#: core/models/pages.py:39 core/models/pages.py:101
+#: core/models/pages.py:40 core/models/pages.py:120
 msgid ""
 "Comma-separated keywords for search engines. For Example: food, friends, "
 "travelling"
 msgstr "Klíčová slova pro vyhledávače oddělená čárkou. Např. jídlo, cestování"
 
-#: core/models/pages.py:49
+#: core/models/pages.py:45
+msgid "Menu Order"
+msgstr "Pořadí v menu"
+
+#: core/models/pages.py:56
 msgid "Navigation"
 msgstr "Navigace"
 
-#: core/models/pages.py:62
+#: core/models/pages.py:69
 msgid "For search engines"
 msgstr "Vyhledávače"
 
-#: core/models/pages.py:72
+#: core/models/pages.py:79
 msgid "For site menus"
 msgstr "Menu na stránce"
 
-#: core/models/pages.py:78 core/models/pages.py:120 mails/models/models.py:22
+#: core/models/pages.py:85 core/models/pages.py:139 mails/models/models.py:22
 msgid "Content"
 msgstr "Obsah"
 
-#: core/models/pages.py:80 core/models/pages.py:122
+#: core/models/pages.py:87 core/models/pages.py:141
 msgid "Settings"
 msgstr "Nastavení"
 
-#: core/models/pages.py:110
+#: core/models/pages.py:129
 msgid "Hero Section"
 msgstr "Hero Sekce"
 
@@ -1305,9 +1309,9 @@ msgid ""
 "With the help of marketing cookies we are able to track the website traffic. "
 "That helps us create content that is for our visitors truly interesting."
 msgstr ""
-"Pomocí marketingových cookies můžeme měřit a analyzovat návštěvnost webu. Dokážeme díky tomu "
-"například zjistit, které stránky jsou oblíbené. To mi pomáhá tvořit takový obsah, který je pro "
-"návštěvníky skutečně zajímavý."
+"Pomocí marketingových cookies můžeme měřit a analyzovat návštěvnost webu. "
+"Dokážeme díky tomu například zjistit, které stránky jsou oblíbené. To mi "
+"pomáhá tvořit takový obsah, který je pro návštěvníky skutečně zajímavý."
 
 #: templates/storengine/includes/_cookie_bar.html:88
 #: templates/users/account_index.html:32

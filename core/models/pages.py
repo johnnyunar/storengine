@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin import panels
@@ -40,6 +41,12 @@ class SimplePage(Page):
         ),
     )
 
+    menu_order = models.PositiveIntegerField(
+        _("Menu Order"),
+        null=True,
+        blank=True,
+    )
+
     content_panels = [
         MultiFieldPanel(
             [
@@ -68,7 +75,7 @@ class SimplePage(Page):
 
     settings_panels = [
         MultiFieldPanel(
-            [FieldPanel("show_in_menus", widget=SwitchInput)],
+            [FieldPanel("show_in_menus", widget=SwitchInput), FieldPanel("menu_order")],
             heading=_("For site menus"),
         ),
     ] + Page.settings_panels
@@ -80,6 +87,18 @@ class SimplePage(Page):
             ObjectList(settings_panels, heading=_("Settings")),
         ]
     )
+
+    def save(self, *args, **kwargs):
+        all_order_numbers = SimplePage.objects.exclude(pk=self.pk).values_list(
+            "menu_order", flat=True
+        )
+        # If there is an order conflict, update all pages accordingly
+        if self.menu_order in all_order_numbers:
+            SimplePage.objects.filter(menu_order__gte=self.menu_order).update(
+                menu_order=F("menu_order") + 1
+            )
+
+        super().save()
 
 
 class HomePage(Page):
