@@ -195,6 +195,8 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
 
     class Meta:
         unique_together = [("translation_key", "locale")]
+        verbose_name = _("Page Section")
+        verbose_name_plural = _("Page Sections")
 
     def __str__(self):
         return self.name

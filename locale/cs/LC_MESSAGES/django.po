@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-18 21:11+0200\n"
+"POT-Creation-Date: 2022-09-18 21:29+0200\n"
 "PO-Revision-Date: 2021-09-28 01:26:39\n"
 "Last-Translator: Server <johnny@unar.dev>\n"
 "Language-Team: English <johnny@unar.devt>\n"
@@ -34,7 +34,7 @@ msgstr "Typ Spouště"
 
 #: automations/models.py:22 automations/models.py:41 automations/models.py:99
 #: core/models/fonts.py:8 core/models/site_settings.py:162
-#: core/models/snippets.py:105 core/models/snippets.py:322
+#: core/models/snippets.py:105 core/models/snippets.py:324
 #: mails/models/models.py:95 shop/models/models.py:129
 #: shop/models/models.py:145 shop/models/models.py:172
 #: shop/models/models.py:354
@@ -91,7 +91,7 @@ msgid "Email Actions"
 msgstr "Emailové Akce"
 
 #: automations/models.py:106 core/models/models.py:31
-#: core/models/snippets.py:285 mails/models/models.py:114
+#: core/models/snippets.py:287 mails/models/models.py:114
 #: shop/models/models.py:37 shop/models/models.py:71 shop/models/models.py:92
 #: shop/models/models.py:304 shop/models/models.py:371
 #: shop/models/models.py:485 users/models.py:20
@@ -99,7 +99,7 @@ msgid "Created At"
 msgstr "Vytvořeno"
 
 #: automations/models.py:107 core/models/models.py:32
-#: core/models/snippets.py:286 mails/models/models.py:115
+#: core/models/snippets.py:288 mails/models/models.py:115
 #: shop/models/models.py:38 shop/models/models.py:72 shop/models/models.py:93
 #: shop/models/models.py:305 shop/models/models.py:372
 #: shop/models/models.py:486 users/models.py:21
@@ -367,8 +367,8 @@ msgstr "Např. https://twitter.com/home/"
 msgid "Icon"
 msgstr "Ikona"
 
-#: core/models/site_settings.py:177 core/models/snippets.py:241
-#: core/models/snippets.py:266 core/models/snippets.py:283
+#: core/models/site_settings.py:177 core/models/snippets.py:243
+#: core/models/snippets.py:268 core/models/snippets.py:285
 #: shop/models/models.py:131 shop/models/models.py:147
 #: shop/models/models.py:231 shop/models/models.py:369
 msgid "Available"
@@ -503,7 +503,7 @@ msgstr "Typ"
 msgid "Background Color"
 msgstr "Barva Pozadí"
 
-#: core/models/snippets.py:109 core/models/snippets.py:263
+#: core/models/snippets.py:109 core/models/snippets.py:265
 msgid "Text"
 msgstr "Text"
 
@@ -556,7 +556,7 @@ msgid "Testimonials"
 msgstr "Řekli o mně"
 
 #: core/models/snippets.py:176 core/models/snippets.py:178
-#: core/models/snippets.py:273
+#: core/models/snippets.py:275
 msgid "Counters"
 msgstr "Počítadla"
 
@@ -564,79 +564,87 @@ msgstr "Počítadla"
 msgid "FAQs"
 msgstr "FAQ"
 
-#: core/models/snippets.py:239
+#: core/models/snippets.py:198
+msgid "Page Section"
+msgstr "Sekce"
+
+#: core/models/snippets.py:199
+msgid "Page Sections"
+msgstr "Sekce"
+
+#: core/models/snippets.py:241
 msgid "Author"
 msgstr "Autor"
 
-#: core/models/snippets.py:261
+#: core/models/snippets.py:263
 msgid "Number"
 msgstr "Číslo"
 
-#: core/models/snippets.py:261
+#: core/models/snippets.py:263
 msgid "E.g. 420 or 69+"
 msgstr "Např. 420 nebo 69+"
 
-#: core/models/snippets.py:263
+#: core/models/snippets.py:265
 msgid "E.g. Clients or Lectures"
 msgstr "Např. 'Clients' nebo 'Lekcí'"
 
-#: core/models/snippets.py:272
+#: core/models/snippets.py:274
 msgid "Counter"
 msgstr "Počítadlo"
 
-#: core/models/snippets.py:280
+#: core/models/snippets.py:282
 msgid "Question"
 msgstr "Otázka"
 
-#: core/models/snippets.py:281
+#: core/models/snippets.py:283
 msgid "Answer"
 msgstr "Odpověď"
 
-#: core/models/snippets.py:289
+#: core/models/snippets.py:291
 msgid "Frequently Asked Question"
 msgstr "Často Kladená Otázka"
 
-#: core/models/snippets.py:290
+#: core/models/snippets.py:292
 msgid "Frequently Asked Questions"
 msgstr "Často Kladené Otázky"
 
-#: core/models/snippets.py:304
+#: core/models/snippets.py:306
 msgid "Split Into Categories"
 msgstr "Rozdělit do kategorií"
 
-#: core/models/snippets.py:306
+#: core/models/snippets.py:308
 msgid "Split the displayed products into categories."
 msgstr "Rozdělit zobrazované produkty do kategorií."
 
-#: core/models/snippets.py:324
+#: core/models/snippets.py:326
 msgid "Hero Title"
 msgstr "Hero Nadpis"
 
-#: core/models/snippets.py:328
+#: core/models/snippets.py:330
 msgid "This is the big title that shows up in the hero section."
 msgstr "Tento nadpis se ukazuje jako největší v Hero sekci."
 
-#: core/models/snippets.py:332
+#: core/models/snippets.py:334
 msgid "Hero Subheading"
 msgstr "Hero Podnadpis"
 
-#: core/models/snippets.py:337
+#: core/models/snippets.py:339
 msgid "This is the text that shows up under the title in the hero section."
 msgstr "Tento podnadpis se ukazuje pod nadpisem v Hero sekci."
 
-#: core/models/snippets.py:347
+#: core/models/snippets.py:349
 msgid "This image shows up in the hero section."
 msgstr "Tento obrázek se ukazuje v Hero sekci."
 
-#: core/models/snippets.py:348
+#: core/models/snippets.py:350
 msgid "Hero Image"
 msgstr "Obrázek v Hero Sekci"
 
-#: core/models/snippets.py:352
+#: core/models/snippets.py:354
 msgid "Hero Video"
 msgstr "Hero Video"
 
-#: core/models/snippets.py:363
+#: core/models/snippets.py:365
 msgid "Enable Particles"
 msgstr "Povolit pohyblivé částice"
 
