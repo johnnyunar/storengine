@@ -152,7 +152,6 @@
 
 .product-modal {
   box-sizing: border-box;
-  padding: 70px;
   z-index: 10;
   display: none;
   width: 800px;
@@ -160,10 +159,19 @@
   background: white;
   border-radius: 30px;
   color: black;
-  overflow-y: auto;
+  overflow: hidden;
   -webkit-box-shadow: 0 7px 9px -1px rgba(0, 0, 0, 0.55);
   box-shadow: 0 7px 9px -1px rgba(0, 0, 0, 0.55);
   position: relative;
+}
+
+.product-modal-content {
+  box-sizing: border-box;
+  padding: 70px;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .product-image {
