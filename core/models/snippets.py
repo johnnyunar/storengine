@@ -240,6 +240,13 @@ class Testimonial(Orderable, models.Model):
     text = models.TextField()
     author = models.CharField(max_length=64, verbose_name=_("Author"))
 
+    video_url = models.URLField(
+        _("Video URL"),
+        null=True,
+        blank=True,
+        help_text=_('Shows after clicking "Watch" in the card.'),
+    )
+
     is_active = models.BooleanField(_("Available"), default=True)
 
     def __str__(self):
@@ -252,6 +259,7 @@ class Testimonial(Orderable, models.Model):
     panels = [
         FieldPanel("text"),
         FieldPanel("author"),
+        FieldPanel("video_url"),
         FieldPanel("is_active", widget=SwitchInput),
     ]
 
@@ -276,9 +284,7 @@ class Counter(Orderable, models.Model):
 
 
 class FrequentlyAskedQuestion(Orderable, models.Model):
-    section = ParentalKey(
-        PageSection, on_delete=models.CASCADE, related_name="faqs"
-    )
+    section = ParentalKey(PageSection, on_delete=models.CASCADE, related_name="faqs")
     question = RichTextField(_("Question"))
     answer = RichTextField(_("Answer"))
 

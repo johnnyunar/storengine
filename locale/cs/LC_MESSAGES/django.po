@@ -553,7 +553,7 @@ msgstr ""
 #: core/models/snippets.py:169 core/models/snippets.py:171
 #: templates/storengine/home.html:87
 msgid "Testimonials"
-msgstr "Řekli o mně"
+msgstr "Recenze"
 
 #: core/models/snippets.py:176 core/models/snippets.py:178
 #: core/models/snippets.py:275
