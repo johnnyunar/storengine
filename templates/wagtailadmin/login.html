@@ -3,10 +3,10 @@
 
 {% block above_login %}
     {% if settings.core.BrandSettings.logo %}
-        <img src="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" width="200"
+        <img src="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" width="150"
              style="display: block; margin: 0 auto;">
     {% else %}
-        <img src="{% static 'storengine/images/rocket-earth.png' %}" width="200"
+        <img src="{% static 'storengine/images/rocket-earth.png' %}" width="150"
              style="display: block; margin: 0 auto;">
     {% endif %}
 {% endblock %}
