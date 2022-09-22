@@ -12,6 +12,7 @@ from wagtail.admin.widgets import SwitchInput
 from wagtail.contrib.settings.models import BaseSetting
 from wagtail.contrib.settings.registry import register_setting
 from wagtail.models import Orderable
+from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 
 from core.models import fonts
@@ -242,14 +243,14 @@ class BrandSettings(BaseSetting):
         FieldPanel("google_font"),
         MultiFieldPanel(
             (
-                FieldPanel("primary_color"),
-                FieldPanel("accent_color"),
-                FieldPanel("text_color"),
-                FieldPanel("error_color"),
-                FieldPanel("cart_color"),
-                FieldPanel("cart_text_color"),
-                FieldPanel("notification_bar_color"),
-                FieldPanel("notification_bar_text_color"),
+                NativeColorPanel("primary_color"),
+                NativeColorPanel("accent_color"),
+                NativeColorPanel("text_color"),
+                NativeColorPanel("error_color"),
+                NativeColorPanel("cart_color"),
+                NativeColorPanel("cart_text_color"),
+                NativeColorPanel("notification_bar_color"),
+                NativeColorPanel("notification_bar_text_color"),
             ),
             heading=_("Colors"),
         ),
