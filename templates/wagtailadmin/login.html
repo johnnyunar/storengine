@@ -1,5 +1,5 @@
 {% extends "wagtailadmin/login.html" %}
-{% load i18n static wagtailimages_tags %}
+{% load i18n static wagtailadmin_tags wagtailimages_tags widget_tweaks %}
 
 {% block above_login %}
     {% if settings.core.BrandSettings.logo %}
@@ -11,4 +11,22 @@
     {% endif %}
 {% endblock %}
 {% block branding_login %}
+{% endblock %}
+
+{% comment %}Overriding this block just to fix placeholder translation.{% endcomment %}
+{% block fields %}
+    {% field field=form.username|attr:"placeholder:Email" %}{% endfield %}{% comment %}Here.{% endcomment %}
+    {% field field=form.password %}{% endfield %}
+
+    {% if show_password_reset %}
+        <a class="reset-password" href="{% url 'wagtailadmin_password_reset' %}"
+           aria-label="{% trans 'Reset your password' %}">{% trans "Forgotten password?" %}</a>
+    {% endif %}
+
+    {% block extra_fields %}
+        {{ block.super }}
+    {% endblock extra_fields %}
+
+    {% trans "Remember me" as checkbox_text %}
+    {% include "wagtailadmin/shared/forms/single_checkbox.html" with label_classname="remember-me" name="remember" text=checkbox_text %}
 {% endblock %}
