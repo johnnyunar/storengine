@@ -4,13 +4,17 @@ from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin import panels
 from wagtail.admin.panels import (
-    FieldPanel,
-    InlinePanel,
-    MultiFieldPanel,
+    FieldPanel, FieldRowPanel,
+    InlinePanel, MultiFieldPanel
+)
+from wagtail.admin.panels import (
     TabbedInterface,
     ObjectList,
 )
 from wagtail.admin.widgets import SwitchInput
+from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
+from wagtail.contrib.forms.panels import FormSubmissionsPanel
+from wagtail.fields import RichTextField
 from wagtail.models import Page, Orderable
 from wagtail_meta_preview.panels import (
     FacebookPreviewPanel,
@@ -74,11 +78,11 @@ class SimplePage(Page):
     ]
 
     settings_panels = [
-        MultiFieldPanel(
-            [FieldPanel("show_in_menus", widget=SwitchInput), FieldPanel("menu_order")],
-            heading=_("For site menus"),
-        ),
-    ] + Page.settings_panels
+                          MultiFieldPanel(
+                              [FieldPanel("show_in_menus", widget=SwitchInput), FieldPanel("menu_order")],
+                              heading=_("For site menus"),
+                          ),
+                      ] + Page.settings_panels
 
     edit_handler = TabbedInterface(
         [
@@ -159,3 +163,26 @@ class PageSectionPlacement(Orderable, models.Model):
 
     def __str__(self):
         return self.page.title + " -> " + self.section.text
+
+
+class FormField(AbstractFormField):
+    page = ParentalKey('FormPage', on_delete=models.CASCADE, related_name='form_fields')
+
+
+class FormPage(AbstractEmailForm):
+    intro = RichTextField(blank=True)
+    thank_you_text = RichTextField(blank=True)
+
+    content_panels = AbstractEmailForm.content_panels + [
+        FormSubmissionsPanel(),
+        FieldPanel('intro'),
+        InlinePanel('form_fields', label="Form fields"),
+        FieldPanel('thank_you_text'),
+        MultiFieldPanel([
+            FieldRowPanel([
+                FieldPanel('from_address', classname="col6"),
+                FieldPanel('to_address', classname="col6"),
+            ]),
+            FieldPanel('subject'),
+        ], "Email"),
+    ]

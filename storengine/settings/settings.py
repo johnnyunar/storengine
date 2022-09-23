@@ -297,8 +297,6 @@ WAGTAILADMIN_RICH_TEXT_EDITORS = {
                 "image",
                 "embed",
                 "code",
-                "snippet-link",
-                "snippet-embed",
             ]
         },
     },
