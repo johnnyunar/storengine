@@ -14,8 +14,10 @@
     <span class="price">{% money_localize product.price %}
         {% if product.payment_recurrence %}
             / {{ product.get_payment_recurrence_display }}
-        {% endif %}</span>
-    <br/><br/>
+        {% endif %}
+    </span>
+    {% comment %}
+        <br/><br/>
     {% if product.external_url %}
         <a href="{{ product.external_url }}" target="_blank" rel="noopener"
            class="card-cta">{% trans "Buy Now" %}</a>
@@ -26,7 +28,9 @@
             <i class="htmx-indicator fa fa-circle-o-notch fa-spin position-absolute ms-2"></i>
         </button>
     {% endif %}
+    {% endcomment %}
     {% if product.preorder_end_date %}
-        <div class="preorder-banner">{% trans "Preorder ends" %} <span class="preorder-countdown">{{ product.preorder_end_date|date:"d/m/y H:i" }}</span></div>
+        <div class="preorder-banner">{% trans "Preorder ends" %} <span
+                class="preorder-countdown">{{ product.preorder_end_date|date:"d/m/y H:i" }}</span></div>
     {% endif %}
 </div>

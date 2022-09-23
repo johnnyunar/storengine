@@ -98,7 +98,7 @@ class Cart(models.Model):
     updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
 
     def add(self, item, variant, amount=1) -> bool:
-        if variant and not variant.available():
+        if (variant and not variant.available()) or (not variant and item.variants.exists()):
             return False
 
         try:
@@ -281,6 +281,13 @@ class Product(TranslatableMixin, ClusterableModel):
     )
 
     is_active = models.BooleanField(_("Available"), default=True)
+
+    def available(self):
+        if self.variants.exists():
+            return self.variants.filter(pcs_in_stock__gt=0).exists()
+
+        return True
+
     panels = [
         FieldPanel("is_active", widget=SwitchInput),
         FieldPanel("name"),
