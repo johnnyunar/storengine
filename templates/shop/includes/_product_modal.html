@@ -1,5 +1,8 @@
 {% load i18n djmoney wagtailimages_tags %}
 <div class="product-modal" data-id="{{ product.id }}">
+     {% if product.preorder_end_date %}
+        <div class="preorder-banner">{% trans "Preorder ends" %} <span class="preorder-countdown">{{ product.preorder_end_date|date:"d/m/y H:i" }}</span></div>
+    {% endif %}
     <div class="product-modal-content">
         <i class="fas fa-times close"></i>
         <h2>{{ product.name }}</h2>

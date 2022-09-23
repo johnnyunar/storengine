@@ -91,7 +91,7 @@
     font-weight: bolder;
   }
 
-  .preorder-banner{
+  .preorder-banner {
     position: relative;
     bottom: -20px;
     width: auto;
@@ -173,6 +173,16 @@
   -webkit-box-shadow: 0 7px 9px -1px rgba(0, 0, 0, 0.55);
   box-shadow: 0 7px 9px -1px rgba(0, 0, 0, 0.55);
   position: relative;
+
+  .preorder-banner {
+    width: 300px;
+    height: 30px;
+    padding-left: 20px;
+    line-height: 30px;
+    color: var(--color-text);
+    clip-path: polygon(0 0, 100% 0%, 80% 100%, 0% 100%);
+    background-color: $color-accent;
+  }
 }
 
 .product-modal-content {
