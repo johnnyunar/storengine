@@ -71,7 +71,7 @@ class ProductAdmin(admin.ModelAdmin):
         "is_active",
     )
     list_editable = ("is_active",)
-    list_filter = ("is_active", "category")
+    list_filter = ("is_active", "product_type", "category")
     search_fields = ("name", "description", "price")
     list_display_links = ("name", "description_tag")
     exclude = ("created_by",)
