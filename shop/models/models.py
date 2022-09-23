@@ -3,11 +3,9 @@ from datetime import timedelta
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.db.models import F
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
-from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 from django_currentuser.db.models import CurrentUserField
@@ -69,7 +67,11 @@ class CartItem(models.Model):
         blank=True,
     )
 
+    # TODO: on_delete handling
     product = models.ForeignKey("Product", on_delete=models.CASCADE)
+    product_variant = models.ForeignKey(
+        "ProductVariant", blank=True, null=True, on_delete=models.CASCADE
+    )
 
     created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
@@ -95,9 +97,14 @@ class Cart(models.Model):
     created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
 
-    def add(self, item, amount=1):
+    def add(self, item, variant, amount=1) -> bool:
+        if variant and not variant.available():
+            return False
+
         try:
-            cart_item = CartItem.objects.get(cart=self, product=item)
+            cart_item = CartItem.objects.get(
+                cart=self, product=item, product_variant=variant
+            )
             new_amount = cart_item.amount + amount
             if new_amount == 0:
                 cart_item.delete()
@@ -107,7 +114,11 @@ class Cart(models.Model):
                 cart_item.amount = new_amount
                 cart_item.save()
         except CartItem.DoesNotExist:
-            CartItem.objects.create(cart=self, product=item, amount=amount)
+            CartItem.objects.create(
+                cart=self, product=item, product_variant=variant, amount=amount
+            )
+
+        return True
 
     @property
     def total_price(self):
@@ -165,7 +176,7 @@ class ProductType(TranslatableMixin):
 
 
 class ProductVariant(Orderable, TranslatableMixin):
-    product = ParentalKey("Product", on_delete=models.CASCADE, related_name='variants')
+    product = ParentalKey("Product", on_delete=models.CASCADE, related_name="variants")
     name = models.CharField(_("Name"), max_length=128)
     variant_id = models.CharField(_("Variant ID"), max_length=32, blank=True, null=True)
     pcs_in_stock = models.PositiveIntegerField(
@@ -173,6 +184,9 @@ class ProductVariant(Orderable, TranslatableMixin):
         null=True,
         blank=True,
     )
+
+    def available(self):
+        return self.pcs_in_stock > 0
 
     class Meta:
         unique_together = [("translation_key", "locale")]
@@ -189,8 +203,10 @@ class Product(TranslatableMixin, ClusterableModel):
 
     created_by = CurrentUserField()
     name = models.CharField(_("Name"), max_length=128)
-    product_id = models.CharField(_("Variant ID"), max_length=32, blank=True, null=True, unique=True)
-    related_products = models.ManyToManyField("self")
+    product_id = models.CharField(
+        _("Variant ID"), max_length=32, blank=True, null=True, unique=True
+    )
+    related_products = models.ManyToManyField("self", blank=True)
 
     product_type = models.ForeignKey(
         ProductType,
@@ -577,6 +593,13 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name=_("Order"))
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, verbose_name=_("Product")
+    )
+    product_variant = models.ForeignKey(
+        "ProductVariant",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name=_("Product Variant"),
     )
 
     def save(self, *args, **kwargs):

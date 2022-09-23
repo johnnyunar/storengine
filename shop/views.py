@@ -1,5 +1,7 @@
 import logging
+from gettext import gettext as _
 
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
@@ -23,6 +25,7 @@ from shop.models import (
     Order,
     OrderItem,
 )
+from shop.models.models import ProductVariant
 
 logger = logging.getLogger("django")
 
@@ -110,6 +113,7 @@ class CheckoutView(ShopRequiredMixin, CreateView):
                 OrderItem(
                     quantity=item.amount,
                     product=item.product,
+                    product_variant=item.product_variant,
                     order=new_order,
                     total_price=item.price,
                 )
@@ -187,6 +191,7 @@ class AddToCartView(ShopRequiredMixin, View):
         user = request.user if request.user.is_authenticated else None
         cart_pk = request.session.get("cart")
         item_pk = int(request.POST.get("item"))
+        variant_pk = int(request.POST.get("variant", 0)) or None
         amount = int(request.POST.get("amount", 1))
 
         cart = Cart.objects.filter(pk=cart_pk).first()
@@ -195,7 +200,13 @@ class AddToCartView(ShopRequiredMixin, View):
             request.session["cart"] = cart.pk
 
         item = Product.objects.get(pk=item_pk)
-        cart.add(item, amount)
+        if variant_pk:
+            variant = ProductVariant.objects.get(pk=variant_pk)
+        else:
+            variant = None
+        item_added = cart.add(item, variant, amount)
+        if not item_added:
+            messages.add_message(request, messages.WARNING, _("Item Out Of Stock."))
         return render(request, "storengine/includes/_cart.html")
 
 

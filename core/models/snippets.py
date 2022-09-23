@@ -155,7 +155,7 @@ class PageSection(index.Indexed, TranslatableMixin, ClusterableModel):
         MultiFieldPanel(
             [
                 InlinePanel("product_types", label=_("Product Types")),
-                InlinePanel("products", label=_("Products")),
+                InlinePanel("products", label=_("Product")),
             ],
             heading=_("Products"),
             classname="collapsible collapsed",

@@ -1,7 +1,8 @@
 {% load i18n djmoney wagtailimages_tags %}
 <div class="product-modal" data-id="{{ product.id }}">
-     {% if product.preorder_end_date %}
-        <div class="preorder-banner">{% trans "Preorder ends" %} <span class="preorder-countdown">{{ product.preorder_end_date|date:"d/m/y H:i" }}</span></div>
+    {% if product.preorder_end_date %}
+        <div class="preorder-banner">{% trans "Preorder ends" %} <span
+                class="preorder-countdown">{{ product.preorder_end_date|date:"d/m/y H:i" }}</span></div>
     {% endif %}
     <div class="product-modal-content">
         <i class="fas fa-times close"></i>
@@ -11,21 +12,37 @@
             {% if product.image %}
                 {% image product.image width-300 %}
             {% endif %}
-            <div class="product-description">
+            <div class="product-sidepanel">
+                <span class="price">{% money_localize product.price %}
+                    {% if product.payment_recurrence %}
+                        / {{ product.get_payment_recurrence_display }}
+                    {% endif %}
+                </span>
+                <div class="related-products">
+                    {% for related_product in product.related_products.all %}
+                        {% image related_product.image fill-75x75-c10 data-id=related_product.id %}
+                    {% endfor %}
+                </div>
+
+                {% if product.external_url %}
+                    <a href="{{ product.external_url }}" target="_blank" rel="noopener"
+                       class="card-cta">{% trans "Buy Now" %}</a>
+                {% elif settings.core.ControlCenter.shop_enabled %}
+                    <form>
+                        <div class="product-variants">
+                            {% for variant in product.variants.all %}
+                                <input type="radio" class="btn-check" name="variant" id="{{ variant.name }}"
+                                       autocomplete="off" value="{{ variant.pk }}" {% if forloop.first %}checked{% endif %}>
+                                <label class="btn btn-secondary" for="{{ variant.name }}">{{ variant.name }}</label>
+                            {% endfor %}
+                        </div>
+                        <button hx-post="{% url 'shop:add_to_cart' %}" hx-target='#cart'
+                                hx-vals='{"item": {{ product.pk }}}'
+                                class="card-cta add-to-cart">{% trans "Add To Cart" %}</button>
+                    </form>
+                {% endif %}
                 {{ product.description | safe }}
             </div>
         </div>
-        <span class="price">{% money_localize product.price %}
-            {% if product.payment_recurrence %}
-                / {{ product.get_payment_recurrence_display }}
-            {% endif %}</span>
-        {% if product.external_url %}
-            <a href="{{ product.external_url }}" target="_blank" rel="noopener"
-               class="card-cta">{% trans "Buy Now" %}</a>
-        {% elif settings.core.ControlCenter.shop_enabled %}
-            <button hx-post="{% url 'shop:add_to_cart' %}" hx-target='#cart'
-                    hx-vals='{"item": {{ product.pk }}}'
-                    class="card-cta add-to-cart">{% trans "Add To Cart" %}</button>
-        {% endif %}
     </div>
 </div>

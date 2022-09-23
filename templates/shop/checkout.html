@@ -30,7 +30,12 @@
                 {% for item in cart.items.all %}
                     <div class="cart-item">
                         {% image item.product.image fill-100x100-c100 %}
-                        <div class="cart-item-name col-3">{{ item.product.name }}</div>
+                        <div class="cart-item-name col-3">
+                            {{ item.product.name }}<br/>
+                            {% if item.product_variant %}
+                                {{ item.product.variants_name|capfirst }}: {{ item.product_variant.name }}
+                            {% endif %}
+                        </div>
                         <div class="cart-item-quantity-control col-2">
                             <input class="cart-item-quantity" type="text" value="{{ item.amount }}" readonly>&nbsp;
                         </div>

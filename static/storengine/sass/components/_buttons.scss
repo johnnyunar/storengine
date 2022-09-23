@@ -16,6 +16,12 @@
   padding: 12px;
 }
 
+.btn-check:active + .btn, .btn-check:checked + .btn, .btn.active, .btn.show, .btn:active{
+  background-color: var(--color-primary);
+  opacity: .95;
+  border: none;
+}
+
 .cta:hover {
   background: #f1f1f1 !important;
   color: black;
