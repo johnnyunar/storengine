@@ -258,8 +258,8 @@ class Product(TranslatableMixin, ClusterableModel):
         ),
     )
 
-    variant_name = models.CharField(
-        _("Variant Name"),
+    variants_name = models.CharField(
+        _("Variants Name"),
         max_length=64,
         default="size",
     )
@@ -290,8 +290,8 @@ class Product(TranslatableMixin, ClusterableModel):
         FieldPanel("preorder_end_date"),
         MultiFieldPanel(
             [
-                FieldPanel("variant_name", classname="mb-5"),
-                InlinePanel('variants', heading="Variants", label="Variants"),
+                FieldPanel("variants_name", classname="mb-5"),
+                InlinePanel("variants"),
             ],
             heading=_("Variants"),
         ),
