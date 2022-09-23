@@ -7,17 +7,20 @@ from django.db.models import F
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 from django_currentuser.db.models import CurrentUserField
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
+from modelcluster.fields import ParentalKey
+from modelcluster.models import ClusterableModel
 from phonenumber_field.modelfields import PhoneNumberField
 from wagtail import blocks
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.admin.widgets import SwitchInput
 from wagtail.fields import RichTextField
-from wagtail.models import TranslatableMixin, Site
+from wagtail.models import TranslatableMixin, Site, Orderable
 
 from shop.gopay_api import is_gopay_payment_paid
 from shop.utils import generate_order_number
@@ -161,7 +164,23 @@ class ProductType(TranslatableMixin):
         unique_together = [("translation_key", "locale")]
 
 
-class Product(TranslatableMixin):
+class ProductVariant(Orderable, TranslatableMixin):
+    product = ParentalKey("Product", on_delete=models.CASCADE, related_name='variants')
+    name = models.CharField(_("Name"), max_length=128)
+    variant_id = models.CharField(_("Variant ID"), max_length=32, blank=True, null=True)
+    pcs_in_stock = models.PositiveIntegerField(
+        _("Pieces In Stock"),
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        unique_together = [("translation_key", "locale")]
+        verbose_name = _("Product Variant")
+        verbose_name_plural = _("Product Variants")
+
+
+class Product(TranslatableMixin, ClusterableModel):
     class RecurrenceTypes(models.TextChoices):
         DAILY = "daily", _("Day")
         WEEKLY = "weekly", _("Week")
@@ -170,6 +189,8 @@ class Product(TranslatableMixin):
 
     created_by = CurrentUserField()
     name = models.CharField(_("Name"), max_length=128)
+    product_id = models.CharField(_("Variant ID"), max_length=32, blank=True, null=True, unique=True)
+    related_products = models.ManyToManyField("self")
 
     product_type = models.ForeignKey(
         ProductType,
@@ -232,7 +253,15 @@ class Product(TranslatableMixin):
         _("Preorder End Date"),
         null=True,
         blank=True,
-        help_text=_("If this product is for preorder, you can set the preorder end date here.")
+        help_text=_(
+            "If this product is for preorder, you can set the preorder end date here."
+        ),
+    )
+
+    variant_name = models.CharField(
+        _("Variant Name"),
+        max_length=64,
+        default="size",
     )
 
     is_active = models.BooleanField(_("Available"), default=True)
@@ -259,6 +288,14 @@ class Product(TranslatableMixin):
         ),
         FieldPanel("external_url"),
         FieldPanel("preorder_end_date"),
+        MultiFieldPanel(
+            [
+                FieldPanel("variant_name", classname="mb-5"),
+                InlinePanel('variants', heading="Variants", label="Variants"),
+            ],
+            heading=_("Variants"),
+        ),
+        FieldPanel("related_products"),
     ]
 
     def __str__(self):
