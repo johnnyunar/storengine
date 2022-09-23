@@ -26,4 +26,7 @@
             <i class="htmx-indicator fa fa-circle-o-notch fa-spin position-absolute ms-2"></i>
         </button>
     {% endif %}
+    {% if product.preorder_end_date %}
+        <div class="preorder-banner">{% trans "Preorder ends" %} <span class="preorder-countdown">{{ product.preorder_end_date|date:"d/m/y H:i" }}</span></div>
+    {% endif %}
 </div>

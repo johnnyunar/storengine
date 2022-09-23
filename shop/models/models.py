@@ -228,6 +228,13 @@ class Product(TranslatableMixin):
         blank=True,
     )
 
+    preorder_end_date = models.DateTimeField(
+        _("Preorder End Date"),
+        null=True,
+        blank=True,
+        help_text=_("If this product is for preorder, you can set the preorder end date here.")
+    )
+
     is_active = models.BooleanField(_("Available"), default=True)
     panels = [
         FieldPanel("is_active", widget=SwitchInput),
@@ -251,6 +258,7 @@ class Product(TranslatableMixin):
             heading=_("Description"),
         ),
         FieldPanel("external_url"),
+        FieldPanel("preorder_end_date"),
     ]
 
     def __str__(self):
@@ -258,6 +266,8 @@ class Product(TranslatableMixin):
 
     class Meta:
         unique_together = [("translation_key", "locale")]
+        verbose_name = _("Product")
+        verbose_name_plural = _("Products")
 
 
 class Address(models.Model):

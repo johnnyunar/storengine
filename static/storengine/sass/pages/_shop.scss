@@ -90,6 +90,16 @@
     font-size: 20px;
     font-weight: bolder;
   }
+
+  .preorder-banner{
+    position: relative;
+    bottom: -20px;
+    width: auto;
+    border-radius: 10px;
+    margin: 0 auto;
+    background-color: $color-primary;
+    color: var(--color-text) !important;
+  }
 }
 
 .card-cta {
