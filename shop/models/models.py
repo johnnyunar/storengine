@@ -162,7 +162,7 @@ class ProductType(TranslatableMixin):
 
     @property
     def products(self):
-        return Product.objects.filter(is_active=True, product_type=self)
+        return Product.objects.filter(is_active=True, product_type=self).order_by("category")
 
     def __str__(self):
         return self.name

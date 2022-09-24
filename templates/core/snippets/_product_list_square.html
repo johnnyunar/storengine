@@ -8,7 +8,8 @@
         {% for product_type in section.product_types.all|filter_active %}
             {% if product_type.split_into_categories %}
                 {% comment %} Show products WITH categories. {% endcomment %}
-                {% regroup product_type.product_type.product_set.all by category as category_list %}
+                {% regroup product_type.product_type.products by category as category_list %}
+                {{ category_list }}
                 {% for category in category_list %}
                     {% if category.grouper.is_active %}
                         <h2 class="mt-5">{{ category.grouper }}</h2>
@@ -23,14 +24,14 @@
                     {% endif %}
                 {% empty %} {% comment %} If there are no categories, show products WITHOUT them. {% endcomment %}
                     <div class="d-flex justify-content-start flex-wrap">
-                        {% for product in product_type.product_type.product_set.all|filter_active %}
+                        {% for product in product_type.product_type.products|filter_active %}
                             {% include "shop/includes/_product_card_tall.html" %}
                         {% endfor %}
                     </div>
                 {% endfor %}
             {% else %} {% comment %} Show products WITHOUT categories. {% endcomment %}
                 <div class="d-flex justify-content-start flex-wrap">
-                    {% for product in product_type.product_type.product_set.all|filter_active %}
+                    {% for product in product_type.product_type.products|filter_active %}
                         {% include "shop/includes/_product_card_square.html" %}
                     {% endfor %}
                 </div>
@@ -55,7 +56,7 @@
     <div class="overlay" id="product-overlay">
         {% if section.product_types.exists %} {% comment %} Generate modals for product types. {% endcomment %}
             {% for product_type in section.product_types.all|filter_active %}
-                {% for product in product_type.product_type.product_set.all|filter_active %}
+                {% for product in product_type.product_type.products|filter_active %}
                     {% include "shop/includes/_product_modal.html" %}
                 {% endfor %}
             {% endfor %}
