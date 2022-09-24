@@ -77,4 +77,15 @@ $(document).ready(function () {
     $('.question').on('click', function () {
         $(this).next().slideToggle();
     });
+
+    $('.watch-button').on('click', function () {
+        $(this).parent().hide();
+        $(this).parent().parent().find('.testimonial-video-embed').slideToggle();
+    });
+
+    $('.back-button').on('click', function () {
+        $(this).parent().find('iframe')[0].contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+        $(this).parent().hide();
+        $(this).parent().parent().find('.testimonial-text').show();
+    });
 });

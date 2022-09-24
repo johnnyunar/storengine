@@ -19,7 +19,7 @@ from wagtail.snippets.models import register_snippet
 from wagtail_color_panel.edit_handlers import NativeColorPanel
 from wagtail_color_panel.fields import ColorField
 
-from core.utils import user_directory_path
+from core.utils import user_directory_path, get_youtube_video_id
 from shop.forms import BillingAddressForm
 from shop.models import Product, ProductType
 
@@ -248,6 +248,15 @@ class Testimonial(Orderable, models.Model):
     )
 
     is_active = models.BooleanField(_("Available"), default=True)
+
+    @property
+    def video_embed_url(self, enable_js_api=True):
+        if self.video_url:
+            embed_url = f"https://www.youtube.com/embed/{get_youtube_video_id(self.video_url)}"
+            if enable_js_api:
+                embed_url += "?enablejsapi=1"
+            return embed_url
+        return None
 
     def __str__(self):
         return self.section.title + " -> " + self.author

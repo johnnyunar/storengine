@@ -1,6 +1,7 @@
 import pathlib
 import re
 import uuid
+from urllib import parse
 
 from django.conf import settings
 from django.utils.html import strip_tags
@@ -52,3 +53,12 @@ def camel_to_snake(name: str) -> str:
     """Converts string in CamelCase to snake_case"""
     name = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', name).lower()
+
+
+def get_youtube_video_id(url):
+    url_parsed = parse.urlparse(url)
+    v_list = parse.parse_qs(url_parsed.query).get("v", None)
+    if v_list:
+        return v_list[0]
+
+    return None
