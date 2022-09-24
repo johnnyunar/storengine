@@ -97,7 +97,7 @@ class SimplePage(Page):
             "menu_order", flat=True
         )
         # If there is an order conflict, update all pages accordingly
-        if self.menu_order in all_order_numbers:
+        if self.menu_order and self.menu_order in all_order_numbers:
             SimplePage.objects.filter(menu_order__gte=self.menu_order).update(
                 menu_order=F("menu_order") + 1
             )
