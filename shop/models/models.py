@@ -328,6 +328,7 @@ class Product(TranslatableMixin, ClusterableModel):
         unique_together = [("translation_key", "locale")]
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
+        ordering = ("name",)
 
 
 class Address(models.Model):
