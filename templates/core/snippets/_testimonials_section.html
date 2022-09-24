@@ -16,14 +16,17 @@
                                         <p class="testimonial-text">{{ testimonial.text }}<br/><br/>
                                             <span class="testimonial-author">{{ testimonial.author }}</span>
                                             <br/><br/>
-                                            <span class="watch-button">Watch <i class="fa-solid fa-play"></i></span>
+                                            {% if testimonial.video_embed_url %}
+                                                <span class="watch-button">{% trans 'Watch' %} <i class="fa-solid fa-play"></i></span>
+                                            {% endif %}
                                         </p>
                                         {% if testimonial.video_embed_url %}
                                             <div class="testimonial-video-embed">
                                                 <iframe allowfullscreen width="400" height="200"
                                                         src="{{ testimonial.video_embed_url }}">
                                                 </iframe>
-                                                <span class="back-button"><i class="fa-solid fa-caret-left"></i>Back</span>
+                                                <span class="back-button"><i
+                                                        class="fa-solid fa-caret-left"></i> {% trans 'Back' %}</span>
                                             </div>
                                         {% endif %}
                                     </div>
