@@ -553,6 +553,17 @@ class Order(models.Model):
             self.billing_address = billing_address_duplicate
         super(Order, self).save()
 
+        for item in self.orderitem_set.filter(product__amount__isnull=False):
+            if item.product_variant.pcs_in_stock >= item.quantity:
+                item.product_variant.pcs_in_stock -= item.quantity
+                item.product_variant.save()
+            else:
+                pcs_delta = item.product_variant.pcs_in_stock - item.quantity
+                if pcs_delta > 0:
+                    item.quantity = pcs_delta
+                else:
+                    item.delete()
+
     created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
 
