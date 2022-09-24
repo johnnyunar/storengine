@@ -237,7 +237,7 @@ class Testimonial(Orderable, models.Model):
     section = ParentalKey(
         PageSection, on_delete=models.CASCADE, related_name="testimonials"
     )
-    text = models.TextField()
+    text = models.TextField(null=True, blank=True)
     author = models.CharField(max_length=64, verbose_name=_("Author"))
 
     video_url = models.URLField(
