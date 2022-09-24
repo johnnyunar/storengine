@@ -534,7 +534,7 @@ class Order(models.Model):
     ]
 
     def update_total_price(self):
-        if self.items:
+        if self.items.exists():
             self.total_price = Money(
                 sum([item.price.amount for item in self.items.all()]),
                 currency=self.items.first().price.currency,
@@ -563,6 +563,7 @@ class Order(models.Model):
                     item.quantity = pcs_delta
                 else:
                     item.delete()
+                    self.update_total_price()
 
     created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
