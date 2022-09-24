@@ -125,6 +125,11 @@ class ContactSettings(BaseSetting, ClusterableModel):
     )
     vat_payer = models.BooleanField(_("VAT Payer"), default=False)
 
+    # Legal
+
+    gdpr_url = models.URLField(_("GDPR URL"), blank=True, null=True)
+    terms_and_conditions_url = models.URLField(_("Terms And Conditions URL"), blank=True, null=True)
+
     contact_panels = [
         FieldPanel("full_name"),
         FieldPanel("business_title"),
@@ -144,11 +149,17 @@ class ContactSettings(BaseSetting, ClusterableModel):
         FieldPanel("vat_payer", widget=SwitchInput),
     ]
 
+    legal_panels = [
+        FieldPanel("gdpr_url"),
+        FieldPanel("terms_and_conditions_url"),
+    ]
+
     edit_handler = TabbedInterface(
         [
-            ObjectList(contact_panels, heading="Contact"),
-            ObjectList(social_panels, heading="Social"),
-            ObjectList(billing_panels, heading="Billing"),
+            ObjectList(contact_panels, heading=_("Contact")),
+            ObjectList(social_panels, heading=_("Social")),
+            ObjectList(billing_panels, heading=_("Billing")),
+            ObjectList(legal_panels, heading=_("Legal")),
         ]
     )
 

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-23 20:45+0200\n"
+"POT-Creation-Date: 2022-09-24 12:11+0200\n"
 "PO-Revision-Date: 2021-09-28 01:26:39\n"
 "Last-Translator: Server <johnny@unar.dev>\n"
 "Language-Team: English <johnny@unar.devt>\n"
@@ -33,7 +33,7 @@ msgid "Trigger Type"
 msgstr "Typ Spouště"
 
 #: automations/models.py:22 automations/models.py:41 automations/models.py:99
-#: core/models/fonts.py:8 core/models/site_settings.py:163
+#: core/models/fonts.py:8 core/models/site_settings.py:174
 #: core/models/snippets.py:105 core/models/snippets.py:330
 #: mails/models/models.py:95 shop/models/models.py:143
 #: shop/models/models.py:159 shop/models/models.py:180
@@ -341,97 +341,119 @@ msgstr "Bankovní Účet"
 msgid "VAT Payer"
 msgstr "Plátce DPH"
 
-#: core/models/site_settings.py:135
+#: core/models/site_settings.py:130
+msgid "GDPR URL"
+msgstr "GDPR URL"
+
+#: core/models/site_settings.py:131
+msgid "Terms And Conditions URL"
+msgstr "Obchodní Podmínky URL"
+
+#: core/models/site_settings.py:140
 msgid "Social Links"
 msgstr "Odkazy na sociální sítě"
 
-#: core/models/site_settings.py:156
+#: core/models/site_settings.py:159 core/models/site_settings.py:167
 #: templates/core/snippets/_contact_section.html:5
 #: templates/storengine/contact.html:3 templates/storengine/contact.html:10
 msgid "Contact"
 msgstr "Kontakt"
 
-#: core/models/site_settings.py:163
+#: core/models/site_settings.py:160
+#, fuzzy
+#| msgid "Social Links"
+msgid "Social"
+msgstr "Odkazy na sociální sítě"
+
+#: core/models/site_settings.py:161
+msgid "Billing"
+msgstr "Fakturace"
+
+#: core/models/site_settings.py:162
+msgid "Legal"
+msgstr "Právní"
+
+#: core/models/site_settings.py:174
 msgid "E.g. Twitter"
 msgstr "Např. Twitter"
 
-#: core/models/site_settings.py:166
+#: core/models/site_settings.py:177
 msgid "URL"
 msgstr "URL"
 
-#: core/models/site_settings.py:166
+#: core/models/site_settings.py:177
 msgid "E.g. https://twitter.com/home/"
 msgstr "Např. https://twitter.com/home/"
 
-#: core/models/site_settings.py:175
+#: core/models/site_settings.py:186
 msgid "Icon"
 msgstr "Ikona"
 
-#: core/models/site_settings.py:178 core/models/snippets.py:250
+#: core/models/site_settings.py:189 core/models/snippets.py:250
 #: core/models/snippets.py:276 core/models/snippets.py:291
 #: shop/models/models.py:145 shop/models/models.py:161
 #: shop/models/models.py:283 shop/models/models.py:439
 msgid "Available"
 msgstr "Dostupné"
 
-#: core/models/site_settings.py:203
+#: core/models/site_settings.py:214
 msgid "Logo"
 msgstr "Logo"
 
-#: core/models/site_settings.py:213
+#: core/models/site_settings.py:224
 msgid "Primary Color"
 msgstr "Primární Barva"
 
-#: core/models/site_settings.py:214
+#: core/models/site_settings.py:225
 msgid "Accent Color"
 msgstr "Akcent Barva"
 
-#: core/models/site_settings.py:216 core/models/snippets.py:45
+#: core/models/site_settings.py:227 core/models/snippets.py:45
 #: core/models/snippets.py:106
 msgid "Text Color"
 msgstr "Barva Textu"
 
-#: core/models/site_settings.py:218
+#: core/models/site_settings.py:229
 msgid "Error Color"
 msgstr "Barva Chyb"
 
-#: core/models/site_settings.py:220
+#: core/models/site_settings.py:231
 msgid "The color of error messages in forms."
 msgstr "Barva chybových zpráv ve formulářích."
 
-#: core/models/site_settings.py:223
+#: core/models/site_settings.py:234
 msgid "Cart Color"
 msgstr "Barva Košíku"
 
-#: core/models/site_settings.py:224
+#: core/models/site_settings.py:235
 msgid "Cart Text Color"
 msgstr "Barva Textu v Košíku"
 
-#: core/models/site_settings.py:226
+#: core/models/site_settings.py:237
 msgid "Notification Bar Color"
 msgstr "Barva Notifikační Lišty"
 
-#: core/models/site_settings.py:227
+#: core/models/site_settings.py:238
 msgid "Notification Bar Text Color"
 msgstr "Barva Textu Notifikační Lišty"
 
-#: core/models/site_settings.py:229
+#: core/models/site_settings.py:240
 msgid "Show Footer Waves"
 msgstr "Zobrazit vlny ve Footer sekci."
 
-#: core/models/site_settings.py:237
+#: core/models/site_settings.py:248
 msgid "This image shows up in the footer section."
 msgstr "Tento obrázek se ukazuje v patičce."
 
-#: core/models/site_settings.py:238
+#: core/models/site_settings.py:249
 msgid "Footer Image"
 msgstr "Obrázek v Patičce"
 
-#: core/models/site_settings.py:255
+#: core/models/site_settings.py:266
 msgid "Colors"
 msgstr "Barvy"
 
-#: core/models/site_settings.py:272
+#: core/models/site_settings.py:283
 msgid "Branding"
 msgstr "Branding"
 
@@ -977,6 +999,14 @@ msgstr "Účet"
 msgid "Log Out"
 msgstr "Odhlásit se"
 
+#: templates/base.html:171 templates/storengine/gdpr.html:3
+msgid "GDPR"
+msgstr "GDPR"
+
+#: templates/base.html:176
+msgid "TERMS & CONDITIONS"
+msgstr "OBCHODNÍ PODMÍNKY"
+
 #: templates/core/form_page.html:23
 #: templates/registration/password_reset_confirm.html:24
 #: templates/registration/password_reset_form.html:27
@@ -1278,10 +1308,6 @@ msgstr "Jdu do toho!"
 #: templates/shop/thank_you.html:9
 msgid "Thank You for your order!"
 msgstr "Díky za Tvou objednávku!"
-
-#: templates/storengine/gdpr.html:3
-msgid "GDPR"
-msgstr "GDPR"
 
 #: templates/storengine/home.html:41
 msgid "TAKE THE QUIZ"
@@ -1593,12 +1619,6 @@ msgstr "Datum Přidání"
 
 #~ msgid "Global"
 #~ msgstr "Globální"
-
-#~ msgid "Billing"
-#~ msgstr "Fakturace"
-
-#~ msgid "Legal"
-#~ msgstr "Právní"
 
 #~ msgid "Ordering"
 #~ msgstr "Pořadí"

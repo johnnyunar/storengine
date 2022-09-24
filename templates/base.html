@@ -166,6 +166,16 @@
                 {{ page.title.upper }}
             </a>
         {% endfor %}
+        {% if settings.core.ContactSettings.gdpr_url %}
+            <a href="{{ settings.core.ContactSettings.gdpr_url }}">
+                {% trans 'GDPR' %}
+            </a>
+        {% endif %}
+        {% if settings.core.ContactSettings.terms_and_conditions_url %}
+            <a href="{{ settings.core.ContactSettings.terms_and_conditions_url }}">
+                {% trans 'TERMS & CONDITIONS' %}
+            </a>
+        {% endif %}
     </div>
     {% include "storengine/includes/_footer_lottie.html" %}
 </footer>
