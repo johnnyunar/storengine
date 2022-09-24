@@ -9,7 +9,6 @@
             {% if product_type.split_into_categories %}
                 {% comment %} Show products WITH categories. {% endcomment %}
                 {% regroup product_type.product_type.products by category as category_list %}
-                {{ category_list }}
                 {% for category in category_list %}
                     {% if category.grouper.is_active %}
                         <h2 class="mt-5">{{ category.grouper }}</h2>
