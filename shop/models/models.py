@@ -43,11 +43,11 @@ class GopayPayment(models.Model):
 
     def save(self, *args, **kwargs):
         self.is_paid = self.payment_status == "PAID"
+        super(GopayPayment, self).save()
         order = self.order_set.first()
         if order:
             order.is_paid = self.is_paid
             order.save()
-        super(GopayPayment, self).save()
 
     class Meta:
         verbose_name = _("GoPay Payment")
