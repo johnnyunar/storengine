@@ -155,8 +155,8 @@ class OrderItemInline(admin.TabularInline):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
-        "is_paid",
         "order_number",
+        "is_paid",
         "full_name",
         "created_at",
         "billing_type",
