@@ -13,7 +13,7 @@ from shop.models import (
     BillingAddress,
     ShippingAddress,
     ProductType,
-    Category, BillingType,
+    Category, BillingType, GopayPayment,
 )
 
 
@@ -72,6 +72,16 @@ class OrderAdmin(ModelAdmin):
     )
     list_display = admin.OrderAdmin.list_display
     search_fields = admin.OrderAdmin.search_fields
+    list_export = admin.OrderAdmin.list_display  # TODO: More export fields
+
+
+class GopayPaymentAdmin(ModelAdmin):
+    model = GopayPayment
+    menu_icon = "fa-credit-card"  # change as required
+    menu_order = 1000  # will put in 3rd place (000 being 1st, 100 2nd)
+    list_display = admin.GopayPaymentAdmin.list_display
+    search_fields = admin.GopayPaymentAdmin.search_fields
+    list_export = admin.GopayPaymentAdmin.list_display  # TODO: More export fields
 
 
 class BillingAddressAdmin(ModelAdmin):
@@ -124,6 +134,7 @@ class ShopGroup(ModelAdminGroup):
         CategoryAdmin,
         ProductTypeAdmin,
         BillingTypeAdmin,
+        GopayPaymentAdmin
     )
 
 

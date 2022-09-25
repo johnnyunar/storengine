@@ -6,6 +6,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 from django_currentuser.db.models import CurrentUserField
@@ -15,11 +16,18 @@ from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from phonenumber_field.modelfields import PhoneNumberField
 from wagtail import blocks
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
+from wagtail.admin.panels import (
+    FieldPanel,
+    MultiFieldPanel,
+    InlinePanel,
+    EditHandler,
+    HelpPanel,
+)
 from wagtail.admin.widgets import SwitchInput
 from wagtail.fields import RichTextField
 from wagtail.models import TranslatableMixin, Site, Orderable
 
+from core.panels import ReadOnlyPanel
 from shop.gopay_api import is_gopay_payment_paid
 from shop.utils import generate_order_number
 from users.models import ShopUser
@@ -52,6 +60,15 @@ class GopayPayment(models.Model):
     class Meta:
         verbose_name = _("GoPay Payment")
         verbose_name_plural = _("GoPay Payments")
+
+    panels = [
+        FieldPanel("is_paid", widget=SwitchInput),
+        ReadOnlyPanel("payment_id", heading=_("Payment ID")),
+        ReadOnlyPanel("payment_status", heading=_("Payment Status")),
+        ReadOnlyPanel("payment_data", heading=_("Payment Data")),
+        ReadOnlyPanel("created_at", heading=_("Created At")),
+        ReadOnlyPanel("updated_at", heading=_("Updated At")),
+    ]
 
 
 class CartItem(models.Model):
@@ -98,7 +115,9 @@ class Cart(models.Model):
     updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
 
     def add(self, item, variant, amount=1) -> bool:
-        if (variant and not variant.available()) or (not variant and item.variants.exists()):
+        if (variant and not variant.available()) or (
+            not variant and item.variants.exists()
+        ):
             return False
 
         try:
@@ -162,7 +181,9 @@ class ProductType(TranslatableMixin):
 
     @property
     def products(self):
-        return Product.objects.filter(is_active=True, product_type=self).order_by("category")
+        return Product.objects.filter(is_active=True, product_type=self).order_by(
+            "category"
+        )
 
     def __str__(self):
         return self.name
@@ -536,6 +557,10 @@ class Order(ClusterableModel):
         FieldPanel("billing_type"),
         FieldPanel("billing_address"),
         FieldPanel("gopay_payment"),
+        ReadOnlyPanel(
+            content="gopay_payment",
+            heading=_("Gopay Payment"),
+        ),
         FieldPanel("shipping_address"),
         FieldPanel("shipping_type"),
         InlinePanel("items", heading=_("Items")),
