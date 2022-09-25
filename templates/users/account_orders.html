@@ -10,14 +10,14 @@
     </section>
     <section class="flex-section" id="account">
         <div class="user-service-orders">
-            <h3 class="color-danger">{% trans 'Services' %}</h3>
-            {% for order in service_orders %}
+            <h3 class="color-danger">{% trans 'Orders' %}</h3>
+            {% for order in orders %}
                 <div class="order-description">
                     <div class="order-number">{{ order.order_number }}</div>
                     <div class="order-price">{{ order.total_price }}</div>
                 </div>
                 <div class="order-items">
-                    {% for item in order.orderservice_set.all %}
+                    {% for item in order.items.all %}
                         <div class="order-item">
                             <span class="order-item-description">{{ item.quantity }}x {{ item.product.name }}</span>
                             <span class="order-item-price">{{ item.product.price }}</span>
@@ -35,31 +35,6 @@
 
             {% empty %}
                 {% trans "You have not ordered any services yet." %}
-            {% endfor %}
-        </div>
-        <div class="user-product-orders">
-            <h3 class="color-danger">{% trans 'Products' %}</h3>
-            {% for order in product_orders %}
-                <div class="order-description">
-                    <div class="order-number">{{ order.order_number }}</div>
-                    <div class="order-price">{{ order.total_price }}</div>
-                </div>
-                <div class="order-items">
-                    <div class="order-item">
-                        <span class="order-item-description">{{ item.quantity }}x {{ item.product.name }}</span>
-                        <span class="order-item-price">{{ item.product.price }}</span>
-                    </div>
-                    <div class="order-item">
-                        <span class="order-item-description">
-                            <a target="_blank" rel="noopener noreferrer" href="{{ order.invoice.get_absolute_url }}">
-                                {% trans "Invoice" %}
-                            </a>
-                        </span>
-                        <span class="order-item-price">{{ order.is_paid|yesno:_("Paid, Not Paid") }}</span>
-                    </div>
-                </div>
-            {% empty %}
-                <p>{% trans "You have not ordered any products yet." %}</p>
             {% endfor %}
         </div>
     </section>

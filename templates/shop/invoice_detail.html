@@ -1,12 +1,18 @@
-{% load static i18n djmoney %}
+{% load static i18n djmoney wagtailimages_tags %}
 {% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% trans 'Invoice' %} {{ invoice.order.order_number }} {% endblock %}</title>
-    <link href="{% static 'storengine/images/trzn_logo_small.png' %}" rel="shortcut icon" type="image/x-icon">
-    <link href="{% static 'storengine/images/trzn_logo_small.png' %}" rel="apple-touch-icon">
+    {% if settings.core.BrandSettings.logo %}
+        <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" rel="shortcut icon"
+              type="image/x-icon">
+        <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" rel="apple-touch-icon">
+    {% else %}
+        <link href="{% static 'storengine/images/rocket-earth.png' %}" rel="shortcut icon" type="image/x-icon">
+        <link href="{% static 'storengine/images/rocket-earth.png' %}" rel="apple-touch-icon">
+    {% endif %}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
           integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
@@ -38,7 +44,7 @@
     {% block content %}
         <div id="webinvoice">
             <h1 class="webinvoice-title">{% trans "Invoice" %} {{ invoice.order.order_number }}</h1>
-            <img class="webinvoice-logo" src="{% static 'storengine/images/trzn_logo_small.png' %}">
+            {% image settings.core.BrandSettings.logo max-150x150 class="webinvoice-logo" title="logo" alt="Logo" %}
             <div class="webinvoice-contact-wrapper">
                 <div class="webinvoice-contact">
                     <h2>{% trans "Supplier" %}</h2>
@@ -108,7 +114,8 @@
             <div class="webinvoice-items">
                 {% for item in invoice.order.items.all %}
                     <div class="webinvoice-item">
-                        <span class="webinvoice-item-title"><span class="webinvoice-item-quantity">{{ item.quantity }}</span>{{ item.product.name }}</span>
+                        <span class="webinvoice-item-title"><span
+                                class="webinvoice-item-quantity">{{ item.quantity }}</span>{{ item.product.name }}</span>
                         <span class="webinvoice-item-price">{% money_localize item.total_price %}</span>
                     </div>
                 {% endfor %}
