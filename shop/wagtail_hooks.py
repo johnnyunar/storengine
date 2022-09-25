@@ -13,18 +13,18 @@ from shop.models import (
     BillingAddress,
     ShippingAddress,
     ProductType,
-    Category, BillingType, GopayPayment,
+    Category,
+    BillingType,
+    GopayPayment,
 )
 
 
 class ProductAdmin(TranslatableModelAdmin):
     model = Product
-    menu_icon = "fa-tags"  # change as required
-    menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
-    add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
-    exclude_from_explorer = (
-        False  # or True to exclude pages of this type from Wagtail's explorer view
-    )
+    menu_icon = "fa-tags"
+    menu_order = 200
+    add_to_settings_menu = False
+    exclude_from_explorer = False
     list_display = admin.ProductAdmin.list_display
     list_filter = admin.ProductAdmin.list_filter
     search_fields = admin.ProductAdmin.search_fields
@@ -36,12 +36,10 @@ class ProductAdmin(TranslatableModelAdmin):
 
 class ProductTypeAdmin(TranslatableModelAdmin):
     model = ProductType
-    menu_icon = "fa-cube"  # change as required
-    menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
-    add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
-    exclude_from_explorer = (
-        False  # or True to exclude pages of this type from Wagtail's explorer view
-    )
+    menu_icon = "fa-cube"
+    menu_order = 200
+    add_to_settings_menu = False
+    exclude_from_explorer = False
     list_display = ("name", "is_active")
     list_filter = ("is_active",)
     search_fields = ("name",)
@@ -50,12 +48,10 @@ class ProductTypeAdmin(TranslatableModelAdmin):
 
 class CategoryAdmin(TranslatableModelAdmin):
     model = Category
-    menu_icon = "fa-cubes"  # change as required
-    menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
-    add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
-    exclude_from_explorer = (
-        False  # or True to exclude pages of this type from Wagtail's explorer view
-    )
+    menu_icon = "fa-cubes"
+    menu_order = 200
+    add_to_settings_menu = False
+    exclude_from_explorer = False
     list_display = ("name", "is_active")
     list_filter = ("is_active",)
     search_fields = ("name",)
@@ -64,12 +60,10 @@ class CategoryAdmin(TranslatableModelAdmin):
 
 class OrderAdmin(ModelAdmin):
     model = Order
-    menu_icon = "fa-shopping-basket"  # change as required
-    menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
-    add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
-    exclude_from_explorer = (
-        False  # or True to exclude pages of this type from Wagtail's explorer view
-    )
+    menu_icon = "fa-shopping-basket"
+    menu_order = 200
+    add_to_settings_menu = False
+    exclude_from_explorer = False
     list_display = admin.OrderAdmin.list_display
     search_fields = admin.OrderAdmin.search_fields
     list_export = admin.OrderAdmin.list_display  # TODO: More export fields
@@ -77,8 +71,8 @@ class OrderAdmin(ModelAdmin):
 
 class GopayPaymentAdmin(ModelAdmin):
     model = GopayPayment
-    menu_icon = "fa-credit-card"  # change as required
-    menu_order = 1000  # will put in 3rd place (000 being 1st, 100 2nd)
+    menu_icon = "fa-paypal"
+    menu_order = 1000
     list_display = (
         "payment_id",
         "payment_status",
@@ -95,36 +89,30 @@ class GopayPaymentAdmin(ModelAdmin):
 
 class BillingAddressAdmin(ModelAdmin):
     model = BillingAddress
-    menu_icon = "fa-address-book"  # change as required
-    menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
-    add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
-    exclude_from_explorer = (
-        False  # or True to exclude pages of this type from Wagtail's explorer view
-    )
+    menu_icon = "fa-address-book"
+    menu_order = 200
+    add_to_settings_menu = False
+    exclude_from_explorer = False
     list_display = admin.BillingAddressAdmin.list_display
     search_fields = admin.BillingAddressAdmin.search_fields
 
 
 class ShippingAddressAdmin(ModelAdmin):
     model = ShippingAddress
-    menu_icon = "fa-address-book-o"  # change as required
-    menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
-    add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
-    exclude_from_explorer = (
-        False  # or True to exclude pages of this type from Wagtail's explorer view
-    )
+    menu_icon = "fa-address-book-o"
+    menu_order = 200
+    add_to_settings_menu = False
+    exclude_from_explorer = False
     list_display = admin.ShippingAddressAdmin.list_display
     search_fields = admin.ShippingAddressAdmin.search_fields
 
 
 class BillingTypeAdmin(TranslatableModelAdmin):
     model = BillingType
-    menu_icon = "fa-credit-card"  # change as required
-    menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
-    add_to_settings_menu = True  # or True to add your model to the Settings sub-menu
-    exclude_from_explorer = (
-        False  # or True to exclude pages of this type from Wagtail's explorer view
-    )
+    menu_icon = "fa-credit-card"
+    menu_order = 200
+    add_to_settings_menu = True
+    exclude_from_explorer = False
     inspect_view_enabled = True
     list_display = admin.BillingTypeAdmin.list_display
     search_fields = admin.BillingTypeAdmin.search_fields
@@ -133,8 +121,8 @@ class BillingTypeAdmin(TranslatableModelAdmin):
 
 class ShopGroup(ModelAdminGroup):
     menu_label = "Shop"
-    menu_icon = "fa-shopping-bag"  # change as required
-    menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
+    menu_icon = "fa-shopping-bag"
+    menu_order = 200
     items = (
         ProductAdmin,
         OrderAdmin,
@@ -143,7 +131,7 @@ class ShopGroup(ModelAdminGroup):
         CategoryAdmin,
         ProductTypeAdmin,
         BillingTypeAdmin,
-        GopayPaymentAdmin
+        GopayPaymentAdmin,
     )
 
 
