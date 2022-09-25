@@ -79,7 +79,13 @@ class GopayPaymentAdmin(ModelAdmin):
     model = GopayPayment
     menu_icon = "fa-credit-card"  # change as required
     menu_order = 1000  # will put in 3rd place (000 being 1st, 100 2nd)
-    list_display = admin.GopayPaymentAdmin.list_display
+    list_display = (
+        "payment_id",
+        "payment_status",
+        "pretty_data",
+        "created_at",
+        "updated_at",
+    )
     search_fields = admin.GopayPaymentAdmin.search_fields
     list_export = admin.GopayPaymentAdmin.list_display  # TODO: More export fields
 
