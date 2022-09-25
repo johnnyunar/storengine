@@ -1,5 +1,3 @@
 {% load storengine %}
 
-<fieldset>
-    <h3>{{ self.instance|getattribute:self.content }}</h3>
-</fieldset>
+<h3>{{ self.instance|getattribute:self.content|default_if_none:"---" }}</h3>

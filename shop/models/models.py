@@ -551,18 +551,17 @@ class Order(ClusterableModel):
     post_save_triggered = models.BooleanField(default=False)
 
     panels = [
-        FieldPanel("order_number", classname="readonly"),
+        ReadOnlyPanel("order_number", heading=_("Order Number")),
         FieldPanel("is_paid", widget=SwitchInput),
         FieldPanel("total_price"),
         FieldPanel("billing_type"),
         FieldPanel("billing_address"),
-        FieldPanel("gopay_payment"),
-        ReadOnlyPanel(
-            content="gopay_payment",
-            heading=_("Gopay Payment"),
-        ),
         FieldPanel("shipping_address"),
         FieldPanel("shipping_type"),
+        ReadOnlyPanel(
+            content="gopay_payment",
+            heading=_("GoPay Payment"),
+        ),
         InlinePanel("items", heading=_("Items")),
     ]
 
