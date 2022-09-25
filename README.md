@@ -91,6 +91,15 @@
 > How does one go about using it?
 > Provide various use cases and code examples here.
 
+## Tests
+
+### Coverage 
+
+```shell
+coverage run --source='.' manage.py test
+coverage report
+```
+
 ## Roadmap
 
 See the [open issues](https://github.com/johnunar/storengine/issues) for a list of proposed features (and known issues).
