@@ -82,12 +82,15 @@ class GopayPaymentAdmin(ModelAdmin):
     list_display = (
         "payment_id",
         "payment_status",
-        "pretty_data",
+        "order_num",
         "created_at",
         "updated_at",
     )
     search_fields = admin.GopayPaymentAdmin.search_fields
     list_export = admin.GopayPaymentAdmin.list_display  # TODO: More export fields
+
+    def order_num(self, instance):
+        return instance.payment_data["order_number"]
 
 
 class BillingAddressAdmin(ModelAdmin):
