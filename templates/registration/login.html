@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static i18n l10n %}
+{% load static wagtailimages_tags i18n l10n %}
 
 {% block title %}{% trans "Login" %}{% endblock %}
 
@@ -36,6 +36,10 @@
                 <p><a href={% url 'password_reset' %}>{% trans 'Forgot Password?' %}</a></p>
             </form>
         </div>
-        <img class="login-image" src="{% static 'storengine/images/rocket-earth.png' %}">
+        {% if settings.core.BrandSettings.logo %}
+            {% image settings.core.BrandSettings.logo max-500x300 class="login-image" title="logo" alt="Logo" %}
+        {% else %}
+            <img class="login-image" src="{% static 'storengine/images/rocket-earth.png' %}" alt="Logo">
+        {% endif %}
     </section>
 {% endblock %}

@@ -100,6 +100,11 @@
   align-items: center;
   border-bottom: 1px solid $primary-color;
   border-top: 1px solid $primary-color;
+
+  .webinvoice-item-quantity {
+    display: inline-block;
+    width: 50px;
+  }
 }
 
 .webinvoice-payment-details {

@@ -108,8 +108,8 @@
             <div class="webinvoice-items">
                 {% for item in invoice.order.items.all %}
                     <div class="webinvoice-item">
-                        <span class="webinvoice-item-title">{{ item.name }}</span>
-                        <span class="webinvoice-item-price">{% money_localize item.price %}</span>
+                        <span class="webinvoice-item-title"><span class="webinvoice-item-quantity">{{ item.quantity }}</span>{{ item.product.name }}</span>
+                        <span class="webinvoice-item-price">{% money_localize item.total_price %}</span>
                     </div>
                 {% endfor %}
             </div>
