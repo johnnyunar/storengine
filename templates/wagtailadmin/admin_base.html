@@ -3,6 +3,15 @@
 
 <title>{% block branding_title %}CMS{% endblock %} - {% block titletag %}{% endblock %}</title>
 
+{% block extra_css %}
+    <style>
+        input[id$="total_price_0"] {
+            width: 175px;
+        }
+    </style>
+
+{% endblock %}
+
 {% block branding_favicon %}
     {% if settings.core.BrandSettings.logo %}
         <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" rel="shortcut icon"

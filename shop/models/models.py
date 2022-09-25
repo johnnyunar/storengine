@@ -193,6 +193,9 @@ class ProductVariant(Orderable, TranslatableMixin):
         verbose_name = _("Product Variant")
         verbose_name_plural = _("Product Variants")
 
+    def __str__(self):
+        return f"{self.name} ({self.variant_id})"
+
 
 class Product(TranslatableMixin, ClusterableModel):
     class RecurrenceTypes(models.TextChoices):
@@ -459,7 +462,7 @@ class BillingAddressBlock(blocks.StructBlock):
         icon = "address"
 
 
-class Order(models.Model):
+class Order(ClusterableModel):
     created_by = models.ForeignKey(
         ShopUser,
         blank=True,
@@ -524,20 +527,25 @@ class Order(models.Model):
         _("Shipping Type"), max_length=300, blank=True, null=True
     )
 
-    items = models.ManyToManyField(Product, through="OrderItem")
-
     post_save_triggered = models.BooleanField(default=False)
 
     panels = [
         FieldPanel("order_number", classname="readonly"),
+        FieldPanel("is_paid", widget=SwitchInput),
+        FieldPanel("total_price"),
+        FieldPanel("billing_type"),
         FieldPanel("billing_address"),
+        FieldPanel("gopay_payment"),
+        FieldPanel("shipping_address"),
+        FieldPanel("shipping_type"),
+        InlinePanel("items", heading=_("Items")),
     ]
 
     def update_total_price(self):
         if self.items.exists():
             self.total_price = Money(
-                sum([item.price.amount for item in self.items.all()]),
-                currency=self.items.first().price.currency,
+                sum([item.product.price.amount for item in self.items.all()]),
+                currency=self.items.first().product.price.currency,
             )
         else:
             self.total_price = Money(0)
@@ -553,7 +561,7 @@ class Order(models.Model):
             self.billing_address = billing_address_duplicate
         super(Order, self).save()
 
-        for item in self.orderitem_set.filter(product__amount__isnull=False):
+        for item in self.items.filter(product__amount__isnull=False):
             if item.product_variant.pcs_in_stock >= item.quantity:
                 item.product_variant.pcs_in_stock -= item.quantity
                 item.product_variant.save()
@@ -610,7 +618,12 @@ class OrderItem(models.Model):
         default_currency="CZK",
         null=True,
     )
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name=_("Order"))
+    order = ParentalKey(
+        Order,
+        related_name="items",
+        on_delete=models.CASCADE,
+        blank=False,
+    )
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, verbose_name=_("Product")
     )
