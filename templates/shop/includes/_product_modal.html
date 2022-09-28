@@ -32,10 +32,10 @@
                         <input type="hidden" name="item" value="{{ product.pk }}">
                         <div class="product-variants">
                             {% for variant in product.variants.all %}
-                                <input type="radio" class="btn-check" name="variant" id="{{ variant.name }}"
+                                <input type="radio" class="btn-check" name="variant" id="{{ variant.pk }}-{{ variant.name }}"
                                        autocomplete="off" value="{{ variant.pk }}"
                                        {% if not variant.available %}disabled{% endif %} required="true">
-                                <label class="btn btn-secondary" for="{{ variant.name }}">{{ variant.name }}</label>
+                                <label class="btn btn-secondary" for="{{ variant.pk }}-{{ variant.name }}">{{ variant.name }}</label>
                             {% endfor %}
                         </div>
                         {% if product.available %}
