@@ -270,15 +270,6 @@ class Product(TranslatableMixin, ClusterableModel):
         ),
     )
 
-    image = models.ForeignKey(
-        "wagtailimages.Image",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        verbose_name=_("Image"),
-    )
-
     price = MoneyField(
         _("Price"), max_digits=14, decimal_places=2, default_currency="CZK", null=True
     )
@@ -314,6 +305,13 @@ class Product(TranslatableMixin, ClusterableModel):
 
         return True
 
+    @property
+    def image(self):
+        if self.images.exists():
+            return self.images.first().image
+
+        return None
+
     panels = [
         FieldPanel("is_active", widget=SwitchInput),
         FieldPanel("name"),
@@ -324,7 +322,7 @@ class Product(TranslatableMixin, ClusterableModel):
             ],
             heading=_("Price"),
         ),
-        FieldPanel("image"),
+        InlinePanel("images", heading=_("Images")),
         FieldPanel("product_type"),
         FieldPanel("category"),
         FieldPanel("amount"),
@@ -355,6 +353,17 @@ class Product(TranslatableMixin, ClusterableModel):
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
         ordering = ("name",)
+
+
+class ProductImage(Orderable):
+    product = ParentalKey(Product, on_delete=models.CASCADE, related_name='images', verbose_name=_("Product"))
+    image = models.ForeignKey(
+        'wagtailimages.Image', on_delete=models.CASCADE, related_name='+', verbose_name=_("Image")
+    )
+
+    panels = [
+        FieldPanel('image'),
+    ]
 
 
 class Address(models.Model):
