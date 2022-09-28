@@ -1,3 +1,4 @@
+import logging
 from datetime import timedelta
 
 from django.contrib.auth import get_user_model
@@ -6,7 +7,6 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
-from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 from django_currentuser.db.models import CurrentUserField
@@ -20,8 +20,6 @@ from wagtail.admin.panels import (
     FieldPanel,
     MultiFieldPanel,
     InlinePanel,
-    EditHandler,
-    HelpPanel,
 )
 from wagtail.admin.widgets import SwitchInput
 from wagtail.fields import RichTextField
@@ -31,6 +29,8 @@ from core.panels import ReadOnlyPanel
 from shop.gopay_api import is_gopay_payment_paid
 from shop.utils import generate_order_number
 from users.models import ShopUser
+
+logger = logging.getLogger("django")
 
 
 class GopayPayment(models.Model):
@@ -116,7 +116,7 @@ class Cart(models.Model):
 
     def add(self, item, variant, amount=1) -> bool:
         if (variant and not variant.available()) or (
-            not variant and item.variants.exists()
+                not variant and item.variants.exists()
         ):
             return False
 
@@ -574,28 +574,45 @@ class Order(ClusterableModel):
         else:
             self.total_price = Money(0)
 
-        self.save()
+        super(Order, self).save()
+
+    def update_stock_info(self):
+        for item in self.items.filter(product__amount__isnull=False):
+            if item.product_variant:
+                logger.info("Product variant found")
+                if item.product_variant.pcs_in_stock >= item.quantity:
+                    item.product_variant.pcs_in_stock -= item.quantity
+                    item.product_variant.save()
+                    logger.info(f"Enough pcs in stock, pcs in stock set to {item.product_variant.pcs_in_stock}")
+                else:
+                    pcs_delta = item.product_variant.pcs_in_stock - item.quantity
+                    if pcs_delta > 0:
+                        item.quantity = pcs_delta
+                        item.save()
+
+                        item.product_variant.pcs_in_stock = 0
+                        item.product_variant.save()
+                        logger.info(
+                            f"Not enough pcs in stock, pcs in stock set to {item.product_variant.pcs_in_stock}, {item.quantity} pcs added to order")
+                    else:
+                        logger.info("Sold out, item deleted.")
+                        item.delete()
 
     def save(self, *args, **kwargs):
+        # TODO: Better stock handling
+
         if self.gopay_payment:
             self.is_paid = self.gopay_payment.is_paid
         billing_address_duplicate = self.billing_address.find_duplicate()
         if billing_address_duplicate:
             self.billing_address.delete()
             self.billing_address = billing_address_duplicate
+
         super(Order, self).save()
 
-        for item in self.items.filter(product__amount__isnull=False):
-            if item.product_variant.pcs_in_stock >= item.quantity:
-                item.product_variant.pcs_in_stock -= item.quantity
-                item.product_variant.save()
-            else:
-                pcs_delta = item.product_variant.pcs_in_stock - item.quantity
-                if pcs_delta > 0:
-                    item.quantity = pcs_delta
-                else:
-                    item.delete()
-                    self.update_total_price()
+        if not self.pk:  # This needs refactor: data could be changed in cms or admin
+            self.update_stock_info()
+        self.update_total_price()
 
     created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
