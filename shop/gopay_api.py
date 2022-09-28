@@ -66,9 +66,10 @@ def create_gopay_order(order=None) -> str:
             "order_description": "",
             "items": [
                 {
-                    "name": item.name,
+                    "name": item.product.name,
+                    "count": item.quantity,
                     "amount": json.dumps(
-                        round(item.price.amount * 100), cls=JSONEncoder
+                        round(item.total_price.amount * 100), cls=JSONEncoder
                     ),
                 }
                 for item in order.items.all()
