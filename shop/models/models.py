@@ -663,8 +663,8 @@ class OrderItem(models.Model):
         self.total_price = Money(
             self.product.price.amount * self.quantity, self.product.price.currency
         )
-        self.order.update_total_price()
         super(OrderItem, self).save(*args, **kwargs)
+        self.order.update_total_price()
 
     def __str__(self):
         return self.product.name
