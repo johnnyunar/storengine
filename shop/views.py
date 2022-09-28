@@ -108,24 +108,19 @@ class CheckoutView(ShopRequiredMixin, CreateView):
         user = self.request.user if self.request.user.is_authenticated else None
         self.object = form.save()
         new_order = Order.objects.create(created_by=user, billing_address=self.object)
-        OrderItem.objects.bulk_create(
-            [
-                OrderItem(
-                    quantity=item.amount,
-                    product=item.product,
-                    product_variant=item.product_variant,
-                    order=new_order,
-                    total_price=item.price,
-                )
-                for item in Cart.objects.get(
-                    pk=self.request.session.get(
-                        "cart",
-                    )
-                ).cartitem_set.all()
-            ]
-        )
+        for item in Cart.objects.get(
+            pk=self.request.session.get(
+                "cart",
+            )
+        ).cartitem_set.all():
+            OrderItem.objects.create(
+                quantity=item.amount,
+                product=item.product,
+                product_variant=item.product_variant,
+                order=new_order,
+                total_price=item.price,
+            )
         self.order = new_order
-        self.order.update_total_price()
 
         if self.request.POST.get("pay_now"):
             new_order.billing_type = BillingType.objects.get(name="card-online")
@@ -165,7 +160,9 @@ class PaymentCallbackView(View):
             else:
                 return HttpResponseRedirect(reverse_lazy("shop:thank_you_not_paid"))
 
-        logger.info(f"Payment failed - Order: {order_number}, Payment ID: {payment_id if payment_id else None}")
+        logger.info(
+            f"Payment failed - Order: {order_number}, Payment ID: {payment_id if payment_id else None}"
+        )
         return HttpResponseRedirect(reverse_lazy("shop:error"))
 
 

@@ -1,10 +1,12 @@
 import logging
 from datetime import timedelta
 
+from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
-from django.db import models
-from django.db.models.signals import post_save
+from django.db import models, IntegrityError, transaction
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -566,41 +568,22 @@ class Order(ClusterableModel):
     ]
 
     def update_total_price(self):
+        instance_qs = Order.objects.filter(pk=self.pk)
+
+        # Using qs.update() to avoid calling save()
         if self.items.exists():
-            self.total_price = Money(
-                sum([item.product.price.amount for item in self.items.all()]),
-                currency=self.items.first().product.price.currency,
+            instance_qs.update(
+                total_price=Money(
+                    sum([item.total_price.amount for item in self.items.all()]),
+                    currency=self.items.first().total_price.currency,
+                )
             )
         else:
-            self.total_price = Money(0)
+            instance_qs.update(total_price=Money(0, currency=settings.CURRENCIES[0]))
 
-        super(Order, self).save()
-
-    def update_stock_info(self):
-        for item in self.items.filter(product__amount__isnull=False):
-            if item.product_variant:
-                logger.info("Product variant found")
-                if item.product_variant.pcs_in_stock >= item.quantity:
-                    item.product_variant.pcs_in_stock -= item.quantity
-                    item.product_variant.save()
-                    logger.info(f"Enough pcs in stock, pcs in stock set to {item.product_variant.pcs_in_stock}")
-                else:
-                    pcs_delta = item.product_variant.pcs_in_stock - item.quantity
-                    if pcs_delta > 0:
-                        item.quantity = pcs_delta
-                        item.save()
-
-                        item.product_variant.pcs_in_stock = 0
-                        item.product_variant.save()
-                        logger.info(
-                            f"Not enough pcs in stock, pcs in stock set to {item.product_variant.pcs_in_stock}, {item.quantity} pcs added to order")
-                    else:
-                        logger.info("Sold out, item deleted.")
-                        item.delete()
+        self.refresh_from_db()
 
     def save(self, *args, **kwargs):
-        # TODO: Better stock handling
-
         if self.gopay_payment:
             self.is_paid = self.gopay_payment.is_paid
         billing_address_duplicate = self.billing_address.find_duplicate()
@@ -609,10 +592,6 @@ class Order(ClusterableModel):
             self.billing_address = billing_address_duplicate
 
         super(Order, self).save()
-
-        if not self.pk:  # This needs refactor: data could be changed in cms or admin
-            self.update_stock_info()
-        self.update_total_price()
 
     created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
     updated_at = models.DateTimeField(_("Updated At"), auto_now=True)
@@ -677,11 +656,29 @@ class OrderItem(models.Model):
     )
 
     def save(self, *args, **kwargs):
+        if self.pk is not None:
+            current_obj = OrderItem.objects.get(pk=self.pk)
+            current_quantity = current_obj.quantity
+        else:
+            current_quantity = 0
+
+        if current_quantity != self.quantity and self.product_variant:
+            quantity_delta = current_quantity - self.quantity
+            self.product_variant.pcs_in_stock += quantity_delta
+            try:
+                # Preventing TransactionManagementError: You can't execute queries until the end of the 'atomic' block
+                with transaction.atomic():
+                    self.product_variant.save()
+            except IntegrityError:
+                self.quantity += self.product_variant.pcs_in_stock
+                self.product_variant.pcs_in_stock = 0
+                self.product_variant.save()
+
         self.total_price = Money(
             self.product.price.amount * self.quantity, self.product.price.currency
         )
+
         super(OrderItem, self).save(*args, **kwargs)
-        self.order.update_total_price()
 
     def __str__(self):
         return self.product.name
@@ -689,6 +686,11 @@ class OrderItem(models.Model):
     class Meta:
         verbose_name = _("Order Item")
         verbose_name_plural = _("Order Items")
+
+
+@receiver(post_save, sender=OrderItem)
+def order_item_post_save(sender, instance, **kwargs):
+    instance.order.update_total_price()
 
 
 class Invoice(models.Model):
