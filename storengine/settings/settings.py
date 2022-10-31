@@ -331,6 +331,13 @@ GOPAY_CLIENT_ID = os.environ.get("GOPAY_CLIENT_ID")
 GOPAY_CLIENT_SECRET = os.environ.get("GOPAY_CLIENT_SECRET")
 GOPAY_IS_PRODUCTION = ENV == "PROD"
 
+# PACKETA CONFIG
+PACKETA_BASE_URL = os.environ.get(
+    "PACKETA_BASE_URL", "https://www.zasilkovna.cz/api/rest/"
+)
+PACKETA_API_PASSWORD = os.environ.get("PACKETA_API_PASSWORD")
+
+
 # EMAIL
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.titan.email")
 EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
