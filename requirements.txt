@@ -16,6 +16,7 @@ dj-database-url==0.5.0
 Django==4.1.1
 django-anymail==8.5
 django-apscheduler==0.6.2
+django-betterforms==2.0.0
 django-cleanup==6.0.0
 django-countries==7.3.2
 django-currentuser @ git+https://github.com/asucrews/django-currentuser@757dd163ab8906febc6f455a21e427c7fdb90e1b
@@ -67,7 +68,7 @@ typing_extensions==4.2.0
 tzdata==2022.1
 tzlocal==4.2
 urllib3==1.26.9
-wagtail==4.0.1
+wagtail==4.1
 wagtail-color-panel==1.4.0
 wagtail-localize==1.3a3
 wagtail-meta-preview==1.1.1
