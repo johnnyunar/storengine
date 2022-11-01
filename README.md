@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://github.com/johnunar/storengine">
-    <img src="https://storengine.org/static/storengine/images/rocket-earth.png" alt="Logo" width="100" height="100">
+    <img src="https://storengine.org/static/storengine/images/se-logo-nobg.png" alt="Logo" width="100" height="100">
   </a>
 </h1>
 

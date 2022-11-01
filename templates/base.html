@@ -11,8 +11,8 @@
               type="image/x-icon">
         <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" rel="apple-touch-icon">
     {% else %}
-        <link href="{% static 'storengine/images/rocket-earth.png' %}" rel="shortcut icon" type="image/x-icon">
-        <link href="{% static 'storengine/images/rocket-earth.png' %}" rel="apple-touch-icon">
+        <link href="{% static 'storengine/images/se-logo-nobg.png' %}" rel="shortcut icon" type="image/x-icon">
+        <link href="{% static 'storengine/images/se-logo-nobg.png' %}" rel="apple-touch-icon">
     {% endif %}
 
     <meta property="og:title" content="{% block og_title %}{{ current_site.site_name }}{% endblock %}">
@@ -93,7 +93,7 @@
             {% if settings.core.BrandSettings.logo %}
                 {% image settings.core.BrandSettings.logo max-300x100 class="logo" title="logo" %}
             {% else %}
-                <img class="logo" src="{% static 'storengine/images/rocket-earth.png' %}" alt="Logo">
+                <img class="logo" src="{% static 'storengine/images/se-logo-nobg.png' %}" alt="Logo">
             {% endif %}
         </a>
         <ul class="main-nav" id="js-menu">
