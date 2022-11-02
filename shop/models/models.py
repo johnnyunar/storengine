@@ -595,10 +595,6 @@ class Order(ClusterableModel):
     def save(self, *args, **kwargs):
         if self.gopay_payment:
             self.is_paid = self.gopay_payment.is_paid
-        billing_address_duplicate = self.billing_address.find_duplicate()
-        if billing_address_duplicate:
-            self.billing_address.delete()
-            self.billing_address = billing_address_duplicate
 
         super(Order, self).save()
 

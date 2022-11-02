@@ -3,6 +3,7 @@ from gettext import gettext as _
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import model_to_dict
 from django.http import JsonResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -10,7 +11,7 @@ from django.views import View
 from django.views.generic import TemplateView, CreateView, DetailView
 
 from core.models import ControlCenter
-from shop.forms import BillingAddressForm
+from shop.forms import BillingAddressForm, AddressMultiForm
 from shop.gopay_api import (
     create_gopay_order,
     get_gopay_payment_details,
@@ -25,7 +26,7 @@ from shop.models import (
     Order,
     OrderItem,
 )
-from shop.models.models import ProductVariant
+from shop.models.models import ProductVariant, ShippingAddress, Address
 
 logger = logging.getLogger("django")
 
@@ -76,8 +77,7 @@ class GopayNotifyView(View):
 
 class CheckoutView(ShopRequiredMixin, CreateView):
     template_name = "shop/checkout.html"
-    model = BillingAddress
-    form_class = BillingAddressForm
+    form_class = AddressMultiForm
 
     def get_initial(self):
         """Returns the initial data to use for forms on this view."""
@@ -106,8 +106,27 @@ class CheckoutView(ShopRequiredMixin, CreateView):
 
     def form_valid(self, form):
         user = self.request.user if self.request.user.is_authenticated else None
-        self.object = form.save()
-        new_order = Order.objects.create(created_by=user, billing_address=self.object)
+        billing_address, _created = BillingAddress.objects.get_or_create(
+            **form["billing_address"].cleaned_data
+        )
+        if not form["shipping_address"].cleaned_data["address1"]:
+            billing_address_dict = model_to_dict(billing_address)
+            billing_address_dict.pop("id")
+            billing_address_dict.pop("address_ptr")
+            billing_address_dict["created_at"] = billing_address.created_at
+            shipping_address, _created = ShippingAddress.objects.get_or_create(**billing_address_dict)
+        else:
+            shipping_address, _created = ShippingAddress.objects.get_or_create(
+                **form["shipping_address"].cleaned_data
+            )
+        logger.info("SHIPPING ADDRESS HERE")
+        logger.info(billing_address)
+        logger.info(shipping_address)
+        new_order = Order.objects.create(
+            created_by=user,
+            billing_address=billing_address,
+            shipping_address=shipping_address,
+        )
         for item in Cart.objects.get(
             pk=self.request.session.get(
                 "cart",

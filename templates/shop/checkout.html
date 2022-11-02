@@ -13,13 +13,27 @@
         {% endcomment %}
         <div class="flex-section align-items-start">
             <div id="billing-address" class="oder-lg-0 order-1">
-                <h2>{% trans 'Billing Address' %}</h2>
-                <hr/>
                 <form action="" method="post" id="billing-address-form">
                     {% csrf_token %}
-                    {{ form }}
-                    <input class="cta center" type="submit" name="pay_now" value="{% trans "Buy now" %}"/>
-                    <input class="cta center secondary" type="submit" name="pay_later"
+                    <div class="checkout-heading">
+                        <h2>{% trans 'Billing Address' %}</h2>
+                        <hr/>
+                    </div>
+                    {{ form.billing_address }}
+                    <div class="checkout-heading mt-4"
+                         id="shipping-address-heading">
+                        <h2>
+                            <i class="fa-solid fa-caret-right me-3"></i>{% trans 'Shipping Address' %}
+                        </h2>
+                        <hr/>
+                    </div>
+                    <div id="shipping-address-form">
+                        {{ form.shipping_address }}
+                    </div>
+                    <input class="cta center" type="submit" name="pay_now"
+                           value="{% trans "Buy now" %}"/>
+                    <input class="cta center secondary" type="submit"
+                           name="pay_later"
                            value="{% trans "Submit and pay later" %}">
                 </form>
             </div>
@@ -33,11 +47,13 @@
                         <div class="cart-item-name col-3">
                             {{ item.product.name }}<br/>
                             {% if item.product_variant %}
-                                {{ item.product.variants_name|capfirst }}: {{ item.product_variant.name }}
+                                {{ item.product.variants_name|capfirst }}:
+                                {{ item.product_variant.name }}
                             {% endif %}
                         </div>
                         <div class="cart-item-quantity-control col-2">
-                            <input class="cart-item-quantity" type="text" value="{{ item.amount }}" readonly>&nbsp;
+                            <input class="cart-item-quantity" type="text"
+                                   value="{{ item.amount }}" readonly>&nbsp;
                         </div>
                         <span class="cart-item-price col-3">
                             {% money_localize item.price %}

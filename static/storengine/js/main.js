@@ -88,4 +88,13 @@ $(document).ready(function () {
         $(this).parent().hide();
         $(this).parent().parent().find('.testimonial-text').show();
     });
+
+    $('.splide__arrow').on('click', function () {
+        $('.testimonial-video-embed iframe').contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+    });
+
+    $('#shipping-address-heading').on('click', function () {
+        $('#shipping-address-form').slideToggle();
+        $(this).find('i').toggleClass('fa-caret-down fa-caret-right');
+    });
 });

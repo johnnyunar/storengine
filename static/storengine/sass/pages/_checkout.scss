@@ -30,19 +30,19 @@
     margin-bottom: 20px;
   }
 
-  #id_first_name {
+  #id_billing_address-first_name, #id_shipping_address-first_name {
     width: 50%;
   }
 
-  #id_last_name {
+  #id_billing_address-last_name, #id_shipping_address-last_name {
     width: calc(98% / 2);
   }
 
-  #id_city {
+  #id_billing_address-city, #id_shipping_address-city {
     width: 60%;
   }
 
-  #id_zip_code {
+  #id_billing_address-zip_code, #id_shipping_address-zip_code {
     width: 39%;
   }
 
