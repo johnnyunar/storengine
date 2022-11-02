@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-{% load static i18n l10n %}
+{% load static i18n l10n wagtailimages_tags %}
 
 {% block title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
     <section class="headline">
-        <h1>{% trans "Login" %}</h1>
+        <h1>{% trans "Signup" %}</h1>
     </section>
     <section class="flex-section" id="signup">
         <div class="login-form">
@@ -24,11 +24,23 @@
                     <p>{{ field.label }}</p>
                     <p>{{ field }}</p>
                 {% endfor %}
-                <input class="cta center" type="submit" value="{% trans "Sign Up" %}">
-                <p><a href={% url 'login' %}>{% trans "Already a Member?" %}</a></p>
+                <input class="cta center" type="submit"
+                       value="{% trans "Sign Up" %}">
+                <p><a href={% url 'login' %}>{% trans "Already a Member?" %}</a>
+                </p>
                 <small>{% trans 'By clicking Sign Up, you agree to our Terms and that you have read our Data Use Policy, including our Cookie Use.' %}</small>
             </form>
         </div>
-        <img class="login-image" src="{% static 'storengine/images/se-logo-nobg.png' %}">
+        {% if settings.core.BrandSettings.logo %}
+            <img class="login-image"
+                 src="{% image_url settings.core.BrandSettings.logo "max-300x100" %}"
+                 width="150"
+                 alt="logo">
+        {% else %}
+            <img class="login-image"
+                 src="{% static 'storengine/images/se-logo-nobg.png' %}"
+                 width="150"
+                 alt="logo">
+        {% endif %}
     </section>
 {% endblock %}
