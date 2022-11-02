@@ -4,3 +4,14 @@
     --w-color-primary-200: #211f1f;
     --w-login-fullscreen-background: radial-gradient(100% 300.28% at 100% 0%, #2E1F5E 0%, #2E1F5E 32.94%, #2E1F5E 49.9%, #2E1F5E 50.2%, var(--w-color-secondary) 100%);
 }
+
+
+/* Hide scrollbar */
+.sidebar-main-menu::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar-main-menu {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
