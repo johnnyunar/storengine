@@ -107,6 +107,10 @@ class ContactSettings(BaseSetting, ClusterableModel):
         null=True,
     )
 
+    contact_address = models.CharField(
+        _("Contact Address"), blank=True, null=True, max_length=128
+    )
+
     # Billing
     billing_address = models.CharField(
         _("Billing Address"), blank=True, null=True, max_length=128
@@ -135,6 +139,7 @@ class ContactSettings(BaseSetting, ClusterableModel):
         FieldPanel("business_title"),
         FieldPanel("phone_number"),
         FieldPanel("email"),
+        FieldPanel("contact_address")
     ]
 
     social_panels = [InlinePanel("social_links", heading=_("Social Links"))]
