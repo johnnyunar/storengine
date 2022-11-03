@@ -23,7 +23,10 @@ except ProgrammingError:
 
 
 def send_notification(
-        email: Email = None, recipients: list = None, subject: str = None, body: str = None
+    email: Email = None,
+    recipients: list = None,
+    subject: str = None,
+    body: str = None,
 ) -> bool:
     """
     Sends a notification email.
@@ -45,7 +48,11 @@ def send_notification(
                 to=[recipient],
                 reply_to=[settings.SUPPORT_EMAIL],
                 attachments=[
-                    (attachment.file_name, attachment.file.read(), mimetypes.guess_type(attachment.file.name)[0])
+                    (
+                        attachment.file_name,
+                        attachment.file.file.read(),
+                        mimetypes.guess_type(attachment.file.file.name)[0],
+                    )
                     for attachment in email.email_attachments.all()
                 ],
             )
@@ -53,7 +60,9 @@ def send_notification(
             try:
                 msg.send()
             except SMTPSenderRefused:
-                logger.warning("SMTP Error while sending notification.", exc_info=True)
+                logger.warning(
+                    "SMTP Error while sending notification.", exc_info=True
+                )
         elif subject and body:
             try:
                 EmailMultiAlternatives(
@@ -64,13 +73,15 @@ def send_notification(
                     reply_to=[settings.SUPPORT_EMAIL],
                 ).send()
             except SMTPSenderRefused:
-                logger.warning("SMTP Error while sending notification.", exc_info=True)
+                logger.warning(
+                    "SMTP Error while sending notification.", exc_info=True
+                )
 
     return True  # TODO: return message status
 
 
 def send_internal_notification(
-        email: Email = None, subject: str = None, body: str = None
+    email: Email = None, subject: str = None, body: str = None
 ) -> bool:
     """Same as send_notification(), but automatically sets the recipients to internal addresses."""
     return send_notification(
