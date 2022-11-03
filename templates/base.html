@@ -7,41 +7,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ current_site.site_name }}{% endblock %}</title>
     {% if settings.core.BrandSettings.logo %}
-        <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" rel="shortcut icon"
+        <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}"
+              rel="shortcut icon"
               type="image/x-icon">
-        <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}" rel="apple-touch-icon">
+        <link href="{% image_url settings.core.BrandSettings.logo "max-300x100" %}"
+              rel="apple-touch-icon">
     {% else %}
-        <link href="{% static 'storengine/images/se-logo-nobg.png' %}" rel="shortcut icon" type="image/x-icon">
-        <link href="{% static 'storengine/images/se-logo-nobg.png' %}" rel="apple-touch-icon">
+        <link href="{% static 'storengine/images/se-logo-nobg.png' %}"
+              rel="shortcut icon" type="image/x-icon">
+        <link href="{% static 'storengine/images/se-logo-nobg.png' %}"
+              rel="apple-touch-icon">
     {% endif %}
 
-    <meta property="og:title" content="{% block og_title %}{{ current_site.site_name }}{% endblock %}">
+    <meta property="og:title" content="
+            {% block og_title %}{{ current_site.site_name }}{% endblock %}">
     <meta property="og:image" content="{% block og_image %}{% endblock %}">
     <meta name="description" content="{% block description %}{% endblock %}">
     <meta name="keywords" content={% block keywords %}{% endblock %}>
 
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+          crossorigin="anonymous">
 
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
           integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="{{ settings.core.BrandSettings.google_font.url }}|Oswald" rel="stylesheet">
+    <link href="{{ settings.core.BrandSettings.google_font.url }}|Oswald"
+          rel="stylesheet">
 
     {% include "storengine/includes/_theme_vars.html" %}
-    <link rel="stylesheet" href="{% static 'storengine/css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'storengine/css/style.css' %}"
+          type="text/css">
 
     <script src="https://unpkg.com/htmx.org@1.7.0"
             integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo"
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+            crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
     <script src="{% static 'storengine/js/main.js' %}"></script>
@@ -93,19 +104,25 @@
             {% if settings.core.BrandSettings.logo %}
                 {% image settings.core.BrandSettings.logo max-300x100 class="logo" title="logo" %}
             {% else %}
-                <img class="logo" src="{% static 'storengine/images/se-logo-nobg.png' %}" alt="Logo">
+                <img class="logo"
+                     src="{% static 'storengine/images/se-logo-nobg.png' %}"
+                     alt="Logo">
             {% endif %}
         </a>
         <ul class="main-nav" id="js-menu">
             {% for page in menu_pages|filter_by_locale:LANGUAGE_CODE %}
-                <li><a href="{% if page.url_path.lower != '/home/' %}/{{ page.slug }}/{% else %}/{% endif %}"
+                <li>
+                    <a href="{% if page.url_path.lower != '/home/' %}/{{ page.slug }}/{% else %}/{% endif %}"
                        class="nav-links">{{ page.title.upper }}</a></li>
             {% endfor %}
             {% if locales.count > 1 %}
-                <form action="{% url 'set_language' %}" method="post" id="language-form">
+                <form action="{% url 'set_language' %}" method="post"
+                      id="language-form">
                     {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
-                    <select name="language" id="language-select" onchange="this.form.submit()">
+                    <input name="next" type="hidden"
+                           value="{{ request.get_full_path }}"/>
+                    <select name="language" id="language-select"
+                            onchange="this.form.submit()">
                         {% for locale in locales %}
                             <option value="{{ locale.language_code }}"
                                     {% if locale.language_code == LANGUAGE_CODE %}selected{% endif %}>
@@ -115,24 +132,22 @@
                     </select>
                 </form>
             {% endif %}
-            {% if settings.core.ControlCenter.shop_enabled %}
-                <li id="nav-link-cart" title="{% trans 'Cart' %}">
-                    {% if cart %}
-                        <i class="fas fa-cart-plus nav-links"></i>
-                    {% else %}
-                        <i class="fas fa-shopping-cart nav-links"></i>
-                    {% endif %}
 
-                </li>
-            {% endif %}
             {% if settings.core.ControlCenter.accounts_enabled %}
-                <li><a href="{% url 'profile' %}" class="nav-links" title="{% trans 'Account' %}"><i
+                <li><a href="{% url 'profile' %}" class="nav-links"
+                       title="{% trans 'Account' %}"><i
                         class="fas fa-user"></i></a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}" class="nav-links" title="{% trans 'Log Out' %}"><i
+                    <li><a href="{% url 'logout' %}" class="nav-links"
+                           title="{% trans 'Log Out' %}"><i
                             class="fas fa-sign-out-alt"></i></a></li>
                 {% endif %}
             {% endif %}
+            <li id="nav-link-cart" title="{% trans 'Cart' %}"
+                hx-get="{% url 'shop:load_cart_icon' %}"
+                hx-trigger="every 2s">
+                {% include "shop/includes/_cart_icon.html" %}
+            </li>
         </ul>
     </nav>
 </div>
@@ -186,7 +201,7 @@
     {% include "storengine/includes/_svgs.html" %}
 </div>
 {% if settings.core.ControlCenter.shop_enabled %}
-    <div id="cart">
+    <div id="cart" hx-get="{% url 'shop:load_cart' %}" hx-trigger="cartUpdated from:body">
         {% include "storengine/includes/_cart.html" %}
     </div>
 {% endif %}

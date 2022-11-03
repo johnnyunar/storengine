@@ -4,14 +4,16 @@ from gettext import gettext as _
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import model_to_dict
-from django.http import JsonResponse, HttpResponseRedirect, Http404
+from django.http import JsonResponse, HttpResponseRedirect, Http404, \
+    HttpResponseNotAllowed, HttpResponseForbidden
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, CreateView, DetailView
+from django_htmx.http import trigger_client_event
 
 from core.models import ControlCenter
-from shop.forms import BillingAddressForm, AddressMultiForm
+from shop.forms import AddressMultiForm
 from shop.gopay_api import (
     create_gopay_order,
     get_gopay_payment_details,
@@ -26,7 +28,7 @@ from shop.models import (
     Order,
     OrderItem,
 )
-from shop.models.models import ProductVariant, ShippingAddress, Address
+from shop.models.models import ProductVariant, ShippingAddress
 
 logger = logging.getLogger("django")
 
@@ -42,6 +44,18 @@ class ShopRequiredMixin(View):
 
         if not shop_enabled:
             raise Http404
+
+        return super().dispatch(request, args, kwargs)
+
+
+class HtmxRequiredMixin(View):
+    """
+    Mixin that takes care controlling access to HTMX-related views.
+    """
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.htmx:
+            return HttpResponseForbidden()
 
         return super().dispatch(request, args, kwargs)
 
@@ -72,7 +86,9 @@ class GopayNotifyView(View):
             )
             return JsonResponse({"success": True})
 
-        return JsonResponse({"success": False, "message": "Missing Payment ID."})
+        return JsonResponse(
+            {"success": False, "message": "Missing Payment ID."}
+        )
 
 
 class CheckoutView(ShopRequiredMixin, CreateView):
@@ -105,7 +121,9 @@ class CheckoutView(ShopRequiredMixin, CreateView):
         return reverse_lazy("shop:thank_you")
 
     def form_valid(self, form):
-        user = self.request.user if self.request.user.is_authenticated else None
+        user = (
+            self.request.user if self.request.user.is_authenticated else None
+        )
         billing_address, _created = BillingAddress.objects.get_or_create(
             **form["billing_address"].cleaned_data
         )
@@ -114,7 +132,9 @@ class CheckoutView(ShopRequiredMixin, CreateView):
             billing_address_dict.pop("id")
             billing_address_dict.pop("address_ptr")
             billing_address_dict["created_at"] = billing_address.created_at
-            shipping_address, _created = ShippingAddress.objects.get_or_create(**billing_address_dict)
+            shipping_address, _created = ShippingAddress.objects.get_or_create(
+                **billing_address_dict
+            )
         else:
             shipping_address, _created = ShippingAddress.objects.get_or_create(
                 **form["shipping_address"].cleaned_data
@@ -127,11 +147,12 @@ class CheckoutView(ShopRequiredMixin, CreateView):
             billing_address=billing_address,
             shipping_address=shipping_address,
         )
-        for item in Cart.objects.get(
+        cart = Cart.objects.get(
             pk=self.request.session.get(
                 "cart",
             )
-        ).cartitem_set.all():
+        )
+        for item in cart.cartitem_set.all():
             OrderItem.objects.create(
                 quantity=item.amount,
                 product=item.product,
@@ -142,8 +163,12 @@ class CheckoutView(ShopRequiredMixin, CreateView):
         self.order = new_order
 
         if self.request.POST.get("pay_now"):
-            new_order.billing_type = BillingType.objects.get(name="card-online")
+            new_order.billing_type = BillingType.objects.get(
+                name="card-online"
+            )
         elif self.request.POST.get("pay_later"):
+            if cart.must_be_paid_online:
+                return HttpResponseRedirect(self.request.path)
             new_order.billing_type = BillingType.objects.get(name="cash")
 
         new_order.save()
@@ -175,9 +200,13 @@ class PaymentCallbackView(View):
             order.gopay_payment = gopay_payment
             order.save()
             if order.is_paid:
-                return HttpResponseRedirect(reverse_lazy("shop:thank_you_paid"))
+                return HttpResponseRedirect(
+                    reverse_lazy("shop:thank_you_paid")
+                )
             else:
-                return HttpResponseRedirect(reverse_lazy("shop:thank_you_not_paid"))
+                return HttpResponseRedirect(
+                    reverse_lazy("shop:thank_you_not_paid")
+                )
 
         logger.info(
             f"Payment failed - Order: {order_number}, Payment ID: {payment_id if payment_id else None}"
@@ -221,9 +250,18 @@ class AddToCartView(ShopRequiredMixin, View):
         else:
             variant = None
         item_added = cart.add(item, variant, amount)
+        response = render(request, "storengine/includes/_check_mark.html")
         if not item_added:
-            messages.add_message(request, messages.WARNING, _("Item Out Of Stock."))
-        return render(request, "storengine/includes/_cart.html")
+            response = render(request, "storengine/includes/_cross_mark.html")
+        return trigger_client_event(
+            response,
+            "cartUpdated",
+            {},
+        )
+
+
+class LoadCart(ShopRequiredMixin, HtmxRequiredMixin, TemplateView):
+    template_name = "storengine/includes/_cart.html"
 
 
 class InvoiceDetailView(ShopRequiredMixin, LoginRequiredMixin, DetailView):
@@ -233,9 +271,17 @@ class InvoiceDetailView(ShopRequiredMixin, LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         if (
-            request.user != self.get_object().order.created_by
-            and not request.user.is_staff
+                request.user != self.get_object().order.created_by
+                and not request.user.is_staff
         ):
             raise Http404
 
         return super(InvoiceDetailView, self).get(request, args, kwargs)
+
+
+class LoadOrderSummary(ShopRequiredMixin, HtmxRequiredMixin, TemplateView):
+    template_name = "shop/includes/_order_summary.html"
+
+
+class LoadCartIcon(ShopRequiredMixin, HtmxRequiredMixin, TemplateView):
+    template_name = "shop/includes/_cart_icon.html"

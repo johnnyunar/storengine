@@ -17,10 +17,13 @@
         <a href="{{ product.external_url }}" target="_blank" rel="noopener"
            class="card-cta">{% trans "Buy Now" %}</a>
     {% elif settings.core.ControlCenter.shop_enabled %}
-        <button hx-post="{% url 'shop:add_to_cart' %}" hx-target='#cart'
+        <button hx-post="{% url 'shop:add_to_cart' %}"
                 hx-vals='{"item": {{ product.pk }}}'
+                hx-target="#check-product-{{ product.pk }}"
+                hx-swap="outerHTML"
                 class="card-cta add-to-cart">{% trans "Add To Cart" %}
             <i class="htmx-indicator fa fa-circle-o-notch fa-spin position-absolute ms-2"></i>
+            <i class="fa-solid fa-check ms-2 d-none" id="check-product-{{ product.pk }}"></i>
         </button>
     {% endif %}
 </div>

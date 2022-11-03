@@ -1,0 +1,33 @@
+{% load static i18n l10n djmoney storengine wagtailimages_tags %}
+
+{% cart as cart %}
+
+<h2>{% trans 'Summary' %}</h2>
+<hr/>
+{% for item in cart.items.all %}
+    <div class="cart-item">
+        {% image item.product.image fill-100x100-c100 %}
+        <div class="cart-item-name col-3">
+            {{ item.product.name }}<br/>
+            {% if item.product_variant %}
+                {{ item.product.variants_name|capfirst }}:
+                {{ item.product_variant.name }}
+            {% endif %}
+        </div>
+        <div class="cart-item-quantity-control col-2">
+            <input class="cart-item-quantity" type="text"
+                   value="{{ item.amount }}" readonly>&nbsp;
+        </div>
+        <span class="cart-item-price col-3">
+                            {% money_localize item.price %}
+                        </span>
+    </div>
+{% endfor %}
+<div class="cart-item total">
+    <div class="cart-item-name">{% trans "TOTAL" %}</div>
+    {% if cart %}
+        <span>{% money_localize cart.total_price %}</span>
+    {% else %}
+        <span>0</span>
+    {% endif %}
+</div>

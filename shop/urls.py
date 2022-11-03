@@ -19,4 +19,7 @@ urlpatterns = [
     path("error/", views.ErrorView.as_view(), name="error"),
     path("gopay-notify/", views.GopayNotifyView.as_view(), name="gopay_notify"),
     path("invoice/<str:order_number>/", views.InvoiceDetailView.as_view(), name="invoice_detail"),
+    path("load-order-summary", views.LoadOrderSummary.as_view(), name="load_order_summary"),
+    path("load-cart", views.LoadCart.as_view(), name="load_cart"),
+    path("load-cart-icon", views.LoadCartIcon.as_view(), name="load_cart_icon"),
 ]

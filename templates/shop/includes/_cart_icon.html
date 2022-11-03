@@ -1,0 +1,10 @@
+{% load i18n storengine %}
+
+{% cart as cart %}
+
+{% if settings.core.ControlCenter.shop_enabled %}
+    <i class="fas fa-shopping-cart nav-links"></i>
+    {% if cart %}
+        <span class="cart-icon-quantity">{{ cart.items.count }}</span>
+    {% endif %}
+{% endif %}

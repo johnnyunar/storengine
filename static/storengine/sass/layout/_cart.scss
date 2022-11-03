@@ -74,16 +74,36 @@
   height: 50px;
 }
 
+.cart-icon-quantity {
+  display: inline-block;
+  position: absolute;
+  right: -11px;
+  font-size: 13px;
+  line-height: 18px;
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  background-color: var(--color-accent);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 767px) {
+  .cart-icon-quantity {
+    right: 8px;
+  }
+}
+
 @media screen and (max-width: 600px) {
-  #cart{
+  #cart {
     width: 100%;
   }
 
-  .cart-item{
+  .cart-item {
     flex-wrap: wrap;
   }
 
-  .cart-item-price{
+  .cart-item-price {
     width: 100%;
   }
 

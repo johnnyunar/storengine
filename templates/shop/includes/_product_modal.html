@@ -2,7 +2,8 @@
 <div class="product-modal" data-id="{{ product.id }}">
     {% if product.preorder_end_date %}
         <div class="preorder-banner">{% trans "Preorder ends" %} <span
-                class="preorder-countdown">{{ product.preorder_end_date|date:"d/m/y H:i" }}</span></div>
+                class="preorder-countdown">{{ product.preorder_end_date|date:"d/m/y H:i" }}</span>
+        </div>
     {% endif %}
     <div class="product-modal-content">
         <i class="fas fa-times close"></i>
@@ -25,22 +26,32 @@
                 </div>
 
                 {% if product.external_url %}
-                    <a href="{{ product.external_url }}" target="_blank" rel="noopener"
+                    <a href="{{ product.external_url }}" target="_blank"
+                       rel="noopener"
                        class="card-cta">{% trans "Buy Now" %}</a>
                 {% elif settings.core.ControlCenter.shop_enabled %}
-                    <form hx-post="{% url 'shop:add_to_cart' %}" hx-target='#cart'>
-                        <input type="hidden" name="item" value="{{ product.pk }}">
+                    <form hx-post="{% url 'shop:add_to_cart' %}"
+                          hx-target="#check-product-{{ product.pk }}" hx-swap="outerHTML">
+                        <input type="hidden" name="item"
+                               value="{{ product.pk }}">
                         <div class="product-variants">
                             {% for variant in product.variants.all %}
-                                <input type="radio" class="btn-check" name="variant" id="{{ variant.pk }}-{{ variant.name }}"
-                                       autocomplete="off" value="{{ variant.pk }}"
-                                       {% if not variant.available %}disabled{% endif %} required="true">
-                                <label class="btn btn-secondary" for="{{ variant.pk }}-{{ variant.name }}">{{ variant.name }}</label>
+                                <input type="radio" class="btn-check"
+                                       name="variant"
+                                       id="{{ variant.pk }}-{{ variant.name }}"
+                                       autocomplete="off"
+                                       value="{{ variant.pk }}"
+                                       {% if not variant.available %}disabled{% endif %}
+                                       required="true">
+                                <label class="btn btn-secondary"
+                                       for="{{ variant.pk }}-{{ variant.name }}">{{ variant.name }}</label>
                             {% endfor %}
                         </div>
                         {% if product.available %}
                             <button type="submit"
-                                    class="card-cta add-to-cart">{% trans "Add To Cart" %}</button>
+                                    class="card-cta add-to-cart">{% trans "Add To Cart" %}
+                                <i class="fa-solid fa-check ms-2 d-none" id="check-product-{{ product.pk }}"></i>
+                            </button>
                         {% else %}
                             <h3 class="text-center mb-3">{% trans "Product is sold out." %}</h3>
                         {% endif %}

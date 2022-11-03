@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-02 17:36+0100\n"
+"POT-Creation-Date: 2022-11-03 17:24+0100\n"
 "PO-Revision-Date: 2021-09-28 01:26:39\n"
 "Last-Translator: Server <johnny@unar.dev>\n"
 "Language-Team: English <johnny@unar.devt>\n"
@@ -12,7 +12,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: automations/apps.py:8 automations/models.py:114
+#: automations/apps.py:8 automations/models.py:149
+#: automations/wagtail_hooks.py:54
 msgid "Automations"
 msgstr "Automatizace"
 
@@ -28,45 +29,55 @@ msgstr "Nová Objednávka"
 msgid "New Quiz Record"
 msgstr "Nový Kvízový Záznam"
 
-#: automations/models.py:20
+#: automations/models.py:27
 msgid "Trigger Type"
 msgstr "Typ Spouště"
 
-#: automations/models.py:22 automations/models.py:41 automations/models.py:99
+#: automations/models.py:32 core/models/snippets.py:160
+#: shop/models/models.py:372 templates/shop/products.html:3
+#: templates/shop/products.html:9
+msgid "Products"
+msgstr "Produkty"
+
+#: automations/models.py:34
+msgid "You can choose to fire this trigger for selected products only."
+msgstr ""
+
+#: automations/models.py:37 automations/models.py:63 automations/models.py:131
 #: core/models/fonts.py:8 core/models/site_settings.py:179
 #: core/models/snippets.py:105 core/models/snippets.py:339
 #: mails/models/models.py:95 shop/models/models.py:164
-#: shop/models/models.py:180 shop/models/models.py:203
-#: shop/models/models.py:231 shop/models/models.py:460
+#: shop/models/models.py:180 shop/models/models.py:205
+#: shop/models/models.py:235 shop/models/models.py:488
 msgid "Name"
 msgstr "Název"
 
-#: automations/models.py:23 automations/models.py:42 automations/models.py:104
+#: automations/models.py:38 automations/models.py:64 automations/models.py:139
 #: users/models.py:61
 msgid "Is Active"
 msgstr "Aktivní"
 
-#: automations/models.py:29 automations/models.py:101
+#: automations/models.py:44 automations/models.py:136
 msgid "Trigger"
 msgstr "Spoušť"
 
-#: automations/models.py:30
+#: automations/models.py:45
 msgid "Triggers"
 msgstr "Spouště"
 
-#: automations/models.py:48
+#: automations/models.py:75
 msgid "Action"
 msgstr "Akce"
 
-#: automations/models.py:49 automations/models.py:103
+#: automations/models.py:76 automations/models.py:138
 msgid "Actions"
 msgstr "Akce"
 
-#: automations/models.py:62
+#: automations/models.py:89
 msgid "Recipients"
 msgstr "Příjemci"
 
-#: automations/models.py:64
+#: automations/models.py:91
 msgid ""
 "Enter a list of email addresses divided by a comma. In case of trigger "
 "notifications, this list will be used instead of the trigger recipient data."
@@ -74,39 +85,39 @@ msgstr ""
 "Zadej seznam adres oddělených čárkou. V případě notifikací o spouštích bude "
 "tento seznam použit místo dat ze spouště."
 
-#: automations/models.py:69
+#: automations/models.py:96
 msgid "Trigger Notification"
 msgstr "Notifikace o Spoušti"
 
-#: automations/models.py:70
+#: automations/models.py:97
 msgid "Internal Notification"
 msgstr "Interní Notifikace"
 
-#: automations/models.py:90
+#: automations/models.py:121
 msgid "Email Action"
 msgstr "Emailová Akce"
 
-#: automations/models.py:91
+#: automations/models.py:122
 msgid "Email Actions"
 msgstr "Emailové Akce"
 
-#: automations/models.py:106 core/models/models.py:31
+#: automations/models.py:141 core/models/models.py:31
 #: core/models/snippets.py:302 mails/models/models.py:114
 #: shop/models/models.py:48 shop/models/models.py:71 shop/models/models.py:95
-#: shop/models/models.py:116 shop/models/models.py:410
-#: shop/models/models.py:477 shop/models/models.py:601 users/models.py:20
+#: shop/models/models.py:116 shop/models/models.py:438
+#: shop/models/models.py:507 shop/models/models.py:637 users/models.py:20
 msgid "Created At"
 msgstr "Vytvořeno"
 
-#: automations/models.py:107 core/models/models.py:32
+#: automations/models.py:142 core/models/models.py:32
 #: core/models/snippets.py:303 mails/models/models.py:115
 #: shop/models/models.py:49 shop/models/models.py:72 shop/models/models.py:96
-#: shop/models/models.py:117 shop/models/models.py:411
-#: shop/models/models.py:478 shop/models/models.py:602 users/models.py:21
+#: shop/models/models.py:117 shop/models/models.py:439
+#: shop/models/models.py:508 shop/models/models.py:638 users/models.py:21
 msgid "Updated At"
 msgstr "Upraveno"
 
-#: automations/models.py:113
+#: automations/models.py:148
 msgid "Automation"
 msgstr "Automatizace"
 
@@ -118,7 +129,7 @@ msgstr ""
 msgid "Font Style"
 msgstr ""
 
-#: core/models/fonts.py:17 shop/models/models.py:204 shop/models/models.py:233
+#: core/models/fonts.py:17 shop/models/models.py:207 shop/models/models.py:237
 msgid "Variant ID"
 msgstr "ID Varianty"
 
@@ -178,7 +189,7 @@ msgstr "Věk"
 msgid "Goal"
 msgstr "Cíl"
 
-#: core/models/models.py:28 shop/models/models.py:380 users/models.py:30
+#: core/models/models.py:28 shop/models/models.py:406 users/models.py:30
 msgid "First Name"
 msgstr "Jméno"
 
@@ -287,7 +298,7 @@ msgstr "Účty"
 msgid "Control Center"
 msgstr "Řídicí Centrum"
 
-#: core/models/site_settings.py:75 shop/models/models.py:626
+#: core/models/site_settings.py:75 shop/models/models.py:663
 msgid "Full Name"
 msgstr "Celé Jméno"
 
@@ -306,12 +317,12 @@ msgstr "Např. \"Osobní Kouč\""
 msgid "VAT ID"
 msgstr "IČO"
 
-#: core/models/site_settings.py:98 shop/models/models.py:390
+#: core/models/site_settings.py:98 shop/models/models.py:416
 msgid "Phone Number"
 msgstr "Telefonní Číslo"
 
 #: core/models/site_settings.py:105 mails/models/models.py:86
-#: shop/models/models.py:389 users/models.py:29
+#: shop/models/models.py:415 users/models.py:29
 msgid "Email"
 msgstr "Email"
 
@@ -320,16 +331,16 @@ msgid "Contact Address"
 msgstr "Kontaktní Adresa"
 
 #: core/models/site_settings.py:116 shop/filters.py:24
-#: shop/models/models.py:451 shop/models/models.py:517
+#: shop/models/models.py:479 shop/models/models.py:547
 #: templates/shop/checkout.html:20
 msgid "Billing Address"
 msgstr "Fakturační Adresa"
 
-#: core/models/site_settings.py:119 shop/models/models.py:399
+#: core/models/site_settings.py:119 shop/models/models.py:427
 msgid "ZIP"
 msgstr "PSČ"
 
-#: core/models/site_settings.py:122 shop/models/models.py:404
+#: core/models/site_settings.py:122 shop/models/models.py:432
 msgid "City"
 msgstr "Město"
 
@@ -396,7 +407,7 @@ msgstr "Ikona"
 #: core/models/site_settings.py:194 core/models/snippets.py:250
 #: core/models/snippets.py:285 core/models/snippets.py:300
 #: shop/models/models.py:166 shop/models/models.py:182
-#: shop/models/models.py:300 shop/models/models.py:475
+#: shop/models/models.py:312 shop/models/models.py:505
 msgid "Available"
 msgstr "Dostupné"
 
@@ -537,8 +548,8 @@ msgstr "Text"
 msgid "This image will show up on the right side of the section."
 msgstr "Tento obrázek se ukazuje na pravé straně sekce."
 
-#: core/models/snippets.py:118 shop/models/models.py:361
-#: shop/models/models.py:472
+#: core/models/snippets.py:118 shop/models/models.py:387
+#: shop/models/models.py:502
 msgid "Image"
 msgstr "Obrázek"
 
@@ -562,15 +573,10 @@ msgstr "Obecné"
 msgid "Product Types"
 msgstr "Typy Produktů"
 
-#: core/models/snippets.py:158 shop/models/models.py:353
-#: shop/models/models.py:359 shop/models/models.py:653
+#: core/models/snippets.py:158 shop/models/models.py:371
+#: shop/models/models.py:381 shop/models/models.py:690
 msgid "Product"
 msgstr "Produkt"
-
-#: core/models/snippets.py:160 shop/models/models.py:354
-#: templates/shop/products.html:3 templates/shop/products.html:9
-msgid "Products"
-msgstr "Produkty"
 
 #: core/models/snippets.py:163
 msgid ""
@@ -694,8 +700,8 @@ msgstr "Emaily"
 msgid "Title"
 msgstr "Nadpis"
 
-#: mails/models/models.py:20 shop/admin.py:82 shop/models/models.py:260
-#: shop/models/models.py:334
+#: mails/models/models.py:20 shop/admin.py:82 shop/models/models.py:264
+#: shop/models/models.py:352
 msgid "Description"
 msgstr "Popisek"
 
@@ -738,7 +744,7 @@ msgstr "Příloha Emailu"
 msgid "Email Attachments"
 msgstr "Přílohy Emailů"
 
-#: shop/admin.py:52 shop/models/models.py:530 shop/models/models.py:565
+#: shop/admin.py:52 shop/models/models.py:562 shop/models/models.py:597
 msgid "Order Number"
 msgstr "Číslo Objednávky"
 
@@ -750,7 +756,7 @@ msgstr "Data Platby"
 msgid "Address Type"
 msgstr "Typ Adresy"
 
-#: shop/filters.py:25 shop/models/models.py:445 shop/models/models.py:554
+#: shop/filters.py:25 shop/models/models.py:473 shop/models/models.py:586
 #: templates/shop/checkout.html:27
 msgid "Shipping Address"
 msgstr "Doručovací Adresa"
@@ -763,11 +769,11 @@ msgstr "ID Platby"
 msgid "Payment Status"
 msgstr "Stav Platby"
 
-#: shop/models/models.py:46 shop/models/models.py:528
+#: shop/models/models.py:46 shop/models/models.py:560
 msgid "Paid"
 msgstr "Zaplaceno"
 
-#: shop/models/models.py:63 shop/models/models.py:548 shop/models/models.py:574
+#: shop/models/models.py:63 shop/models/models.py:580 shop/models/models.py:606
 msgid "GoPay Payment"
 msgstr "GoPay Platba"
 
@@ -775,15 +781,15 @@ msgstr "GoPay Platba"
 msgid "GoPay Payments"
 msgstr "GoPay Platby"
 
-#: shop/models/models.py:79 shop/models/models.py:254
+#: shop/models/models.py:79 shop/models/models.py:258
 msgid "Amount"
 msgstr "Množství"
 
-#: shop/models/models.py:81 shop/models/models.py:274 shop/models/models.py:323
+#: shop/models/models.py:81 shop/models/models.py:278 shop/models/models.py:341
 msgid "Price"
 msgstr "Cena"
 
-#: shop/models/models.py:174 shop/models/models.py:250
+#: shop/models/models.py:174 shop/models/models.py:254
 msgid "Category"
 msgstr "Kategorie"
 
@@ -791,192 +797,194 @@ msgstr "Kategorie"
 msgid "Categories"
 msgstr "Kategorie"
 
-#: shop/models/models.py:196 shop/models/models.py:242
+#: shop/models/models.py:196 shop/models/models.py:246
 msgid "Product Type"
 msgstr "Typ Produktu"
 
-#: shop/models/models.py:206
+#: shop/models/models.py:210
 msgid "Pieces In Stock"
 msgstr "Počet kusů skladem"
 
-#: shop/models/models.py:216 shop/models/models.py:660
+#: shop/models/models.py:220 shop/models/models.py:697
 msgid "Product Variant"
 msgstr "Varianta produktu"
 
-#: shop/models/models.py:217
+#: shop/models/models.py:221
 msgid "Product Variants"
 msgstr "Varianty produktu"
 
-#: shop/models/models.py:225
+#: shop/models/models.py:229
 msgid "Day"
 msgstr "Den"
 
-#: shop/models/models.py:226
+#: shop/models/models.py:230
 msgid "Week"
 msgstr "Týden"
 
-#: shop/models/models.py:227
+#: shop/models/models.py:231
 msgid "Month"
 msgstr "Měsíc"
 
-#: shop/models/models.py:228
+#: shop/models/models.py:232
 msgid "Year"
 msgstr "Rok"
 
-#: shop/models/models.py:258
+#: shop/models/models.py:262
 msgid "Just an orientation text, if applicable. E.g. 500g"
 msgstr "Pouze orientační text, např. 500g"
 
-#: shop/models/models.py:262
+#: shop/models/models.py:266
 msgid "Short Description"
 msgstr "Krátký Popisek"
 
-#: shop/models/models.py:265
+#: shop/models/models.py:269
 msgid "External URL"
 msgstr "Externí URL"
 
-#: shop/models/models.py:269
+#: shop/models/models.py:273
 msgid ""
 "Is the product for sale on another site? Just paste the product's link right "
 "here!"
 msgstr "Je tento produkt nabízený přes jinou stránku? Odkaz můžete vložit zde."
 
-#: shop/models/models.py:278
+#: shop/models/models.py:286
 msgid "Payment Recurrence"
 msgstr "Opakování platby"
 
-#: shop/models/models.py:286
+#: shop/models/models.py:294
 msgid "Preorder End Date"
 msgstr "Konec předprodeje"
 
-#: shop/models/models.py:290
+#: shop/models/models.py:298
 msgid ""
 "If this product is for preorder, you can set the preorder end date here."
 msgstr ""
 "Pokud je tento produkt v předprodeji, můžete tady nastavit konec předprodeje."
 
-#: shop/models/models.py:295
+#: shop/models/models.py:303
 msgid "Variants Name"
 msgstr "Název variant"
 
-#: shop/models/models.py:325
-#, fuzzy
-#| msgid "Image"
-msgid "Images"
-msgstr "Obrázek"
+#: shop/models/models.py:309
+msgid "Product Must Be Paid Online"
+msgstr "Produkt musí být zaplacen online"
 
 #: shop/models/models.py:343
+msgid "Images"
+msgstr "Obrázky"
+
+#: shop/models/models.py:361
 msgid "Variants"
 msgstr "Varianty"
 
-#: shop/models/models.py:376 shop/models/models.py:504 users/models.py:93
+#: shop/models/models.py:402 shop/models/models.py:534 users/models.py:93
 msgid "User"
 msgstr "Uživatel"
 
-#: shop/models/models.py:385 users/models.py:31
+#: shop/models/models.py:411 users/models.py:31
 msgid "Last Name"
 msgstr "Příjmení"
 
-#: shop/models/models.py:391
+#: shop/models/models.py:418
 msgid "Company"
 msgstr "Společnost"
 
-#: shop/models/models.py:394
+#: shop/models/models.py:422
 msgid "Street Address"
 msgstr "Adresa"
 
-#: shop/models/models.py:408
+#: shop/models/models.py:436
 msgid "Country"
 msgstr "Stát"
 
-#: shop/models/models.py:439
+#: shop/models/models.py:467
 msgid "Address"
 msgstr "Adresa"
 
-#: shop/models/models.py:440
+#: shop/models/models.py:468
 msgid "Addresses"
 msgstr "Adresy"
 
-#: shop/models/models.py:446
+#: shop/models/models.py:474
 msgid "Shipping Addresses"
 msgstr "Doručovací Adresy"
 
-#: shop/models/models.py:452
+#: shop/models/models.py:480
 msgid "Billing Addresses"
 msgstr "Fakturační Adresy"
 
-#: shop/models/models.py:462
+#: shop/models/models.py:491
 msgid "Should be human readable, this will be displayed on checkout."
 msgstr "Zobrazí u platby."
 
-#: shop/models/models.py:464
+#: shop/models/models.py:494
 msgid "Code"
 msgstr "Kód"
 
-#: shop/models/models.py:484 shop/models/models.py:525
+#: shop/models/models.py:514 shop/models/models.py:555
 msgid "Billing Type"
 msgstr "Způsob Platby"
 
-#: shop/models/models.py:485
+#: shop/models/models.py:515
 msgid "Billing Types"
 msgstr "Způsoby Platby"
 
-#: shop/models/models.py:507 shop/models/models.py:640
+#: shop/models/models.py:537 shop/models/models.py:677
 msgid "Total Price"
 msgstr "Celková Cena"
 
-#: shop/models/models.py:527
+#: shop/models/models.py:558
 msgid "Newsletter Subscribe"
 msgstr "Odběr Newsletteru"
 
-#: shop/models/models.py:537
+#: shop/models/models.py:569
 msgid "Internal Notification Sent"
 msgstr "Interní Notifikace Poslána"
 
-#: shop/models/models.py:540
+#: shop/models/models.py:572
 msgid "Confirmation Email Sent"
 msgstr "Potvrzovací Email Poslán"
 
-#: shop/models/models.py:559
+#: shop/models/models.py:591
 msgid "Shipping Type"
 msgstr "Způsob Dopravy"
 
-#: shop/models/models.py:576
+#: shop/models/models.py:608
 #, fuzzy
 #| msgid "Order Items"
 msgid "Items"
 msgstr "PoložkyObjednávky"
 
-#: shop/models/models.py:633 shop/models/models.py:703
+#: shop/models/models.py:670 shop/models/models.py:744
 msgid "Order"
 msgstr "Objednávka"
 
-#: shop/models/models.py:634 templates/users/account_orders.html:13
+#: shop/models/models.py:671 templates/users/account_orders.html:13
 msgid "Orders"
 msgstr "Objednávky"
 
-#: shop/models/models.py:638
+#: shop/models/models.py:675
 msgid "Quantity"
 msgstr "Množství"
 
-#: shop/models/models.py:692
+#: shop/models/models.py:730
 msgid "Order Item"
 msgstr "Položka Objednávky"
 
-#: shop/models/models.py:693
+#: shop/models/models.py:731
 msgid "Order Items"
 msgstr "PoložkyObjednávky"
 
-#: shop/models/models.py:705 templates/shop/invoice_detail.html:107
+#: shop/models/models.py:746 templates/shop/invoice_detail.html:107
 msgid "Due Date"
 msgstr "Datum Splatnosti"
 
-#: shop/models/models.py:724 templates/shop/invoice_detail.html:7
+#: shop/models/models.py:766 templates/shop/invoice_detail.html:7
 #: templates/shop/invoice_detail.html:46 templates/users/account_orders.html:29
 msgid "Invoice"
 msgstr "Faktura"
 
-#: shop/models/models.py:725
+#: shop/models/models.py:767
 msgid "Invoices"
 msgstr "Faktury"
 
@@ -1103,7 +1111,6 @@ msgid ""
 msgstr ""
 
 #: templates/registration/login.html:4 templates/registration/login.html:8
-#: templates/registration/signup.html:8
 msgid "Login"
 msgstr "Přihlášení"
 
@@ -1171,19 +1178,19 @@ msgstr "Zapomenuté Heslo"
 msgid "Just leave your email here to get a reset link right away."
 msgstr "Nech tady svůj email a do schránky ti hned přijde odkaz."
 
-#: templates/registration/signup.html:4
+#: templates/registration/signup.html:4 templates/registration/signup.html:8
 msgid "Signup"
 msgstr "Registrace"
 
-#: templates/registration/signup.html:27
+#: templates/registration/signup.html:28
 msgid "Sign Up"
 msgstr "Registrovat se"
 
-#: templates/registration/signup.html:28
+#: templates/registration/signup.html:29
 msgid "Already a Member?"
 msgstr "Už máš účet?"
 
-#: templates/registration/signup.html:29
+#: templates/registration/signup.html:31
 msgid ""
 "By clicking Sign Up, you agree to our Terms and that you have read our Data "
 "Use Policy, including our Cookie Use."

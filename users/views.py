@@ -1,13 +1,15 @@
 import logging
 
-from django.contrib.auth import login
+from django.contrib.auth import login, user_logged_in
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
+from django.core.exceptions import MultipleObjectsReturned
+from django.dispatch import receiver
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, UpdateView, DeleteView, TemplateView
 
-from shop.models import Order
+from shop.models import Order, Cart
 from users.forms import ShopUserCreationForm
 from users.models import ShopUser
 
@@ -27,13 +29,36 @@ def set_session_cookies_preferences(request, user):
         )
         request.session["cookies_preferences_set"] = True
 
+        logger.info(
+            f"Cookies Preferences for session updated. {request.session}"
+        )
+
+
+def set_session_cart(request, user):
+    try:
+        cart = Cart.objects.get(created_by=user)
+        request.session["cart"] = cart.pk
+        logger.info(f"Cart set for session. {request.session}")
+    except MultipleObjectsReturned:
+        Cart.objects.filter(created_by=user).delete()
+        logger.info(
+            f"Too many carts for user - deleted all cart instances. "
+            f"{request.session}"
+        )
+    except Cart.DoesNotExist:
+        pass
+
+
+@receiver(user_logged_in)
+def set_user_session(sender, user, request, **kwargs):
+    set_session_cookies_preferences(request, user)
+    set_session_cart(request, user)
+
 
 class CustomLoginView(LoginView):
     def form_valid(self, form):
         """Security check complete. Log the user in."""
         super(CustomLoginView, self).form_valid(form)
-        set_session_cookies_preferences(self.request, form.get_user())
-        logger.info(f"Cookies Preferences for session updated. {self.request.session}")
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -91,7 +116,9 @@ class CustomUserDeleteView(LoginRequiredMixin, DeleteView):
         self.object.last_name = "[deleted]"
         self.object.avatar.delete()
         self.object.avatar = "accounts/default-user.png"
-        self.object.set_password(ShopUser.objects.make_random_password(length=32))
+        self.object.set_password(
+            ShopUser.objects.make_random_password(length=32)
+        )
         self.object.save()
 
         return HttpResponseRedirect(success_url)

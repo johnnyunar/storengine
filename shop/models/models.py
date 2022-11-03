@@ -2,11 +2,10 @@ import logging
 from datetime import timedelta
 
 from django.conf import settings
-from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db import models, IntegrityError, transaction
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -156,6 +155,10 @@ class Cart(models.Model):
     def items(self):
         return self.cartitem_set
 
+    @property
+    def must_be_paid_online(self):
+        return self.items.filter(product__must_be_paid_online=True).exists()
+
     def __str__(self):
         return f"{self.created_by.email} from {self.created_at}"
 
@@ -183,9 +186,9 @@ class ProductType(TranslatableMixin):
 
     @property
     def products(self):
-        return Product.objects.filter(is_active=True, product_type=self).order_by(
-            "category"
-        )
+        return Product.objects.filter(
+            is_active=True, product_type=self
+        ).order_by("category")
 
     def __str__(self):
         return self.name
@@ -199,9 +202,13 @@ class ProductType(TranslatableMixin):
 
 
 class ProductVariant(Orderable, TranslatableMixin):
-    product = ParentalKey("Product", on_delete=models.CASCADE, related_name="variants")
+    product = ParentalKey(
+        "Product", on_delete=models.CASCADE, related_name="variants"
+    )
     name = models.CharField(_("Name"), max_length=128)
-    variant_id = models.CharField(_("Variant ID"), max_length=32, blank=True, null=True)
+    variant_id = models.CharField(
+        _("Variant ID"), max_length=32, blank=True, null=True
+    )
     pcs_in_stock = models.PositiveIntegerField(
         _("Pieces In Stock"),
         null=True,
@@ -271,7 +278,11 @@ class Product(TranslatableMixin, ClusterableModel):
     )
 
     price = MoneyField(
-        _("Price"), max_digits=14, decimal_places=2, default_currency="CZK", null=True
+        _("Price"),
+        max_digits=14,
+        decimal_places=2,
+        default_currency="CZK",
+        null=True,
     )
 
     payment_recurrence = models.CharField(
@@ -297,9 +308,13 @@ class Product(TranslatableMixin, ClusterableModel):
         default="size",
     )
 
+    must_be_paid_online = models.BooleanField(
+        _("Product Must Be Paid Online"), default=False
+    )
+
     is_active = models.BooleanField(_("Available"), default=True)
 
-    autocomplete_search_field = 'name'
+    autocomplete_search_field = "name"
 
     def autocomplete_label(self):
         return self.name
@@ -319,6 +334,7 @@ class Product(TranslatableMixin, ClusterableModel):
 
     panels = [
         FieldPanel("is_active", widget=SwitchInput),
+        FieldPanel("must_be_paid_online", widget=SwitchInput),
         FieldPanel("name"),
         MultiFieldPanel(
             [
@@ -361,13 +377,21 @@ class Product(TranslatableMixin, ClusterableModel):
 
 
 class ProductImage(Orderable):
-    product = ParentalKey(Product, on_delete=models.CASCADE, related_name='images', verbose_name=_("Product"))
+    product = ParentalKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name="images",
+        verbose_name=_("Product"),
+    )
     image = models.ForeignKey(
-        'wagtailimages.Image', on_delete=models.CASCADE, related_name='+', verbose_name=_("Image")
+        "wagtailimages.Image",
+        on_delete=models.CASCADE,
+        related_name="+",
+        verbose_name=_("Image"),
     )
 
     panels = [
-        FieldPanel('image'),
+        FieldPanel("image"),
     ]
 
 
@@ -393,7 +417,9 @@ class Address(models.Model):
 
     email = models.EmailField(_("Email"))
     phone = PhoneNumberField(_("Phone Number"))
-    company = models.CharField(_("Company"), max_length=200, blank=True, null=True)
+    company = models.CharField(
+        _("Company"), max_length=200, blank=True, null=True
+    )
 
     address1 = models.CharField(
         _("Street Address"),
@@ -464,7 +490,9 @@ class BillingType(TranslatableMixin):
     display_name = models.CharField(
         _("Name"),
         max_length=255,
-        help_text=_("Should be human readable, this will be displayed on checkout."),
+        help_text=_(
+            "Should be human readable, this will be displayed on checkout."
+        ),
     )
     name = models.SlugField(_("Code"), max_length=255, unique=True)
 
@@ -529,7 +557,9 @@ class Order(ClusterableModel):
         on_delete=models.SET_NULL,
         verbose_name=_("Billing Type"),
     )
-    newsletter_subscribe = models.BooleanField(_("Newsletter Subscribe"), default=False)
+    newsletter_subscribe = models.BooleanField(
+        _("Newsletter Subscribe"), default=False
+    )
     is_paid = models.BooleanField(_("Paid"), default=False)
     order_number = models.CharField(
         _("Order Number"),
@@ -588,12 +618,16 @@ class Order(ClusterableModel):
         if self.items.exists():
             instance_qs.update(
                 total_price=Money(
-                    sum([item.total_price.amount for item in self.items.all()]),
+                    sum(
+                        [item.total_price.amount for item in self.items.all()]
+                    ),
                     currency=self.items.first().total_price.currency,
                 )
             )
         else:
-            instance_qs.update(total_price=Money(0, currency=settings.CURRENCIES[0]))
+            instance_qs.update(
+                total_price=Money(0, currency=settings.CURRENCIES[0])
+            )
 
         self.refresh_from_db()
 
@@ -624,7 +658,8 @@ class Order(ClusterableModel):
     def get_admin_url(self):
         content_type = ContentType.objects.get_for_model(self.__class__)
         return reverse(
-            "admin:%s_%s_change" % (content_type.app_label, content_type.model),
+            "admin:%s_%s_change"
+            % (content_type.app_label, content_type.model),
             args=(self.id,),
         )
 
@@ -685,7 +720,8 @@ class OrderItem(models.Model):
                 self.product_variant.save()
 
         self.total_price = Money(
-            self.product.price.amount * self.quantity, self.product.price.currency
+            self.product.price.amount * self.quantity,
+            self.product.price.currency,
         )
 
         super(OrderItem, self).save(*args, **kwargs)
@@ -705,13 +741,17 @@ def order_item_post_save(sender, instance, **kwargs):
 
 class Invoice(models.Model):
     order = models.ForeignKey(
-        Order, on_delete=models.CASCADE, editable=False, verbose_name=_("Order")
+        Order,
+        on_delete=models.CASCADE,
+        editable=False,
+        verbose_name=_("Order"),
     )
     due_date = models.DateField(_("Due Date"), blank=True)
 
     def get_absolute_url(self):
         return reverse(
-            "shop:invoice_detail", kwargs={"order_number": self.order.order_number}
+            "shop:invoice_detail",
+            kwargs={"order_number": self.order.order_number},
         )
 
     def save(self, **kwargs):

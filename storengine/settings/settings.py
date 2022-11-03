@@ -82,6 +82,7 @@ INSTALLED_APPS = [
     "wagtail",
     "modelcluster",
     "taggit",
+    "django_htmx",
     # --- wagtail ---
     "widget_tweaks",
     "polymorphic",
@@ -119,6 +120,7 @@ MIDDLEWARE = [
     "django_currentuser.middleware.ThreadLocalUserMiddleware",
     "django_referrer_policy.middleware.ReferrerPolicyMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

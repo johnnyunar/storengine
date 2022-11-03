@@ -32,43 +32,23 @@
                     </div>
                     <input class="cta center" type="submit" name="pay_now"
                            value="{% trans "Buy now" %}"/>
-                    <input class="cta center secondary" type="submit"
-                           name="pay_later"
-                           value="{% trans "Submit and pay later" %}">
+                    {% if not cart.must_be_paid_online %}
+                        <input class="cta center secondary" type="submit"
+                               name="pay_later"
+                               value="{% trans "Submit and pay later" %}">
+                    {% else %}
+                        <p class="text-center">
+                            {% trans "You have items in your cart that need to be paid online." %}
+                        </p>
+                    {% endif %}
                 </form>
             </div>
-            <div id="order-summary" class="order-lg-1 order-0">
-                <h2>{% trans 'Summary' %}</h2>
-                <hr/>
-                {% cart as cart %}
-                {% for item in cart.items.all %}
-                    <div class="cart-item">
-                        {% image item.product.image fill-100x100-c100 %}
-                        <div class="cart-item-name col-3">
-                            {{ item.product.name }}<br/>
-                            {% if item.product_variant %}
-                                {{ item.product.variants_name|capfirst }}:
-                                {{ item.product_variant.name }}
-                            {% endif %}
-                        </div>
-                        <div class="cart-item-quantity-control col-2">
-                            <input class="cart-item-quantity" type="text"
-                                   value="{{ item.amount }}" readonly>&nbsp;
-                        </div>
-                        <span class="cart-item-price col-3">
-                            {% money_localize item.price %}
-                        </span>
-                    </div>
-                {% endfor %}
-                <div class="cart-item total">
-                    <div class="cart-item-name">{% trans "TOTAL" %}</div>
-                    {% if cart %}
-                        <span>{% money_localize cart.total_price %}</span>
-                    {% else %}
-                        <span>0</span>
-                    {% endif %}
-                </div>
+            <div id="order-summary" class="order-lg-1 order-0"
+                 hx-get="{% url 'shop:load_order_summary' %}"
+                 hx-trigger="every 2s">
+                {% include 'shop/includes/_order_summary.html' %}
             </div>
+        </div>
     </section>
 {% endblock %}
 
