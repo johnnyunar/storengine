@@ -34,7 +34,9 @@ ADMINS = (("Jan Unar", "johnny@unar.dev"),)
 
 SECURE_SSL_REDIRECT = True
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(
+    ","
+)
 
 INTERNAL_IPS = ["127.0.0.1"]
 
@@ -76,6 +78,7 @@ INSTALLED_APPS = [
     "wagtailfontawesome",
     "wagtail_color_panel",
     "wagtail_meta_preview",
+    "wagtailautocomplete",
     "wagtail",
     "modelcluster",
     "taggit",

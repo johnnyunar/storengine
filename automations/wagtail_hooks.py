@@ -1,3 +1,4 @@
+from django.utils.translation import gettext_lazy as _
 from wagtail.contrib.modeladmin.options import (
     modeladmin_register,
     ModelAdminGroup, ModelAdmin,
@@ -50,7 +51,7 @@ class AutomationAdmin(ModelAdmin):
 
 
 class AutomationsGroup(ModelAdminGroup):
-    menu_label = "Automations"
+    menu_label = _("Automations")
     menu_icon = "fa-bolt"
     menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
     items = (

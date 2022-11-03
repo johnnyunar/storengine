@@ -119,7 +119,7 @@ class EmailAttachment(models.Model):
         # in case there was a file name without an extension provided
         if not mimetypes.guess_type(self.file_name)[0]:
             self.file_name += mimetypes.guess_extension(
-                mimetypes.guess_type(self.file.name)[0]
+                mimetypes.guess_type(self.file.title)[0]
             )
         super(EmailAttachment, self).save()
 

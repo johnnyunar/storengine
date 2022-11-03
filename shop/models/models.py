@@ -299,6 +299,11 @@ class Product(TranslatableMixin, ClusterableModel):
 
     is_active = models.BooleanField(_("Available"), default=True)
 
+    autocomplete_search_field = 'name'
+
+    def autocomplete_label(self):
+        return self.name
+
     def available(self):
         if self.variants.exists():
             return self.variants.filter(pcs_in_stock__gt=0).exists()
