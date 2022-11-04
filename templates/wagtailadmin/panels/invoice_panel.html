@@ -1,0 +1,9 @@
+{% load storengine i18n %}
+
+{% if self.instance.pk %}
+    <h3>
+        <a href="{{ self.instance.invoice_set.first.get_absolute_url }}" target="_blank">
+            {% trans "Invoice" %}
+        </a>
+    </h3>
+{% endif %}

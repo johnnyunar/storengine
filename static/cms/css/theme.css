@@ -18,4 +18,5 @@
 
 input[id$="price_0"] {
     width: 175px;
+    margin-right: 10px;
 }

@@ -27,7 +27,7 @@ from wagtail.fields import RichTextField
 from wagtail.models import TranslatableMixin, Site, Orderable
 from wagtailautocomplete.edit_handlers import AutocompletePanel
 
-from core.panels import ReadOnlyPanel
+from core.panels import ReadOnlyPanel, InvoiceLinkPanel
 from shop.gopay_api import is_gopay_payment_paid
 from shop.utils import generate_order_number
 from users.models import ShopUser
@@ -118,7 +118,7 @@ class Cart(models.Model):
 
     def add(self, item, variant, amount=1) -> bool:
         if (variant and not variant.available()) or (
-            not variant and item.variants.exists()
+                not variant and item.variants.exists()
         ):
             return False
 
@@ -606,16 +606,37 @@ class Order(ClusterableModel):
     post_save_triggered = models.BooleanField(default=False)
 
     panels = [
-        ReadOnlyPanel("order_number", heading=_("Order Number")),
-        FieldPanel("is_paid", widget=SwitchInput),
-        FieldPanel("total_price"),
-        FieldPanel("billing_type"),
-        FieldPanel("billing_address"),
-        FieldPanel("shipping_address"),
-        FieldPanel("shipping_type"),
-        ReadOnlyPanel(
-            content="gopay_payment",
-            heading=_("GoPay Payment"),
+        MultiFieldPanel(
+            [
+                ReadOnlyPanel("order_number"),
+                ReadOnlyPanel(
+                    "invoice",
+                    template="wagtailadmin/panels/invoice_panel.html",
+                ),
+            ],
+            heading=_("Order"),
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("is_paid", widget=SwitchInput),
+                FieldPanel("total_price"),
+                FieldPanel("billing_type"),
+                ReadOnlyPanel(
+                    content="gopay_payment",
+                    heading=_("GoPay Payment"),
+                    classname="collapsed"
+                ),
+            ],
+            heading=_("Payment"),
+        ),
+
+        MultiFieldPanel(
+            [
+                FieldPanel("billing_address"),
+                FieldPanel("shipping_address"),
+                FieldPanel("shipping_type"),
+            ],
+            heading=_("Contact"),
         ),
         InlinePanel("items", heading=_("Items")),
     ]
