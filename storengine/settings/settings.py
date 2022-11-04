@@ -42,7 +42,7 @@ INTERNAL_IPS = ["127.0.0.1"]
 
 # Countries to be used with country field
 COUNTRIES_ONLY = (
-    os.getenv("COUNTRIES_ONLY").split(",")
+    os.getenv("AVAILABLE_COUNTRIES").split(",")
     if os.getenv("AVAILABLE_COUNTRIES")
     else None
 )
