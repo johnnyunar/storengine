@@ -13,3 +13,5 @@ from .models import (
     OrderItem,
     Invoice,
 )
+
+from .packeta_models import Packet

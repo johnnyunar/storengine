@@ -201,9 +201,12 @@
     {% include "storengine/includes/_svgs.html" %}
 </div>
 {% if settings.core.ControlCenter.shop_enabled %}
-    <div id="cart" hx-get="{% url 'shop:load_cart' %}" hx-trigger="cartUpdated from:body">
+    <div id="cart" hx-get="{% url 'shop:load_cart' %}"
+         hx-trigger="cartUpdated from:body">
         {% include "storengine/includes/_cart.html" %}
     </div>
 {% endif %}
+
+{% block extrajs %}{% endblock %}
 </body>
 </html>

@@ -97,4 +97,27 @@ $(document).ready(function () {
         $('#shipping-address-form').slideToggle();
         $(this).find('i').toggleClass('fa-caret-down fa-caret-right');
     });
+
+    const packetaApiKey = 'dd307346f095f04b';
+
+    const packetaOptions = {
+        valueFormat: "\"Packeta\",id,carrierId,carrierPickupPointId,name,city,street"
+    };
+
+    function showSelectedPickupPoint(point) {
+        // Add here an action on pickup point selection
+        const saveElement = document.querySelector(".packeta-selector-value");
+        saveElement.innerText = '';
+        if (point) {
+            $("#packeta-point-id").val(point.id);
+            $("#packeta-point-name").show();
+            $("#packeta-point-name").addClass("validated");
+            $("#packeta-point-name").val(point.name);
+        }
+    }
+
+    $('.packeta-selector-open').on('click', function () {
+        Packeta.Widget.pick(packetaApiKey, showSelectedPickupPoint, packetaOptions);
+    });
+
 });

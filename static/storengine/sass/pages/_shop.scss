@@ -283,6 +283,19 @@
   top: 25px;
 }
 
+.packeta-selector-open {
+  cursor: pointer;
+  transition: 300ms;
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+#packeta-point-name {
+  display: none;
+}
+
 @media screen and (max-width: 650px) {
 
   .product-modal-content {
