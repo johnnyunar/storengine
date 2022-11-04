@@ -121,6 +121,15 @@ class CheckoutView(ShopRequiredMixin, CreateView):
         return reverse_lazy("shop:thank_you")
 
     def form_valid(self, form):
+        cart = Cart.objects.get(
+            pk=self.request.session.get(
+                "cart",
+            )
+        )
+
+        if cart.must_be_paid_online and self.request.POST.get("pay_later"):
+            return HttpResponseRedirect(self.request.path)
+
         user = (
             self.request.user if self.request.user.is_authenticated else None
         )
@@ -147,11 +156,7 @@ class CheckoutView(ShopRequiredMixin, CreateView):
             billing_address=billing_address,
             shipping_address=shipping_address,
         )
-        cart = Cart.objects.get(
-            pk=self.request.session.get(
-                "cart",
-            )
-        )
+
         for item in cart.cartitem_set.all():
             OrderItem.objects.create(
                 quantity=item.amount,
@@ -167,8 +172,6 @@ class CheckoutView(ShopRequiredMixin, CreateView):
                 name="card-online"
             )
         elif self.request.POST.get("pay_later"):
-            if cart.must_be_paid_online:
-                return HttpResponseRedirect(self.request.path)
             new_order.billing_type = BillingType.objects.get(name="cash")
 
         new_order.save()
