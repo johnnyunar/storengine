@@ -117,7 +117,7 @@ class Cart(models.Model):
 
     def add(self, item, variant, amount=1) -> bool:
         if (variant and not variant.available()) or (
-                not variant and item.variants.exists()
+            not variant and item.variants.exists()
         ):
             return False
 
@@ -160,7 +160,7 @@ class Cart(models.Model):
         return self.items.filter(product__must_be_paid_online=True).exists()
 
     def __str__(self):
-        return f"{self.created_by.email} from {self.created_at}"
+        return f"{self.created_by.email if self.created_by else 'Anonymous'} from {self.created_at}"
 
 
 class Category(TranslatableMixin):
