@@ -127,7 +127,7 @@ class Cart(models.Model):
                 cart=self, product=item, product_variant=variant
             )
             new_amount = cart_item.amount + amount
-            if new_amount == 0:
+            if new_amount <= 0:
                 cart_item.delete()
                 if not self.items.exists():
                     self.delete()
