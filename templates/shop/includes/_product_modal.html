@@ -10,9 +10,15 @@
         <h2>{{ product.name }}</h2>
         <h4>{{ product.amount }}</h4>
         <div class="image-description">
-            {% if product.image %}
-                {% image product.image width-300 %}
-            {% endif %}
+            <div class="product-images">
+                {% for product_image in product.images.all %}
+                    {% if forloop.first %}
+                        {% image product_image.image width-300 %}
+                    {% else %}
+                        {% image product_image.image fill-140x140 %}
+                    {% endif %}
+                {% endfor %}
+            </div>
             <div class="product-sidepanel">
                 <span class="price">{% money_localize product.price %}
                     {% if product.payment_recurrence %}
@@ -31,7 +37,8 @@
                        class="card-cta">{% trans "Buy Now" %}</a>
                 {% elif settings.core.ControlCenter.shop_enabled %}
                     <form hx-post="{% url 'shop:add_to_cart' %}"
-                          hx-target="#check-product-{{ product.pk }}" hx-swap="outerHTML">
+                          hx-target="#check-product-{{ product.pk }}"
+                          hx-swap="outerHTML">
                         <input type="hidden" name="item"
                                value="{{ product.pk }}">
                         <div class="product-variants">
@@ -50,7 +57,8 @@
                         {% if product.available %}
                             <button type="submit"
                                     class="card-cta add-to-cart">{% trans "Add To Cart" %}
-                                <i class="fa-solid fa-check ms-2 d-none" id="check-product-{{ product.pk }}"></i>
+                                <i class="fa-solid fa-check ms-2 d-none"
+                                   id="check-product-{{ product.pk }}"></i>
                             </button>
                         {% else %}
                             <h3 class="text-center mb-3">{% trans "Product is sold out." %}</h3>
