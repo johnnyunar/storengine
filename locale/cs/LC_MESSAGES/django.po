@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-04 14:26+0100\n"
+"POT-Creation-Date: 2022-11-04 17:50+0100\n"
 "PO-Revision-Date: 2021-09-28 01:26:39\n"
 "Last-Translator: Server <johnny@unar.dev>\n"
 "Language-Team: English <johnny@unar.devt>\n"
@@ -105,7 +105,8 @@ msgstr "Emailové Akce"
 #: core/models/snippets.py:302 mails/models/models.py:114
 #: shop/models/models.py:48 shop/models/models.py:71 shop/models/models.py:95
 #: shop/models/models.py:116 shop/models/models.py:450
-#: shop/models/models.py:519 shop/models/models.py:670 users/models.py:20
+#: shop/models/models.py:519 shop/models/models.py:670
+#: shop/models/packeta_models.py:31 users/models.py:20
 msgid "Created At"
 msgstr "Vytvořeno"
 
@@ -113,7 +114,8 @@ msgstr "Vytvořeno"
 #: core/models/snippets.py:303 mails/models/models.py:115
 #: shop/models/models.py:49 shop/models/models.py:72 shop/models/models.py:96
 #: shop/models/models.py:117 shop/models/models.py:451
-#: shop/models/models.py:520 shop/models/models.py:671 users/models.py:21
+#: shop/models/models.py:520 shop/models/models.py:671
+#: shop/models/packeta_models.py:32 users/models.py:21
 msgid "Updated At"
 msgstr "Upraveno"
 
@@ -1000,6 +1002,38 @@ msgstr "Faktura"
 msgid "Invoices"
 msgstr "Faktury"
 
+#: shop/models/packeta_models.py:8
+msgid "Packet ID"
+msgstr "ID Zásilky"
+
+#: shop/models/packeta_models.py:9
+msgid "Barcode"
+msgstr ""
+
+#: shop/models/packeta_models.py:11
+msgid "Barcode Text"
+msgstr ""
+
+#: shop/models/packeta_models.py:15
+msgid "Status Code"
+msgstr ""
+
+#: shop/models/packeta_models.py:17
+msgid "Status Name"
+msgstr "Název stavu"
+
+#: shop/models/packeta_models.py:24
+msgid "Status Display Name"
+msgstr "Stav"
+
+#: shop/models/packeta_models.py:42
+msgid "Packet"
+msgstr "Zásilka"
+
+#: shop/models/packeta_models.py:43
+msgid "Packets"
+msgstr "Zásilky"
+
 #: shop/urls.py:14
 msgid "Thank You for your order! It is paid."
 msgstr "Díky za Tvou objednávku! Vše je zaplacené."
@@ -1220,15 +1254,27 @@ msgstr "Přihlaste se"
 msgid "to fill contact details"
 msgstr "pro doplnění kontaktních údajů"
 
-#: templates/shop/checkout.html:40
+#: templates/shop/checkout.html:35
+msgid "Fill the shipping address if it's differrent than your billing address."
+msgstr "Vyplňte doručovací adresu, pokud se liší od fakturační."
+
+#: templates/shop/checkout.html:43
+msgid "Select Pick-up Point"
+msgstr "Vyberte výdejní místo"
+
+#: templates/shop/checkout.html:46
+msgid "Or you can also select a pick-up point!"
+msgstr "Nebo můžete také vybrat výdejní misto!"
+
+#: templates/shop/checkout.html:55
 msgid "Buy now"
 msgstr "Koupit"
 
-#: templates/shop/checkout.html:44
+#: templates/shop/checkout.html:59
 msgid "Submit and pay later"
 msgstr "Odeslat a zaplatit později"
 
-#: templates/shop/checkout.html:47
+#: templates/shop/checkout.html:62
 msgid "You have items in your cart that need to be paid online."
 msgstr "V košíku máte položky, které musí být zaplaceny online."
 
