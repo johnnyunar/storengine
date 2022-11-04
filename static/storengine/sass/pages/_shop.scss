@@ -214,6 +214,10 @@
   flex-wrap: wrap;
   row-gap: 15px;
   justify-content: space-between;
+
+  img {
+    border-radius: 5px;
+  }
 }
 
 .image-description {
@@ -266,6 +270,7 @@
 
 .product-sidepanel {
   width: 350px;
+
   .card-cta {
     margin-bottom: 20px;
   }
@@ -278,6 +283,11 @@
 }
 
 @media screen and (max-width: 650px) {
+
+  .product-modal-content {
+    padding: 30px;
+  }
+
   .image-description {
     flex-wrap: wrap;
   }
@@ -288,9 +298,18 @@
     max-width: none;
     width: 100%;
     overflow-x: auto;
+    column-gap: 10px;
+    border-radius: 10px;
+    margin-bottom: 30px;
 
-    & img:first-child{
+    img {
       width: 200px;
+      height: 200px;
+    }
+
+    img:first-child {
+      width: 200px;
+      height: 200px;
     }
   }
 }

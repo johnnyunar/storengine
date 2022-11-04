@@ -13,7 +13,7 @@
             <div class="product-images">
                 {% for product_image in product.images.all %}
                     {% if forloop.first %}
-                        {% image product_image.image width-300 %}
+                        {% image product_image.image fill-300x300 %}
                     {% else %}
                         {% image product_image.image fill-140x140 %}
                     {% endif %}
@@ -27,7 +27,8 @@
                 </span>
                 <div class="related-products">
                     {% for related_product in product.related_products.all %}
-                        {% image related_product.image fill-75x75-c10 data-id=related_product.id %}
+                        {# Show current product image if there is no image of the related product #}
+                        {% image related_product.image|default:product.image fill-75x75-c10 data-id=related_product.id %}
                     {% endfor %}
                 </div>
 

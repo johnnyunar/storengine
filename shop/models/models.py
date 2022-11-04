@@ -25,6 +25,7 @@ from wagtail.admin.panels import (
 from wagtail.admin.widgets import SwitchInput
 from wagtail.fields import RichTextField
 from wagtail.models import TranslatableMixin, Site, Orderable
+from wagtailautocomplete.edit_handlers import AutocompletePanel
 
 from core.panels import ReadOnlyPanel
 from shop.gopay_api import is_gopay_payment_paid
@@ -239,7 +240,15 @@ class Product(TranslatableMixin, ClusterableModel):
     product_id = models.CharField(
         _("Variant ID"), max_length=32, blank=True, null=True, unique=True
     )
-    related_products = models.ManyToManyField("self", blank=True)
+    related_products = models.ManyToManyField(
+        "self",
+        blank=True,
+        verbose_name=_("Related Products"),
+        help_text=_(
+            "Related products are products of the same type (like t-shirt), "
+            "but with different properties (like color). "
+        ),
+    )
 
     product_type = models.ForeignKey(
         ProductType,
@@ -363,7 +372,7 @@ class Product(TranslatableMixin, ClusterableModel):
             ],
             heading=_("Variants"),
         ),
-        FieldPanel("related_products"),
+        AutocompletePanel("related_products"),
     ]
 
     def __str__(self):
