@@ -16,6 +16,7 @@ from shop.models import (
     Category,
     BillingType,
     GopayPayment,
+    Packet,
 )
 
 
@@ -81,7 +82,9 @@ class GopayPaymentAdmin(ModelAdmin):
         "updated_at",
     )
     search_fields = admin.GopayPaymentAdmin.search_fields
-    list_export = admin.GopayPaymentAdmin.list_display  # TODO: More export fields
+    list_export = (
+        admin.GopayPaymentAdmin.list_display
+    )  # TODO: More export fields
 
     def order_num(self, instance):
         return instance.payment_data["order_number"]
@@ -119,6 +122,18 @@ class BillingTypeAdmin(TranslatableModelAdmin):
     form_fields_exclude = ("created_by",)
 
 
+class PacketAdmin(ModelAdmin):
+    model = Packet
+    menu_icon = "fa-archive"
+    menu_order = 500
+    search_fields = ("packet_id",)
+    form_fields_exclude = ("created_by",)
+    list_filter = ("status_code", "status_display_name")
+
+    def description_tag(self, obj):
+        return format_html(f"{obj.description[:30]}...")
+
+
 class ShopGroup(ModelAdminGroup):
     menu_label = "Shop"
     menu_icon = "fa-shopping-bag"
@@ -132,6 +147,7 @@ class ShopGroup(ModelAdminGroup):
         ProductTypeAdmin,
         BillingTypeAdmin,
         GopayPaymentAdmin,
+        PacketAdmin
     )
 
 

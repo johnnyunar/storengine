@@ -28,7 +28,7 @@ DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ENV = os.environ.get("ENV", "PROD").upper()
 
-BASE_URL = os.environ.get("BASE_URL")
+BASE_URL = os.environ.get("base_url")
 
 ADMINS = (("Jan Unar", "johnny@unar.dev"),)
 
@@ -348,7 +348,7 @@ PACKETA_BASE_URL = os.environ.get(
     "PACKETA_BASE_URL", "https://www.zasilkovna.cz/api/rest/"
 )
 PACKETA_API_PASSWORD = os.environ.get("PACKETA_API_PASSWORD")
-
+PACKETA_SENDER_ID = os.environ.get("PACKETA_SENDER_ID")
 
 # EMAIL
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.titan.email")

@@ -27,7 +27,7 @@ from wagtail.fields import RichTextField
 from wagtail.models import TranslatableMixin, Site, Orderable
 from wagtailautocomplete.edit_handlers import AutocompletePanel
 
-from core.panels import ReadOnlyPanel, InvoiceLinkPanel
+from core.panels import ReadOnlyPanel
 from shop.gopay_api import is_gopay_payment_paid
 from shop.utils import generate_order_number
 from users.models import ShopUser
@@ -118,7 +118,7 @@ class Cart(models.Model):
 
     def add(self, item, variant, amount=1) -> bool:
         if (variant and not variant.available()) or (
-                not variant and item.variants.exists()
+            not variant and item.variants.exists()
         ):
             return False
 
@@ -160,8 +160,19 @@ class Cart(models.Model):
     def must_be_paid_online(self):
         return self.items.filter(product__must_be_paid_online=True).exists()
 
+    @property
+    def is_digital(self):
+        return self.items.filter(product__is_digital=True).exists()
+
+    @property
+    def needs_shipping(self):
+        return self.items.filter(product__is_digital=False).exists()
+
     def __str__(self):
-        return f"{self.created_by.email if self.created_by else 'Anonymous'} from {self.created_at}"
+        return (
+            f"{self.created_by.email if self.created_by else 'Anonymous'} "
+            f"from {self.created_at}"
+        )
 
 
 class Category(TranslatableMixin):
@@ -317,8 +328,18 @@ class Product(TranslatableMixin, ClusterableModel):
         default="size",
     )
 
+    weight_kg = models.FloatField(_("Weight in KG"), blank=True, default=0)
+
     must_be_paid_online = models.BooleanField(
         _("Product Must Be Paid Online"), default=False
+    )
+
+    is_digital = models.BooleanField(
+        _("Product is Digital"),
+        default=False,
+        help_text=_(
+            "Turn on this setting for digital products that need no shipping."
+        ),
     )
 
     is_active = models.BooleanField(_("Available"), default=True)
@@ -344,6 +365,7 @@ class Product(TranslatableMixin, ClusterableModel):
     panels = [
         FieldPanel("is_active", widget=SwitchInput),
         FieldPanel("must_be_paid_online", widget=SwitchInput),
+        FieldPanel("is_digital", widget=SwitchInput),
         FieldPanel("name"),
         MultiFieldPanel(
             [
@@ -360,6 +382,7 @@ class Product(TranslatableMixin, ClusterableModel):
             [
                 FieldPanel("description", classname="mb-5"),
                 FieldPanel("short_description"),
+                FieldPanel("weight_kg"),
             ],
             heading=_("Description"),
         ),
@@ -603,6 +626,14 @@ class Order(ClusterableModel):
         _("Shipping Type"), max_length=300, blank=True, null=True
     )
 
+    packeta_point_name = models.CharField(
+        _("Packeta Point Name"), max_length=255, blank=True, null=True
+    )
+
+    packeta_point_id = models.CharField(
+        _("Packeta Point ID"), max_length=64, blank=True, null=True
+    )
+
     post_save_triggered = models.BooleanField(default=False)
 
     panels = [
@@ -616,6 +647,10 @@ class Order(ClusterableModel):
             ],
             heading=_("Order"),
         ),
+        ReadOnlyPanel(
+            content="total_weight_kg",
+            heading=_("Weight (KG)")
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("is_paid", widget=SwitchInput),
@@ -624,17 +659,18 @@ class Order(ClusterableModel):
                 ReadOnlyPanel(
                     content="gopay_payment",
                     heading=_("GoPay Payment"),
-                    classname="collapsed"
+                    classname="collapsed",
                 ),
             ],
             heading=_("Payment"),
         ),
-
         MultiFieldPanel(
             [
                 FieldPanel("billing_address"),
                 FieldPanel("shipping_address"),
                 FieldPanel("shipping_type"),
+                FieldPanel("packeta_point_name"),
+                FieldPanel("packeta_point_id"),
             ],
             heading=_("Contact"),
         ),
@@ -677,6 +713,10 @@ class Order(ClusterableModel):
     @property
     def invoice(self):
         return self.invoice_set.first()
+
+    @property
+    def total_weight_kg(self):
+        return sum(self.items.values_list("product__weight_kg", flat=True))
 
     def update_gopay_payment(self):
         pass
@@ -801,7 +841,7 @@ class Invoice(models.Model):
 
 
 @receiver(post_save, sender=Order)
-def new_order_post_save(sender, instance, created, **kwargs):
+def new_order_post_save(sender, instance: Order, created, **kwargs):
     """Automatically generate a new Invoice record."""
     if created:
         Invoice.objects.create(order=instance)

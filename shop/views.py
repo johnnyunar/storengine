@@ -13,6 +13,7 @@ from django.views.generic import TemplateView, CreateView, DetailView
 from django_htmx.http import trigger_client_event
 
 from core.models import ControlCenter
+from shop.api.packeta_api import Packeta
 from shop.forms import AddressMultiForm
 from shop.gopay_api import (
     create_gopay_order,
@@ -155,6 +156,8 @@ class CheckoutView(ShopRequiredMixin, CreateView):
             created_by=user,
             billing_address=billing_address,
             shipping_address=shipping_address,
+            packeta_point_id=self.request.POST["packeta_point_id"] or None,
+            packeta_point_name=self.request.POST["packeta_point_name"] or None,
         )
 
         for item in cart.cartitem_set.all():
@@ -167,6 +170,7 @@ class CheckoutView(ShopRequiredMixin, CreateView):
             )
         self.order = new_order
 
+
         if self.request.POST.get("pay_now"):
             new_order.billing_type = BillingType.objects.get(
                 name="card-online"
@@ -175,6 +179,11 @@ class CheckoutView(ShopRequiredMixin, CreateView):
             new_order.billing_type = BillingType.objects.get(name="cash")
 
         new_order.save()
+
+        # TODO: Move somewhere else. Maybe introduce checkout_complete signal?
+        if new_order.packeta_point_id:
+            packeta = Packeta()
+            packeta.create_packet_from_order(new_order)
 
         return HttpResponseRedirect(self.get_success_url())
 

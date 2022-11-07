@@ -25,31 +25,33 @@
                         <hr/>
                     </div>
                     {{ form.billing_address }}
-                    <div class="checkout-heading mt-4"
-                         id="shipping-address-heading">
-                        <h2>
-                            <i class="fa-solid fa-caret-right me-3"></i>{% trans 'Shipping Address' %}
+                    {% if cart.needs_shipping %}
+                        <div class="checkout-heading mt-4"
+                             id="shipping-address-heading">
+                            <h2>
+                                <i class="fa-solid fa-caret-right me-3"></i>{% trans 'Shipping Address' %}
+                            </h2>
+                            <small class="text-left"><i
+                                    class="fa-solid fa-exclamation-circle me-3"></i>{% trans "Fill the shipping address if it's differrent than your billing address." %}
+                            </small>
+                            <hr/>
+                        </div>
+                        <div id="shipping-address-form">
+                            {{ form.shipping_address }}
+                        </div>
+                        <h2 class="packeta-selector-open">
+                            <i class="fa-solid fa-caret-right me-3 mt-2"></i>{% trans "Select Pick-up Point" %}
                         </h2>
                         <small class="text-left"><i
-                                class="fa-solid fa-exclamation-circle me-3"></i>{% trans "Fill the shipping address if it's differrent than your billing address." %}
+                                class="fa-solid fa-exclamation-circle me-3"></i>{% trans "Or you can also select a pick-up point!" %}
                         </small>
-                        <hr/>
-                    </div>
-                    <div id="shipping-address-form">
-                        {{ form.shipping_address }}
-                    </div>
-                    <h2 class="packeta-selector-open">
-                        <i class="fa-solid fa-caret-right me-3 mt-2"></i>{% trans "Select Pick-up Point" %}
-                    </h2>
-                    <small class="text-left"><i
-                            class="fa-solid fa-exclamation-circle me-3"></i>{% trans "Or you can also select a pick-up point!" %}
-                    </small>
 
-                    <input type="text" id="packeta-point-name" class="col-6"
-                           readonly>
-                    <input type="hidden" name="packeta-point-id"
-                           id="packeta-point-id">
-                    <div class="packeta-selector-value"></div>
+                        <input type="text" id="packeta-point-name" name="packeta_point_name"
+                               class="col-6" readonly>
+                        <input type="hidden" name="packeta_point_id"
+                               id="packeta-point-id">
+                        <div class="packeta-selector-value"></div>
+                    {% endif %}
                     <input class="cta center" type="submit" name="pay_now"
                            value="{% trans "Buy now" %}"/>
                     {% if not cart.must_be_paid_online %}

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-04 17:50+0100\n"
+"POT-Creation-Date: 2022-11-07 14:02+0100\n"
 "PO-Revision-Date: 2021-09-28 01:26:39\n"
 "Last-Translator: Server <johnny@unar.dev>\n"
 "Language-Team: English <johnny@unar.devt>\n"
@@ -34,7 +34,7 @@ msgid "Trigger Type"
 msgstr "Typ Spouště"
 
 #: automations/models.py:32 core/models/snippets.py:160
-#: shop/models/models.py:384 templates/shop/products.html:3
+#: shop/models/models.py:393 templates/shop/products.html:3
 #: templates/shop/products.html:9
 msgid "Products"
 msgstr "Produkty"
@@ -48,7 +48,7 @@ msgstr ""
 #: core/models/snippets.py:105 core/models/snippets.py:339
 #: mails/models/models.py:95 shop/models/models.py:168
 #: shop/models/models.py:184 shop/models/models.py:209
-#: shop/models/models.py:239 shop/models/models.py:500
+#: shop/models/models.py:239 shop/models/models.py:509
 msgid "Name"
 msgstr "Název"
 
@@ -104,8 +104,8 @@ msgstr "Emailové Akce"
 #: automations/models.py:141 core/models/models.py:31
 #: core/models/snippets.py:302 mails/models/models.py:114
 #: shop/models/models.py:48 shop/models/models.py:71 shop/models/models.py:95
-#: shop/models/models.py:116 shop/models/models.py:450
-#: shop/models/models.py:519 shop/models/models.py:670
+#: shop/models/models.py:116 shop/models/models.py:459
+#: shop/models/models.py:528 shop/models/models.py:678
 #: shop/models/packeta_models.py:31 users/models.py:20
 msgid "Created At"
 msgstr "Vytvořeno"
@@ -113,8 +113,8 @@ msgstr "Vytvořeno"
 #: automations/models.py:142 core/models/models.py:32
 #: core/models/snippets.py:303 mails/models/models.py:115
 #: shop/models/models.py:49 shop/models/models.py:72 shop/models/models.py:96
-#: shop/models/models.py:117 shop/models/models.py:451
-#: shop/models/models.py:520 shop/models/models.py:671
+#: shop/models/models.py:117 shop/models/models.py:460
+#: shop/models/models.py:529 shop/models/models.py:679
 #: shop/models/packeta_models.py:32 users/models.py:21
 msgid "Updated At"
 msgstr "Upraveno"
@@ -191,7 +191,7 @@ msgstr "Věk"
 msgid "Goal"
 msgstr "Cíl"
 
-#: core/models/models.py:28 shop/models/models.py:418 users/models.py:30
+#: core/models/models.py:28 shop/models/models.py:427 users/models.py:30
 msgid "First Name"
 msgstr "Jméno"
 
@@ -300,7 +300,7 @@ msgstr "Účty"
 msgid "Control Center"
 msgstr "Řídicí Centrum"
 
-#: core/models/site_settings.py:75 shop/models/models.py:696
+#: core/models/site_settings.py:75 shop/models/models.py:704
 msgid "Full Name"
 msgstr "Celé Jméno"
 
@@ -319,12 +319,12 @@ msgstr "Např. \"Osobní Kouč\""
 msgid "VAT ID"
 msgstr "IČO"
 
-#: core/models/site_settings.py:98 shop/models/models.py:428
+#: core/models/site_settings.py:98 shop/models/models.py:437
 msgid "Phone Number"
 msgstr "Telefonní Číslo"
 
 #: core/models/site_settings.py:105 mails/models/models.py:86
-#: shop/models/models.py:427 users/models.py:29
+#: shop/models/models.py:436 users/models.py:29
 msgid "Email"
 msgstr "Email"
 
@@ -333,16 +333,16 @@ msgid "Contact Address"
 msgstr "Kontaktní Adresa"
 
 #: core/models/site_settings.py:116 shop/filters.py:24
-#: shop/models/models.py:491 shop/models/models.py:559
+#: shop/models/models.py:500 shop/models/models.py:568
 #: templates/shop/checkout.html:25
 msgid "Billing Address"
 msgstr "Fakturační Adresa"
 
-#: core/models/site_settings.py:119 shop/models/models.py:439
+#: core/models/site_settings.py:119 shop/models/models.py:448
 msgid "ZIP"
 msgstr "PSČ"
 
-#: core/models/site_settings.py:122 shop/models/models.py:444
+#: core/models/site_settings.py:122 shop/models/models.py:453
 msgid "City"
 msgstr "Město"
 
@@ -371,7 +371,7 @@ msgid "Social Links"
 msgstr "Odkazy na sociální sítě"
 
 #: core/models/site_settings.py:164 core/models/site_settings.py:172
-#: shop/models/models.py:639 templates/core/snippets/_contact_section.html:5
+#: shop/models/models.py:647 templates/core/snippets/_contact_section.html:5
 #: templates/storengine/contact.html:3 templates/storengine/contact.html:10
 msgid "Contact"
 msgstr "Kontakt"
@@ -407,7 +407,7 @@ msgstr "Ikona"
 #: core/models/site_settings.py:194 core/models/snippets.py:250
 #: core/models/snippets.py:285 core/models/snippets.py:300
 #: shop/models/models.py:170 shop/models/models.py:186
-#: shop/models/models.py:324 shop/models/models.py:517
+#: shop/models/models.py:332 shop/models/models.py:526
 msgid "Available"
 msgstr "Dostupné"
 
@@ -548,8 +548,8 @@ msgstr "Text"
 msgid "This image will show up on the right side of the section."
 msgstr "Tento obrázek se ukazuje na pravé straně sekce."
 
-#: core/models/snippets.py:118 shop/models/models.py:399
-#: shop/models/models.py:514
+#: core/models/snippets.py:118 shop/models/models.py:408
+#: shop/models/models.py:523
 msgid "Image"
 msgstr "Obrázek"
 
@@ -573,8 +573,8 @@ msgstr "Obecné"
 msgid "Product Types"
 msgstr "Typy Produktů"
 
-#: core/models/snippets.py:158 shop/models/models.py:383
-#: shop/models/models.py:393 shop/models/models.py:723
+#: core/models/snippets.py:158 shop/models/models.py:392
+#: shop/models/models.py:402 shop/models/models.py:731
 msgid "Product"
 msgstr "Produkt"
 
@@ -701,7 +701,7 @@ msgid "Title"
 msgstr "Nadpis"
 
 #: mails/models/models.py:20 shop/admin.py:82 shop/models/models.py:276
-#: shop/models/models.py:364
+#: shop/models/models.py:373
 msgid "Description"
 msgstr "Popisek"
 
@@ -744,7 +744,7 @@ msgstr "Příloha Emailu"
 msgid "Email Attachments"
 msgstr "Přílohy Emailů"
 
-#: shop/admin.py:52 shop/models/models.py:574
+#: shop/admin.py:52 shop/models/models.py:583
 msgid "Order Number"
 msgstr "Číslo Objednávky"
 
@@ -756,7 +756,7 @@ msgstr "Data Platby"
 msgid "Address Type"
 msgstr "Typ Adresy"
 
-#: shop/filters.py:25 shop/models/models.py:485 shop/models/models.py:598
+#: shop/filters.py:25 shop/models/models.py:494 shop/models/models.py:607
 #: templates/shop/checkout.html:32
 msgid "Shipping Address"
 msgstr "Doručovací Adresa"
@@ -769,11 +769,11 @@ msgstr "ID Platby"
 msgid "Payment Status"
 msgstr "Stav Platby"
 
-#: shop/models/models.py:46 shop/models/models.py:572
+#: shop/models/models.py:46 shop/models/models.py:581
 msgid "Paid"
 msgstr "Zaplaceno"
 
-#: shop/models/models.py:63 shop/models/models.py:592 shop/models/models.py:626
+#: shop/models/models.py:63 shop/models/models.py:601 shop/models/models.py:635
 msgid "GoPay Payment"
 msgstr "GoPay Platba"
 
@@ -785,7 +785,7 @@ msgstr "GoPay Platby"
 msgid "Amount"
 msgstr "Množství"
 
-#: shop/models/models.py:81 shop/models/models.py:290 shop/models/models.py:353
+#: shop/models/models.py:81 shop/models/models.py:290 shop/models/models.py:362
 msgid "Price"
 msgstr "Cena"
 
@@ -805,7 +805,7 @@ msgstr "Typ Produktu"
 msgid "Pieces In Stock"
 msgstr "Počet kusů skladem"
 
-#: shop/models/models.py:224 shop/models/models.py:730
+#: shop/models/models.py:224 shop/models/models.py:738
 msgid "Product Variant"
 msgstr "Varianta produktu"
 
@@ -879,126 +879,134 @@ msgstr "Název variant"
 msgid "Product Must Be Paid Online"
 msgstr "Produkt musí být zaplacen online"
 
-#: shop/models/models.py:355
+#: shop/models/models.py:325
+msgid "Product is Digital"
+msgstr "Produkt je digitální"
+
+#: shop/models/models.py:328
+msgid "Turn on this setting for digital products that need no shipping."
+msgstr "Povolte toto nastavení pro digitální produkty, které se nevydávají fyzicky."
+
+#: shop/models/models.py:364
 msgid "Images"
 msgstr "Obrázky"
 
-#: shop/models/models.py:373
+#: shop/models/models.py:382
 msgid "Variants"
 msgstr "Varianty"
 
-#: shop/models/models.py:414 shop/models/models.py:546 users/models.py:93
+#: shop/models/models.py:423 shop/models/models.py:555 users/models.py:93
 msgid "User"
 msgstr "Uživatel"
 
-#: shop/models/models.py:423 users/models.py:31
+#: shop/models/models.py:432 users/models.py:31
 msgid "Last Name"
 msgstr "Příjmení"
 
-#: shop/models/models.py:430
+#: shop/models/models.py:439
 msgid "Company"
 msgstr "Společnost"
 
-#: shop/models/models.py:434
+#: shop/models/models.py:443
 msgid "Street Address"
 msgstr "Adresa"
 
-#: shop/models/models.py:448
+#: shop/models/models.py:457
 msgid "Country"
 msgstr "Stát"
 
-#: shop/models/models.py:479
+#: shop/models/models.py:488
 msgid "Address"
 msgstr "Adresa"
 
-#: shop/models/models.py:480
+#: shop/models/models.py:489
 msgid "Addresses"
 msgstr "Adresy"
 
-#: shop/models/models.py:486
+#: shop/models/models.py:495
 msgid "Shipping Addresses"
 msgstr "Doručovací Adresy"
 
-#: shop/models/models.py:492
+#: shop/models/models.py:501
 msgid "Billing Addresses"
 msgstr "Fakturační Adresy"
 
-#: shop/models/models.py:503
+#: shop/models/models.py:512
 msgid "Should be human readable, this will be displayed on checkout."
 msgstr "Zobrazí u platby."
 
-#: shop/models/models.py:506
+#: shop/models/models.py:515
 msgid "Code"
 msgstr "Kód"
 
-#: shop/models/models.py:526 shop/models/models.py:567
+#: shop/models/models.py:535 shop/models/models.py:576
 msgid "Billing Type"
 msgstr "Způsob Platby"
 
-#: shop/models/models.py:527
+#: shop/models/models.py:536
 msgid "Billing Types"
 msgstr "Způsoby Platby"
 
-#: shop/models/models.py:549 shop/models/models.py:710
+#: shop/models/models.py:558 shop/models/models.py:718
 msgid "Total Price"
 msgstr "Celková Cena"
 
-#: shop/models/models.py:570
+#: shop/models/models.py:579
 msgid "Newsletter Subscribe"
 msgstr "Odběr Newsletteru"
 
-#: shop/models/models.py:581
+#: shop/models/models.py:590
 msgid "Internal Notification Sent"
 msgstr "Interní Notifikace Poslána"
 
-#: shop/models/models.py:584
+#: shop/models/models.py:593
 msgid "Confirmation Email Sent"
 msgstr "Potvrzovací Email Poslán"
 
-#: shop/models/models.py:603
+#: shop/models/models.py:612
 msgid "Shipping Type"
 msgstr "Způsob Dopravy"
 
-#: shop/models/models.py:617 shop/models/models.py:703
-#: shop/models/models.py:777
+#: shop/models/models.py:626 shop/models/models.py:711
+#: shop/models/models.py:785
 msgid "Order"
 msgstr "Objednávka"
 
-#: shop/models/models.py:630
+#: shop/models/models.py:639
 msgid "Payment"
 msgstr "Platba"
 
-#: shop/models/models.py:641
+#: shop/models/models.py:649
 msgid "Items"
 msgstr "Položky"
 
-#: shop/models/models.py:704 templates/users/account_orders.html:13
+#: shop/models/models.py:712 templates/users/account_orders.html:13
 msgid "Orders"
 msgstr "Objednávky"
 
-#: shop/models/models.py:708
+#: shop/models/models.py:716
 msgid "Quantity"
 msgstr "Množství"
 
-#: shop/models/models.py:763
+#: shop/models/models.py:771
 msgid "Order Item"
 msgstr "Položka Objednávky"
 
-#: shop/models/models.py:764
+#: shop/models/models.py:772
 msgid "Order Items"
 msgstr "Položky Objednávky"
 
-#: shop/models/models.py:779 templates/shop/invoice_detail.html:107
+#: shop/models/models.py:787 templates/shop/invoice_detail.html:107
 msgid "Due Date"
 msgstr "Datum Splatnosti"
 
-#: shop/models/models.py:799 templates/shop/invoice_detail.html:7
+#: shop/models/models.py:807 templates/shop/invoice_detail.html:7
 #: templates/shop/invoice_detail.html:46 templates/users/account_orders.html:29
 #: templates/wagtailadmin/panels/invoice_panel.html:6
 msgid "Invoice"
 msgstr "Faktura"
 
-#: shop/models/models.py:800
+#: shop/models/models.py:808
 msgid "Invoices"
 msgstr "Faktury"
 
