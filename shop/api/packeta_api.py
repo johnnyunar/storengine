@@ -23,16 +23,16 @@ class Packeta:
         self.api_password = settings.PACKETA_API_PASSWORD
 
     def _generate_packet_xml(
-        self,
-        order_number,
-        first_name,
-        last_name,
-        email,
-        packeta_point_id,
-        price,
-        currency,
-        cod_amount,
-        weight_kg,
+            self,
+            order_number,
+            first_name,
+            last_name,
+            email,
+            packeta_point_id,
+            price,
+            currency,
+            cod_amount,
+            weight_kg,
     ):
         from core.models import ContactSettings
 
@@ -88,16 +88,16 @@ class Packeta:
         return parseString(xml).toprettyxml().split("\n", 1)[-1]
 
     def create_packet(
-        self,
-        order_number,
-        first_name,
-        last_name,
-        email,
-        packeta_point_id,
-        price,
-        currency,
-        cod_amount,
-        weight_kg,
+            self,
+            order_number,
+            first_name,
+            last_name,
+            email,
+            packeta_point_id,
+            price,
+            currency,
+            cod_amount,
+            weight_kg,
     ):
         response = requests.post(
             self.base_url,
@@ -115,20 +115,25 @@ class Packeta:
             ).encode("utf-8"),
         )
 
-        tree = xmltodict.parse(response.text)
-        packet_id = tree["response"]["result"]["id"]
-        packet_barcode = tree["response"]["result"]["barcode"]
-        packet_barcode_text = tree["response"]["result"]["barcodeText"]
-        new_packet = models.Packet(
-            packet_id=packet_id,
-            barcode=packet_barcode,
-            barcode_text=packet_barcode_text,
-        )
-        new_packet.save()
+        logger.info(response.text)
 
-        order = models.Order.objects.get(order_number=order_number)
-        order.packet = new_packet
-        order.save()
+        try:
+            tree = xmltodict.parse(response.text)
+            packet_id = tree["response"]["result"]["id"]
+            packet_barcode = tree["response"]["result"]["barcode"]
+            packet_barcode_text = tree["response"]["result"]["barcodeText"]
+            new_packet = models.Packet(
+                packet_id=packet_id,
+                barcode=packet_barcode,
+                barcode_text=packet_barcode_text,
+            )
+            new_packet.save()
+
+            order = models.Order.objects.get(order_number=order_number)
+            order.packet = new_packet
+            order.save()
+        except KeyError:
+            logger.info("Unable to create a Packet.")
 
         return response.text
 
