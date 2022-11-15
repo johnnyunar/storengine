@@ -6,7 +6,6 @@ import requests
 import xmltodict
 from dicttoxml import dicttoxml
 from django.conf import settings
-from wagtail.models import Site
 
 from shop import models
 
@@ -34,7 +33,6 @@ class Packeta:
             cod_amount,
             weight_kg,
     ):
-        from core.models import ContactSettings
 
         return """
         <createPacket>

@@ -26,10 +26,26 @@ class ControlCenter(BaseSetting):
         help_text=_("Enable or disable shop features, like checkout or cart."),
     )
 
+    shipping_address_enabled = models.BooleanField(
+        _("Shipping Address Enabled"),
+        default=True,
+        help_text=_(
+            "Enable or disable the shipping address field in checkout."
+        ),
+    )
+
+    pickup_point_enabled = models.BooleanField(
+        _("Pickup Point Enabled"),
+        default=True,
+        help_text=_("Enable or disable the pickup point field in checkout."),
+    )
+
     accounts_enabled = models.BooleanField(
         _("Account Features Enabled"),
         default=False,
-        help_text=_("Enable or disable account features, like login, signup, or profile page."),
+        help_text=_(
+            "Enable or disable account features, like login, signup, or profile page."
+        ),
     )
 
     notification_bar_show = models.BooleanField(
@@ -38,10 +54,7 @@ class ControlCenter(BaseSetting):
     )
 
     notification_bar_text = models.CharField(
-        _("Notification Text"),
-        max_length=512,
-        blank=True,
-        null=True
+        _("Notification Text"), max_length=512, blank=True, null=True
     )
 
     notifications_panels = [
@@ -50,12 +63,14 @@ class ControlCenter(BaseSetting):
     ]
 
     shop_panels = [
-        FieldPanel("shop_enabled", widget=SwitchInput)
+        FieldPanel("shop_enabled", widget=SwitchInput),
+        MultiFieldPanel([
+            FieldPanel("shipping_address_enabled", widget=SwitchInput),
+            FieldPanel("pickup_point_enabled", widget=SwitchInput),
+        ], heading=_("Checkout"))
     ]
 
-    accounts_panels = [
-        FieldPanel("accounts_enabled", widget=SwitchInput)
-    ]
+    accounts_panels = [FieldPanel("accounts_enabled", widget=SwitchInput)]
 
     edit_handler = TabbedInterface(
         [
@@ -84,7 +99,7 @@ class ContactSettings(BaseSetting, ClusterableModel):
         blank=True,
         null=True,
         default="Eshop Platform",
-        help_text=_("E.g. \"Personal Coach\"")
+        help_text=_('E.g. "Personal Coach"'),
     )
 
     vat_id = models.CharField(
@@ -132,14 +147,16 @@ class ContactSettings(BaseSetting, ClusterableModel):
     # Legal
 
     gdpr_url = models.URLField(_("GDPR URL"), blank=True, null=True)
-    terms_and_conditions_url = models.URLField(_("Terms And Conditions URL"), blank=True, null=True)
+    terms_and_conditions_url = models.URLField(
+        _("Terms And Conditions URL"), blank=True, null=True
+    )
 
     contact_panels = [
         FieldPanel("full_name"),
         FieldPanel("business_title"),
         FieldPanel("phone_number"),
         FieldPanel("email"),
-        FieldPanel("contact_address")
+        FieldPanel("contact_address"),
     ]
 
     social_panels = [InlinePanel("social_links", heading=_("Social Links"))]
@@ -176,7 +193,9 @@ class SocialLink(Orderable, models.Model):
     settings = ParentalKey(
         ContactSettings, on_delete=models.CASCADE, related_name="social_links"
     )
-    name = models.CharField(_("Name"), max_length=64, help_text=_("E.g. Twitter"))
+    name = models.CharField(
+        _("Name"), max_length=64, help_text=_("E.g. Twitter")
+    )
 
     url = models.URLField(
         _("URL"), max_length=512, help_text=_("E.g. https://twitter.com/home/")
@@ -239,10 +258,16 @@ class BrandSettings(BaseSetting):
     cart_color = ColorField(_("Cart Color"), default="#1D2938")
     cart_text_color = ColorField(_("Cart Text Color"), default="#FFFFFF")
 
-    notification_bar_color = ColorField(_("Notification Bar Color"), default="#C26F5E")
-    notification_bar_text_color = ColorField(_("Notification Bar Text Color"), default="#FFFFFF")
+    notification_bar_color = ColorField(
+        _("Notification Bar Color"), default="#C26F5E"
+    )
+    notification_bar_text_color = ColorField(
+        _("Notification Bar Text Color"), default="#FFFFFF"
+    )
 
-    show_footer_waves = models.BooleanField(_("Show Footer Waves"), default=False)
+    show_footer_waves = models.BooleanField(
+        _("Show Footer Waves"), default=False
+    )
 
     footer_image = models.ForeignKey(
         "wagtailimages.Image",

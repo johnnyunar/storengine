@@ -116,7 +116,7 @@ $(document).ready(function () {
         }
     }
 
-    $('.packeta-selector-open').on('click', function () {
+    $('.packeta-selector-open, #packeta-point-name').on('click', function () {
         Packeta.Widget.pick(packetaApiKey, showSelectedPickupPoint, packetaOptions);
     });
 
