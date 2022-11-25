@@ -50,6 +50,7 @@ def new_order_created(sender, instance, created, **kwargs):
                 )
 
         instance.post_save_triggered = True
+        instance.save()
 
 
 @receiver(post_save, sender=QuizRecord)
