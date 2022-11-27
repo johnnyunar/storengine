@@ -46,6 +46,15 @@
     width: 39%;
   }
 
+  #id_billing_address-phone_0, #id_shipping_address-phone_0 {
+    width: 25%;
+    margin-right: 5px;
+  }
+
+  #id_billing_address-phone_1, #id_shipping_address-phone_1 {
+    width: 73.5%;
+  }
+
   .errorlist + input {
     border: 2px solid #FF7B76;
   }
@@ -77,6 +86,10 @@
 
     #order-summary {
       width: auto;
+    }
+
+    form > * {
+      width: 100% !important;
     }
   }
 }

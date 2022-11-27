@@ -1,5 +1,8 @@
 from betterforms.multiform import MultiModelForm
 from django import forms
+from django.utils.translation import gettext_lazy as _
+from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.widgets import PhoneNumberPrefixWidget
 
 from shop.models import BillingAddress, Order, ShippingAddress
 
@@ -34,6 +37,18 @@ class BillingAddressForm(forms.ModelForm):
         "country",
     )
 
+    phone = PhoneNumberField(
+        region="CZ",
+        widget=PhoneNumberPrefixWidget(
+            attrs={
+                "placeholder": _("Phone Number"),
+            },
+            country_choices=[
+                ("CZ", "CZ (+420)"),
+            ],
+        ),
+    )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name in self.fields:
@@ -48,7 +63,9 @@ class BillingAddressForm(forms.ModelForm):
                         field.widget = forms.TextInput(
                             attrs={"placeholder": field.label}
                         )
-        self.fields["email"].widget = forms.EmailInput(attrs={"placeholder": "Email *"})
+        self.fields["email"].widget = forms.EmailInput(
+            attrs={"placeholder": "Email *"}
+        )
         self.fields["country"].initial = "CZ"
 
     class Meta:
@@ -79,7 +96,9 @@ class ShippingAddressForm(forms.ModelForm):
                     field.widget = forms.TextInput(
                         attrs={"placeholder": field.label}
                     )
-        self.fields["email"].widget = forms.EmailInput(attrs={"placeholder": "Email"})
+        self.fields["email"].widget = forms.EmailInput(
+            attrs={"placeholder": "Email"}
+        )
         self.fields["country"].initial = "CZ"
 
     class Meta:

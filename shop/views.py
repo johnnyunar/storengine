@@ -4,8 +4,13 @@ from gettext import gettext as _
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import model_to_dict
-from django.http import JsonResponse, HttpResponseRedirect, Http404, \
-    HttpResponseNotAllowed, HttpResponseForbidden
+from django.http import (
+    JsonResponse,
+    HttpResponseRedirect,
+    Http404,
+    HttpResponseNotAllowed,
+    HttpResponseForbidden,
+)
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
@@ -156,8 +161,10 @@ class CheckoutView(ShopRequiredMixin, CreateView):
             created_by=user,
             billing_address=billing_address,
             shipping_address=shipping_address,
-            packeta_point_id=self.request.POST["packeta_point_id"] or None,
-            packeta_point_name=self.request.POST["packeta_point_name"] or None,
+            packeta_point_id=self.request.POST.get("packeta_point_id", None),
+            packeta_point_name=self.request.POST.get(
+                "packeta_point_name", None
+            ),
         )
 
         for item in cart.cartitem_set.all():
@@ -169,7 +176,6 @@ class CheckoutView(ShopRequiredMixin, CreateView):
                 total_price=item.price,
             )
         self.order = new_order
-
 
         if self.request.POST.get("pay_now"):
             new_order.billing_type = BillingType.objects.get(
@@ -283,8 +289,8 @@ class InvoiceDetailView(ShopRequiredMixin, LoginRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         if (
-                request.user != self.get_object().order.created_by
-                and not request.user.is_staff
+            request.user != self.get_object().order.created_by
+            and not request.user.is_staff
         ):
             raise Http404
 
