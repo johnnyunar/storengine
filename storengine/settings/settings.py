@@ -28,7 +28,7 @@ DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ENV = os.environ.get("ENV", "PROD").upper()
 
-BASE_URL = os.environ.get("base_url")
+BASE_URL = os.environ.get("BASE_URL")
 
 ADMINS = (("Jan Unar", "johnny@unar.dev"),)
 
