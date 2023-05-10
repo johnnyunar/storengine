@@ -150,7 +150,7 @@ class Cart(models.Model):
                 currency=items.first().price.currency,
             )
 
-        return Money(0)
+        return Money(0, currency=settings.CURRENCIES[0])
 
     @property
     def items(self):
