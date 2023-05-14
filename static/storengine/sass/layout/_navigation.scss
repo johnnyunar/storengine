@@ -1,6 +1,4 @@
 .main-navbar {
-  display: flex;
-  align-items: center;
   min-height: 70px;
   font-size: 18px;
   background: rgba(18, 18, 18, 0);
@@ -80,9 +78,9 @@
   .main-navbar {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding-bottom: 0;
     height: 70px;
-    align-items: center;
   }
 
   .main-nav {
